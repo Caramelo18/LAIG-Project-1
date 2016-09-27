@@ -28,4 +28,35 @@
         
     </textures>
 	
+	<views default="p1" >
+    
+        <!-- declaracao obrigatoria de pelo menos uma vista; -->
+        <!-- se varias vistas declaradas, o default e' a -->
+        <!-- primeira vista; de cada vez que se pressione a tecla v/V, -->
+        <!-- a vista muda para a proxima da lista; da --> 
+        <!-- ultima vista da lista volta 'a primeira -->
+        <perspective id="p1" near="0.1" far="0.2" angle="5">
+            <from x="0.3" y="0.3" z="0.3" />
+            <to x="0.18" y="0.2" z="0.3" />
+        </perspective>
+        
+    </views>
+	
+	
+	    
+    <materials>
+    
+        <!-- Deve existir um ou mais blocos "material" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <material id="pi" >
+            <emission r="0.1" g="0.5" b="0.3" a="0.2" />
+            <ambient r="0.2" g="0.4" b="0.01" a="0.3" />
+            <diffuse r="0.1" g="0.5" b="0.9" a="0.7" />
+            <specular r="0.6" g="0.2" b="0.8" a="0.9" />
+            <shininess value="2.1" />
+        </material>
+        
+    </materials>
+	
+	
 </dsx>

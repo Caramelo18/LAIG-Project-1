@@ -1,11 +1,18 @@
 
+
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
+	
+
+
 	
 	// Establish bidirectional references between scene and graph
 	this.scene = scene;
 	scene.graph=this;
 		
+
+	this.materialsList = [];
+
 	// File reading 
 	this.reader = new CGFXMLreader();
 
@@ -14,7 +21,7 @@ function MySceneGraph(filename, scene) {
 	 * After the file is read, the reader calls onXMLReady on this object.
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
-	 
+
 	this.reader.open('scenes/'+filename, this);  
 }
 
@@ -40,14 +47,14 @@ MySceneGraph.prototype.onXMLReady=function()
 		this.onXMLError(sceneError);
 		return;
 	}
-	
+	/*
 	var illuminationError = this.parseIllumination(rootElement);
 	
 	if (illuminationError != null) {
 		this.onXMLError(illuminationError);
 		return;
 	}
-	
+	*/
 	var texturesError = this.parseTextures(rootElement);
 	
 	if (texturesError != null) {
@@ -55,6 +62,20 @@ MySceneGraph.prototype.onXMLReady=function()
 		return;
 	}
 	
+
+	var materialsError = this.parseMaterials(rootElement);
+	
+	if (materialsError != null) {
+		this.onXMLError(materialsError);
+		return;
+	}
+	
+	var viewsError = this.parseViews(rootElement);
+	
+	if (viewsError != null) {
+		this.onXMLError(viewsError);
+		return;
+	}
 	
 	this.loadedOk=true;
 	
@@ -203,6 +224,121 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 	
 }
 	
+MySceneGraph.prototype.parseViews = function(rootElement)
+{
+	var views = rootElement.getElementsByTagName('views');
+	console.log("I'm reading");
+	if (views == null  || views.length==0) {
+		return "views element is missing.";
+	}
+	
+	var perspective = rootElement.getElementsByTagName('perspective');
+
+	if (perspective == null  || perspective.length==0) {
+		return "perspective element is missing.";
+	}
+
+	var from = rootElement.getElementsByTagName('from');
+
+	if (from == null  || from.length==0) {
+		return "from element is missing.";
+	}
+	
+	var to = rootElement.getElementsByTagName('to');
+
+	if (to == null  || to.length==0) {
+		return "to element is missing.";
+	}
+
+	views = views[0];
+	this.default = this.reader.getString(views, 'default');
+
+	perspective = perspective[0];
+	this.id = this.reader.getString(perspective, 'id');
+	this.near = this.reader.getFloat(perspective, 'near');
+	this.far = this.reader.getFloat(perspective, 'far');
+	this.angle = this.reader.getFloat(perspective, 'angle');
+
+	from = from[0];
+	this.fromX = this.reader.getFloat(from, 'x');
+	this.fromY = this.reader.getFloat(from, 'y');
+	this.fromZ = this.reader.getFloat(from, 'z');
+	
+	to = to[0];
+	this.toX = this.reader.getFloat(to, 'x');
+	this.toY = this.reader.getFloat(to, 'y');
+	this.toZ = this.reader.getFloat(to, 'z');
+
+	console.log("Perspective :id= " + this.id + " near= " + this.near + " far= "+ this.far + " angle= " + this.angle);
+	console.log(" from x= " + this.fromX + " y= " + this.fromY + " z= " + this.fromZ);
+	console.log(" to x= " + this.toX + " y= " + this.toY + " z= " + this.toZ);	
+}	
+
+
+MySceneGraph.prototype.parseMaterials = function(rootElement)
+{
+	var attrib = ['emission', 'ambient', 'diffuse', 'specular', 'shininess'];
+	var rgba = ["r", "g", "b", "a"];
+
+	var materials = rootElement.getElementsByTagName('materials');
+
+	if (materials == null  || materials.length==0) {
+		return "materials element is missing.";
+	}
+	
+	
+	var ltMaterial = materials[0].getElementsByTagName('material');
+	
+	for(var i = 0; i< ltMaterial.length; i++){
+			
+		var id = ltMaterial[i].attributes.getNamedItem("id").value;
+	
+		if(id === null)
+			continue;
+		
+		// is necessary to check if already exist a material with this id!!!
+
+			
+		var material = [];
+
+		// obtain shininess attributes
+		var x =  ltMaterial[i].getElementsByTagName('shininess')[i];	
+		material[4] = x.getAttribute("value");
+
+		//obtain  ambient, emission, diffuse and specular attributes
+		for(var j = 0; j < attrib.length -1; j++){
+			
+			var att = ltMaterial[i].getElementsByTagName(attrib[j]);
+
+			material[j] = [];
+			for(var k = 0; k < rgba.length; k++){
+
+				material[j][k] = att[i].getAttribute(rgba[k]);
+				console.log(material[j][k]);
+			}	
+			
+		}
+		
+		
+		var mat = new CGFappearance(this.scene);
+		mat.setEmission(material[0][0], material[0][1], material[0][2], material[0][3]);
+		mat.setAmbient(material[1][0], material[1][1], material[1][2], material[1][3]);
+		mat.setDiffuse(material[2][0], material[2][1], material[2][2], material[2][3]);
+		mat.setSpecular(material[3][0], material[3][1], material[3][2], material[3][3]);
+		mat.setShininess(material[4]);
+		
+		
+		this.materialsList[i] = [];
+		this.materialsList[i][0] = id;
+		this.materialsList[i][1] = mat;
+
+	};
+	
+	console.log("Material :" + this.materialsList[0].length);
+
+}
+
+
 /*
  * Callback to be executed on any read error
  */
