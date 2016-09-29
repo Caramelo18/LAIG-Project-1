@@ -36,7 +36,7 @@
         <!-- a vista muda para a proxima da lista; da --> 
         <!-- ultima vista da lista volta 'a primeira -->
         <perspective id="p1" near="0.1" far="0.2" angle="5">
-            <from x="0.3" y="0.3" z="0.3" />
+            <from x="0.31" y="0.32" z="0.33" />
             <to x="0.18" y="0.2" z="0.3" />
         </perspective>
         
@@ -57,6 +57,27 @@
         </material>
         
     </materials>
+	
+	
+	<transformations>
+    
+        <!-- Deve existir um ou mais blocos "transformation" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <transformation id="transf1">
+           <!-- instrucoes a usar sem limite nem ordem -->
+           <!-- deve existir pelo menos uma transformacao -->
+           <translate x="1" y="2" z="3" />
+           <rotate axis="x" angle="4" />
+        </transformation>
+        
+		<transformation id="transf2">
+           <!-- instrucoes a usar sem limite nem ordem -->
+           <!-- deve existir pelo menos uma transformacao -->
+           <translate x="0" y="1" z="0" />
+           <rotate axis="z" angle="178" />
+           <scale x="3" y="2.5" z="2" />
+        </transformation>
+    </transformations>
 	
 	
 </dsx>

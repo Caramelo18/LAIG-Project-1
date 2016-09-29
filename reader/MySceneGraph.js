@@ -47,14 +47,14 @@ MySceneGraph.prototype.onXMLReady=function()
 		this.onXMLError(sceneError);
 		return;
 	}
-	/*
+	
 	var illuminationError = this.parseIllumination(rootElement);
 	
 	if (illuminationError != null) {
 		this.onXMLError(illuminationError);
 		return;
 	}
-	*/
+	
 	var texturesError = this.parseTextures(rootElement);
 	
 	if (texturesError != null) {
@@ -74,6 +74,13 @@ MySceneGraph.prototype.onXMLReady=function()
 	
 	if (viewsError != null) {
 		this.onXMLError(viewsError);
+		return;
+	}
+	
+	var transformationsError = this.parseTransformations(rootElement);
+	
+	if (transformationsError != null) {
+		this.onXMLError(transformationsError);
 		return;
 	}
 	
@@ -157,7 +164,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement)
 		return "either zero or more than one 'illumination' element found.";
 	}
 	
-	var ambient = rootElement.getElementsByTagName('ambient');
+	var ambient = elems[0].getElementsByTagName('ambient');
 	if (ambient == null) {
 		return "ambient element is missing.";
 	}
@@ -165,7 +172,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement)
 		return "either zero or more than one 'ambient' element found.";
 	}
 	
-	var background = rootElement.getElementsByTagName('background');
+	var background = elems[0].getElementsByTagName('background');
 	if (background == null) {
 		return "background element is missing.";
 	}
@@ -210,6 +217,9 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 	
 	var numText = textures[0].children.length;
 	
+	if(numText <= 0)
+		return "texture elements are missing";
+	
 	for (var i = 0; i < numText; i++)
 	{
 		var e = textures[0].children[i];
@@ -227,7 +237,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 MySceneGraph.prototype.parseViews = function(rootElement)
 {
 	var views = rootElement.getElementsByTagName('views');
-	console.log("I'm reading");
+	
 	if (views == null  || views.length==0) {
 		return "views element is missing.";
 	}
@@ -270,8 +280,8 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 	this.toZ = this.reader.getFloat(to, 'z');
 
 	console.log("Perspective :id= " + this.id + " near= " + this.near + " far= "+ this.far + " angle= " + this.angle);
-	console.log(" from x= " + this.fromX + " y= " + this.fromY + " z= " + this.fromZ);
-	console.log(" to x= " + this.toX + " y= " + this.toY + " z= " + this.toZ);	
+	console.log("from x= " + this.fromX + " y= " + this.fromY + " z= " + this.fromZ);
+	console.log("to x= " + this.toX + " y= " + this.toY + " z= " + this.toZ);	
 }	
 
 
@@ -314,7 +324,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 			for(var k = 0; k < rgba.length; k++){
 
 				material[j][k] = att[i].getAttribute(rgba[k]);
-				console.log(material[j][k]);
+				console.log("Material property: " + material[j][k]);
 			}	
 			
 		}
@@ -336,6 +346,76 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 	
 	console.log("Material :" + this.materialsList[0].length);
 
+}
+
+MySceneGraph.prototype.parseTransformations = function(rootElement)
+{
+	var transformations = rootElement.getElementsByTagName('transformations');
+	
+	if (transformations == null  || transformations.length==0) {
+		return "transformations element is missing.";
+	}
+	
+	var numTransf = transformations[0].children.length;
+	
+	if(numTransf <= 0)
+		return "transformation elements are missing";
+	
+	this.transformationList = [];
+	
+	for(var i = 0; i < numTransf; i++)
+	{
+		var e = transformations[0].children[i];
+		this.transformationList[e.id] = this.reader.getString(e, 'id');
+				
+		var translate = e.getElementsByTagName('translate');
+		if (translate[0] != null)
+		{
+			this.transformationList[0] = translate[0].attributes.getNamedItem("x").value;
+			this.transformationList[1] = translate[0].attributes.getNamedItem("y").value;
+			this.transformationList[2] = translate[0].attributes.getNamedItem("z").value; 
+		}
+		else
+		{
+			this.transformationList[0] = 0;
+			this.transformationList[1] = 0;
+			this.transformationList[2] = 0;
+		}
+		
+		var rotate = e.getElementsByTagName('rotate');
+		if (rotate[0] != null)
+		{
+			this.transformationList[3] = rotate[0].attributes.getNamedItem("axis").value;
+			this.transformationList[4] = rotate[0].attributes.getNamedItem("angle").value;
+		}
+		else
+		{
+			this.transformationList[3] = 0;
+			this.transformationList[4] = 0;
+		}
+		
+		
+		var scale = e.getElementsByTagName('scale');
+		if (scale[0] != null)
+		{
+			this.transformationList[5] = scale[0].attributes.getNamedItem("x").value;
+			this.transformationList[6] = scale[0].attributes.getNamedItem("y").value;
+			this.transformationList[7] = scale[0].attributes.getNamedItem("z").value; 
+		}
+		else
+		{
+			this.transformationList[5] = 0;
+			this.transformationList[6] = 0;
+			this.transformationList[7] = 0;
+		}
+		
+		console.log("Transformation read from file: ID = " + this.transformationList[e.id] +  " TX = " + this.transformationList[0] +  " TY = " + this.transformationList[1] +  " TZ = " + this.transformationList[2]
+		+ " Rotation axis: " + this.transformationList[3] + " R Angle " + this.transformationList[4]
+		+ " SX = " + this.transformationList[5] + " SY = " +  this.transformationList[6] + " SZ = " + this.transformationList[7]);
+		
+	}
+	
+	
 }
 
 
