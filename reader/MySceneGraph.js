@@ -84,6 +84,13 @@ MySceneGraph.prototype.onXMLReady=function()
 		return;
 	}
 	
+	var componentsError = this.parseComponents(rootElement);
+	
+	if(componentsError != null) {
+		this.onXMLError(componentsError);
+		return;
+	}
+	
 	this.loadedOk=true;
 	
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
@@ -418,6 +425,146 @@ MySceneGraph.prototype.parseTransformations = function(rootElement)
 	
 }
 
+MySceneGraph.prototype.parseComponents = function(rootElement)
+{
+	var components = rootElement.getElementsByTagName('components');
+	
+	if (components == null  || components.length==0) {
+		return "components element is missing.";
+	}
+	
+	var compLength = components[0].children.length;
+	
+	var component = components[0].children[0]; // alterar aqui o 0
+	
+	var componentID = this.reader.getString(component, 'id');
+	
+	var transformation = component.getElementsByTagName('transformation');
+	
+	if(transformation == null) {
+		return "transformation element is missing on Components";
+	}
+	
+	transformation = transformation[0];
+	var transformationRef = transformation.getElementsByTagName('transformationref');
+	
+	if(transformationRef != null && transformationRef.length != 0)
+	{
+		var ref = this.reader.getString(transformationRef[0], 'id');
+		console.log("Transformation Ref ID = " +  ref);
+	}
+	else
+	{
+		var transformationList = this.parseTransformationElements(transformation);
+	}
+	
+	
+	var material = component.getElementsByTagName('materials');
+	
+	if (material.length == 0) {
+		return "materials element is missing com Components";
+	}
+	
+	var materialLength = material[0].children.length;
+	var materialID = new Array();
+	
+	for(var i = 0; i < materialLength; i++)
+	{
+		materialID[i] = this.reader.getString(material[0].children[i], 'id');
+		console.log("Material ID = " +  materialID[i]);
+	}
+	
+	var texture = component.getElementsByTagName('texture');
+	if(texture == null || texture.length == 0) {
+		return "texture element is missing on Components";
+	}
+	
+	texture = this.reader.getString(texture[0], 'id');
+	
+	console.log("Texture = " + texture);
+	
+	
+	var children = component.getElementsByTagName('children');
+	if(children == null || children.length == 0) {
+		return "children element is missing on Components";
+	}
+	
+	children = children[0];
+	var componentref = children.getElementsByTagName('componentref');
+	var primitiveref = children.getElementsByTagName('primitiveref');
+	if(componentref.length == 0 && primitiveref.length == 0) {
+		return "children element on Components must contain componentref and/or primitiveref"
+	}
+	
+	var componentRefs = new Array();
+	var primitiveRefs = new Array();
+	
+	for(var i = 0; i < componentref.length; i++)
+	{
+		componentRefs[i] = this.reader.getString(componentref[i], 'id');
+		console.log("componentref = " + componentRefs[i]);
+	}	
+	
+	for(var i = 0; i < primitiveref.length; i++)
+	{
+		primitiveRefs[i] = this.reader.getString(primitiveref[i], 'id');
+		console.log("primitiveref = " + primitiveRefs[i]);
+	}
+ 	
+} 
+
+
+MySceneGraph.prototype.parseTransformationElements = function(rootElement)
+{
+	var transformationList = new Array();
+	
+	var translate = rootElement.getElementsByTagName('translate');
+	if (translate[0] != null)
+	{
+		transformationList[0] = translate[0].attributes.getNamedItem("x").value;
+		transformationList[1] = translate[0].attributes.getNamedItem("y").value;
+		transformationList[2] = translate[0].attributes.getNamedItem("z").value; 
+	}
+	else
+	{
+		transformationList[0] = 0;
+		transformationList[1] = 0;
+		transformationList[2] = 0;
+	}
+		
+	var rotate = rootElement.getElementsByTagName('rotate');
+	if (rotate[0] != null)
+	{
+		transformationList[3] = rotate[0].attributes.getNamedItem("axis").value;
+		transformationList[4] = rotate[0].attributes.getNamedItem("angle").value;
+	}
+	else
+	{
+		transformationList[3] = 0;
+		transformationList[4] = 0;
+	}
+		
+		
+	var scale = rootElement.getElementsByTagName('scale');
+	if (scale[0] != null)
+	{
+		transformationList[5] = scale[0].attributes.getNamedItem("x").value;
+		transformationList[6] = scale[0].attributes.getNamedItem("y").value;
+		transformationList[7] = scale[0].attributes.getNamedItem("z").value; 
+	}
+	else
+	{
+		transformationList[5] = 0;
+		transformationList[6] = 0;
+		transformationList[7] = 0;
+	}
+		
+	console.log("Transformation read from file (component): " +  " TX = " + transformationList[0] +  " TY = " + transformationList[1] +  " TZ = " + transformationList[2]
+	+ " Rotation axis: " + transformationList[3] + " R Angle " + transformationList[4]
+	+ " SX = " + transformationList[5] + " SY = " +  transformationList[6] + " SZ = " + transformationList[7]);
+
+	return transformationList;
+}
 
 /*
  * Callback to be executed on any read error
