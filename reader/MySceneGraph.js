@@ -12,6 +12,8 @@ function MySceneGraph(filename, scene) {
 		
 
 	this.materialsList = [];
+	this.primitivesList = [];
+
 
 	// File reading 
 	this.reader = new CGFXMLreader();
@@ -90,7 +92,15 @@ MySceneGraph.prototype.onXMLReady=function()
 		this.onXMLError(componentsError);
 		return;
 	}
+
+	var primitivesError = this.parserPrimitives(rootElement);
 	
+	if(primitivesError != null) {
+		this.onXMLError(primitivesError);
+		return;
+	}
+	
+
 	this.loadedOk=true;
 	
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
@@ -565,6 +575,74 @@ MySceneGraph.prototype.parseTransformationElements = function(rootElement)
 
 	return transformationList;
 }
+
+MySceneGraph.prototype.parserPrimitives = function(rootElement){
+
+	var elems = rootElement.getElementsByTagName('primitives');
+
+	if(elems == null || elems.length != 1){
+		return "primitives element is missing or more than one element";
+	}
+
+	var primitive = elems[0];
+
+	if(primitive.children == null|| primitive.children.length == 0){
+			return "Should have one or more primitives";
+	}
+
+	var nnodes = primitive.children.length;
+
+	for(var i = 0 ; i < nnodes ; i++){
+		var child  = primitive.children[i];
+
+
+		if(child.tagName != 'primitive'){
+			return "erros got < " + child.tagName + " > instead of <primitive>";
+		}
+
+		if(child.children == null | child.children.length != 1 ){
+			return "there must be only one primitive";
+		}
+
+
+		var primitiveChild = child.children[0];
+		var primitve;
+		
+		switch(primitiveChild.tagName){
+			case "rectangle":
+				primitive = this.parserRectangle(primitiveChild);
+				break;
+			case "triangle":
+				break;
+			case "cylinder":
+				break;
+			case "torus":
+				break;	
+
+		}
+		this.primitivesList[primitiveChild.id] = primitive;
+
+	}
+
+}
+
+MySceneGraph.prototype.parserRectangle = function(element){
+	var coord ={
+		x1:0,
+		x2:0,
+		y1:0,
+		y2:0
+	}
+
+	coord.x1 = this.reader.getFloat(element, 'x1');
+	coord.x2 = this.reader.getFloat(element, 'x2');
+	coord.y1 = this.reader.getFloat(element, 'y1');
+	coord.y2 = this.reader.getFloat(element, 'y2');
+
+	return new Rectangle(this.scene,coord.x1, coord.x2, coord.y1, coord.y2);
+}
+
+
 
 /*
  * Callback to be executed on any read error

@@ -58,6 +58,26 @@
         
     </materials>
 	
+	    <primitives>
+    
+        <!-- Deve existir um ou mais blocos "primitive" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <primitive id="p1">
+           
+            <!-- apenas pode existir UMA das seguintes tags: -->
+            <!--     rectangle, triangle, cylinder, sphere, torus -->
+            <!-- os parametros devem ser interpretados, genericamente como-->
+            <!-- em OpenGL/GLUT; o cilindro deve adicionalmente ter tampas -->
+            <rectangle x1="0.0" y1="0.0" x2="2.0" y2="2.0" />
+			
+            <!-- <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
+            <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
+            <sphere radius="ff" slices="ii" stacks="ii" />
+            <torus inner="ff" outer="ff" slices="ii" loops="ii" /> -->
+            
+        </primitive>
+        
+    </primitives>
 	
 	<transformations>
     
