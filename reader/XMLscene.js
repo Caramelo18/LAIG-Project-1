@@ -9,8 +9,6 @@ XMLscene.prototype.constructor = XMLscene;
 XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
 
-    this.initCameras();
-
     this.initLights();
 
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -19,8 +17,13 @@ XMLscene.prototype.init = function (application) {
     this.gl.enable(this.gl.DEPTH_TEST);
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
-
-	this.axis=new CGFaxis(this);
+	
+	this.axis = new CGFaxis(this);
+	
+	this.currentCamera = 0;
+	this.cameras = new Array();
+	
+	
 };
 
 XMLscene.prototype.initLights = function () {
@@ -48,7 +51,21 @@ XMLscene.prototype.onGraphLoaded = function ()
 	this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
 	this.lights[0].setVisible(true);
     this.lights[0].enable();
+	
+	
+	this.axis = new CGFaxis(this, this.graph.axis_length);
+	
+	this.initCameras();
+	
 };
+
+XMLscene.prototype.initCameras = function()
+{
+	console.log("init cameras: " + this.graph.cameras[5]);
+	this.cameras[0] = new CGFcamera(0.4, this.graph.cameras[1], this.graph.cameras[2], this.graph.cameras[4], this.graph.cameras[5]);
+	
+	this.camera = this.cameras[0];
+}
 
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup

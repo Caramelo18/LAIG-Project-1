@@ -11,7 +11,7 @@ function MySceneGraph(filename, scene) {
 
 	this.materialsList = [];
 	this.primitivesList = [];
-	this.perspectivesList = [];
+	this.cameras = [];
 
 
 	// File reading 
@@ -268,26 +268,26 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 	
 		perspective = view.children[i];
 		
-		this.perspectivesList[i * 6 ] = this.reader.getString(perspective, 'id');
-		this.perspectivesList[i * 6 + 1] = this.reader.getFloat(perspective, 'near');
-		this.perspectivesList[i * 6 + 2] = this.reader.getFloat(perspective, 'far');
-		this.perspectivesList[i * 6 + 3] = this.reader.getFloat(perspective, 'angle');
+		this.cameras[i * 6 ] = this.reader.getString(perspective, 'id');
+		this.cameras[i * 6 + 1] = this.reader.getFloat(perspective, 'near');
+		this.cameras[i * 6 + 2] = this.reader.getFloat(perspective, 'far');
+		this.cameras[i * 6 + 3] = this.reader.getFloat(perspective, 'angle');
 		console.log( this.reader.getString(perspective, 'id') + " " + this.reader.getFloat(perspective, 'near') + " " + this.reader.getFloat(perspective, 'far') + " " + this.reader.getFloat(perspective, 'angle'));
 
 		from =perspective.children[0];
-		this.perspectivesList[i * 6 + 4] = vec3.fromValues( this.reader.getFloat(from, 'x'), this.reader.getFloat(from, 'y'),  this.reader.getFloat(from, 'z'));
+		this.cameras[i * 6 + 4] = vec3.fromValues( this.reader.getFloat(from, 'x'), this.reader.getFloat(from, 'y'),  this.reader.getFloat(from, 'z'));
 
 		to = perspective.children[1];
-		this.perspectivesList[i * 6 + 5] =  vec3.fromValues(this.reader.getFloat(to, 'x'), this.reader.getFloat(to, 'y'), this.reader.getFloat(to, 'z'));
+		this.cameras[i * 6 + 5] =  vec3.fromValues(this.reader.getFloat(to, 'x'), this.reader.getFloat(to, 'y'), this.reader.getFloat(to, 'z'));
 
 	}
 
-	console.log("tamanho " + this.perspectivesList.length/6);
+	console.log("tamanho " + this.cameras.length/6);
 
-	for(var i = 0;  i< this.perspectivesList.length /6 ; i++){
-		console.log("Perspective :id= " + this.perspectivesList[i * 6] + " near= " + this.perspectivesList[i * 6 +1] + " far= "+ this.perspectivesList[i * 6 + 2] + " angle= " + this.perspectivesList[i * 6 + 3]);
-		console.log("from x= " + this.perspectivesList[i * 6 + 4][0] + " y= " + this.perspectivesList[i * 6 + 4][1] + " z= " +  this.perspectivesList[i * 6 + 4][2]);
-		console.log("to x= " +  this.perspectivesList[i * 6 + 5][0] + " y= " + this.perspectivesList[i * 6 + 5][1] + " z= " + this.perspectivesList[i * 6 + 5][2]);	
+	for(var i = 0;  i< this.cameras.length /6 ; i++){
+		console.log("Perspective :id= " + this.cameras[i * 6] + " near= " + this.cameras[i * 6 +1] + " far= "+ this.cameras[i * 6 + 2] + " angle= " + this.cameras[i * 6 + 3]);
+		console.log("from x= " + this.cameras[i * 6 + 4][0] + " y= " + this.cameras[i * 6 + 4][1] + " z= " +  this.cameras[i * 6 + 4][2]);
+		console.log("to x= " +  this.cameras[i * 6 + 5][0] + " y= " + this.cameras[i * 6 + 5][1] + " z= " + this.cameras[i * 6 + 5][2]);	
 	}
 }	
 
