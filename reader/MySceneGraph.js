@@ -8,10 +8,17 @@ function MySceneGraph(filename, scene) {
 	this.scene = scene;
 	scene.graph=this;
 		
+	
+	this.rgba = ['r', 'g', 'b', 'a'];
+	this.xyzw = ['x', 'y', 'z', 'w'];
+
+	this.lightIndex = 0;
 
 	this.materialsList = [];
 	this.primitivesList = [];
 	this.cameras = [];
+	this.omniLightsList = [];
+	this.spotLightsList = [];
 
 
 	// File reading 
@@ -508,26 +515,130 @@ MySceneGraph.prototype.parseTransformationElements = function(rootElement)
 
 	return transformationList;
 }
-/*
+
 MySceneGraph.prototype.parserLights = function(rootElement){
 
 
-	var lights = rootElement.reader.getElementsByTagName('lights');
+	var lights = rootElement.reader.getElementsByTagName('lights')[0];
 
 	if(lights == null | lights.length  == 0){
-		return "lights element is missing";
+		onXMLError("lights element is missing");
 	}
 
 	var light = lights[0];
-	var nnodes = light.length;
+	var nnodes = light.children.length;
 
-	for(var i = 0; i < nnodes ; i++){
+	if(nnodes == 0)
+		onXMLError("there are no lights");
 
+	
+	for(var i = 0; i < nnodes; i++){
+		var child = light.children[i];
+		switch(child.tagName){
+			case "omni":
+				this.parserOmniLights(child);
+				break;
+			case "spot":
+				this.parserSpotLights(child);
+				break;	
+		}
 	}
+}
+
+
+MySceneGraph.prototype.parserOmniLights = function(rootElement){
+	
+	if(rootElement == null)
+		onXMLError("error on omni light");
+
+	var omni = this.scene.lights[this.lightIndex];	
+	
+	omni.disable();
+	omni.setVisible(true);
+
+
+	var id = this.reader.getString(rootElement, 'id');
+	var enabled = this.reader.getBoolean(rootElement, 'enabled');
+
+	if(enabled == 1)
+		this.scene.lights[this.lightIndex].enable();
+
+	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyzw, 4);
+	var ambient = this.getNvalues(rootElement.getElementsByTagName('ambient')[0], this.rgba, 4);
+	var difuse =  this.getNvalues(rootElement.getElementsByTagName('difuse')[0], this.rgba, 4);
+	var specular =  this.getNvalues(rootElement.getElementsByTagName('specular')[0], this.rgba, 4);
+
+	omni.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
+	omni.setDiffuse(difuse[0], difuse[1], difuse[2], difuse[3]);
+	omni.setSpecular(specular[0], specular[1], specular[2], specular[3]);
+	omni.setPosition(location[0],location[1], location[2], location[3]);	
+
+	this.omniLightsList[id] = this.scene.lights[this.lightIndex];
+
+	this.lightIndex++;
+	omni.update();	
+}
+
+MySceneGraph.prototype.parserSpotLights = function(rootElement){
+
+	if(rootElement == null)
+		onXMLError("error on spot light");
+
+	var spot = this.scene.lights[this.lightIndex];	
+	
+	spot.disable();
+	spot.setVisible(true);
+
+
+	var id = this.reader.getString(rootElement, 'id');
+	var enabled = this.reader.getBoolean(rootElement, 'enabled');
+	var angle = this.reader.getFloat(rootElement, 'angle');
+	var exponent = this.reader.getFloat(rootElement, 'exponent');
+
+	if(enabled == 1)
+		this.scene.lights[this.lightIndex].enable();
+
+	var target = this.getNvalues(rootElement.getElementsByTagName('target')[0], this.xyzw, 3)
+	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyzw, 3);
+	var ambient = this.getNvalues(rootElement.getElementsByTagName('ambient')[0], this.rgba, 4);
+	var difuse =  this.getNvalues(rootElement.getElementsByTagName('difuse')[0], this.rgba, 4);
+	var specular =  this.getNvalues(rootElement.getElementsByTagName('specular')[0], this.rgba, 4);
+
+	var direction = [];
+	for(var j = 0; j < location.length; j++){
+		direction[j] = target[j] - location[j];
+	}
+
+	spot.setSpotDirection(direction[0], direction[1], direction[2]);
+	spot.setExponent(exponent);
+	spot.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
+	spot.setDiffuse(difuse[0], difuse[1], difuse[2], difuse[3]);
+	spot.setSpecular(specular[0], specular[1], specular[2], specular[3]);
+	spot.setPosition(location[0],location[1], location[2], 1);	
+
+	this.spotLightsList[id] = this.scene.lights[this.lightIndex];
+
+	this.lightIndex++;
+	spot.update();	
 
 }
 
-*/
+MySceneGraph.prototype.getNvalues = function(rootElement, type, num){
+	
+		if(rootElement == null)
+			onXMLError("error geting 4 values");
+
+		var tmp = [];
+
+		for(var i = 0; i< num; i++){
+			tmp[i] = this.reader.getFloat(rootElement, type[i]);
+		}
+
+		return tmp;
+
+}
+
+
 
 MySceneGraph.prototype.parserPrimitives = function(rootElement){
 
@@ -641,9 +752,10 @@ MySceneGraph.prototype.parserCylinder = function(element){
 	coord.slices = this.reader.getFloat(element, 'slices');
 	coord.stacks = this.reader.getFloat(element, 'stacks');
 
-	return new cylinder(this.scene, coord.slices, coord.stacks);
+	return new Cylinder(this.scene, coord.slices, coord.stacks);
 
 }
+
 
 /*
  * Callback to be executed on any read error
