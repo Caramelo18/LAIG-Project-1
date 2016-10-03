@@ -3,8 +3,6 @@
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
 	
-
-
 	
 	// Establish bidirectional references between scene and graph
 	this.scene = scene;
@@ -354,7 +352,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 		mat.setSpecular(material[3][0], material[3][1], material[3][2], material[3][3]);
 		mat.setShininess(material[4]);
 		
-		
+		// trocarr para eu poder aceder ao material pelo seu ID!!!
 		this.materialsList[i] = [];
 		this.materialsList[i][0] = id;
 		this.materialsList[i][1] = mat;
@@ -613,6 +611,7 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement){
 				primitive = this.parserRectangle(primitiveChild);
 				break;
 			case "triangle":
+				primitive = this.parserTriangle(primitiveChild);
 				break;
 			case "cylinder":
 				break;
@@ -640,6 +639,32 @@ MySceneGraph.prototype.parserRectangle = function(element){
 	coord.y2 = this.reader.getFloat(element, 'y2');
 
 	return new Rectangle(this.scene,coord.x1, coord.x2, coord.y1, coord.y2);
+}
+
+MySceneGraph.prototype.parserTriangle = function(element){
+	var coord ={
+		x1:0,
+		x2:0,
+		x3:0,
+		y1:0,
+		y2:0,
+		y3:0,
+		z1:0,
+		z2:0,
+		z3:0
+	}
+
+	coord.x1 = this.reader.getFloat(element, 'x1');
+	coord.x2 = this.reader.getFloat(element, 'x2');
+	coord.x3 = this.reader.getFloat(element, 'x3');
+	coord.y1 = this.reader.getFloat(element, 'y1');
+	coord.y2 = this.reader.getFloat(element, 'y2');
+	coord.y3 = this.reader.getFloat(element, 'y3');
+	coord.z1 = this.reader.getFloat(element, 'z1');
+	coord.z2 = this.reader.getFloat(element, 'z2');
+	coord.z3 = this.reader.getFloat(element, 'z3');
+
+	return new Triangle(this.scene,coord.x1, coord.y1, coord.z1 ,coord.x2, coord.y2, coord.z2,coord.x3, coord.y3, coord.z3);
 }
 
 

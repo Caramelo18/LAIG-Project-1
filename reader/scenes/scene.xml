@@ -23,8 +23,8 @@
         <!-- objetos respetivos podem a violar esta regra.         -->
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, ciclindro...) -->
-        <texture id="t1" file="t1.png" length_s="0.7" length_t="0.3" />  
-		<texture id="t2" file="t2.png" length_s="0.13" length_t="0.96" />  
+        <texture id="text1" file="t1.png" length_s="0.7" length_t="0.3" />  
+		<texture id="text2" file="t2.png" length_s="0.13" length_t="0.96" />  
         
     </textures>
 	
@@ -48,7 +48,7 @@
     
         <!-- Deve existir um ou mais blocos "material" -->
         <!-- Os identificadores "id" nao podem ser repetidos -->
-        <material id="pi" >
+        <material id="mat1" >
             <emission r="0.1" g="0.5" b="0.3" a="0.2" />
             <ambient r="0.2" g="0.4" b="0.01" a="0.3" />
             <diffuse r="0.1" g="0.5" b="0.9" a="0.7" />
@@ -62,13 +62,13 @@
     
         <!-- Deve existir um ou mais blocos "primitive" -->
         <!-- Os identificadores "id" nao podem ser repetidos -->
-        <primitive id="p1">
+        <primitive id="primRef">
            
             <!-- apenas pode existir UMA das seguintes tags: -->
             <!--     rectangle, triangle, cylinder, sphere, torus -->
             <!-- os parametros devem ser interpretados, genericamente como-->
             <!-- em OpenGL/GLUT; o cilindro deve adicionalmente ter tampas -->
-            <rectangle x1="0.0" y1="0.0" x2="2.0" y2="2.0" />
+            <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
 			
             <!-- <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
             <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
