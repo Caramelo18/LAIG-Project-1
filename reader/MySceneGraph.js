@@ -623,7 +623,10 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement){
 				primitive = this.parserTriangle(primitiveChild);
 				break;
 			case "cylinder":
+				primitive = this.parserCylinder(primitiveChild);
 				break;
+			case "sphere":
+				break;		
 			case "torus":
 				break;	
 
@@ -676,7 +679,25 @@ MySceneGraph.prototype.parserTriangle = function(element){
 	return new Triangle(this.scene,coord.x1, coord.y1, coord.z1 ,coord.x2, coord.y2, coord.z2,coord.x3, coord.y3, coord.z3);
 }
 
+MySceneGraph.prototype.parserCylinder = function(element){
+	
+	var coord ={
+		base: 0,
+		top: 0,
+		height: 0,
+		slices: 0,
+		stacks: 0
+	}
 
+	coord.base = this.reader.getFloat(element, 'base');
+	coord.top = this.reader.getFloat(element, 'top');
+	coord.height = this.reader.getFloat(element, 'height');
+	coord.slices = this.reader.getFloat(element, 'slices');
+	coord.stacks = this.reader.getFloat(element, 'stacks');
+
+	return new cylinder(this.scene, coord.slices, coord.stacks);
+
+}
 
 /*
  * Callback to be executed on any read error
