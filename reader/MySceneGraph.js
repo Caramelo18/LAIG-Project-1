@@ -11,6 +11,7 @@ function MySceneGraph(filename, scene) {
 
 	this.materialsList = [];
 	this.primitivesList = [];
+	this.perspectivesList = [];
 
 
 	// File reading 
@@ -257,46 +258,37 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 		return "views element is missing.";
 	}
 	
-	var perspective = rootElement.getElementsByTagName('perspective');
-
-	if (perspective == null  || perspective.length==0) {
-		return "perspective element is missing.";
-	}
-
-	var from = rootElement.getElementsByTagName('from');
-
-	if (from == null  || from.length==0) {
-		return "from element is missing.";
-	}
+	var nnodes = views[0].children.length;
+		
+	var view = views[0];
 	
-	var to = rootElement.getElementsByTagName('to');
+	this.default = this.reader.getString(view, 'default');
 
-	if (to == null  || to.length==0) {
-		return "to element is missing.";
+	for(var i = 0; i <nnodes ; i++){
+	
+		perspective = view.children[i];
+		
+		this.perspectivesList[i * 6 ] = this.reader.getString(perspective, 'id');
+		this.perspectivesList[i * 6 + 1] = this.reader.getFloat(perspective, 'near');
+		this.perspectivesList[i * 6 + 2] = this.reader.getFloat(perspective, 'far');
+		this.perspectivesList[i * 6 + 3] = this.reader.getFloat(perspective, 'angle');
+		console.log( this.reader.getString(perspective, 'id') + " " + this.reader.getFloat(perspective, 'near') + " " + this.reader.getFloat(perspective, 'far') + " " + this.reader.getFloat(perspective, 'angle'));
+
+		from =perspective.children[0];
+		this.perspectivesList[i * 6 + 4] = vec3.fromValues( this.reader.getFloat(from, 'x'), this.reader.getFloat(from, 'y'),  this.reader.getFloat(from, 'z'));
+
+		to = perspective.children[1];
+		this.perspectivesList[i * 6 + 5] =  vec3.fromValues(this.reader.getFloat(to, 'x'), this.reader.getFloat(to, 'y'), this.reader.getFloat(to, 'z'));
+
 	}
 
-	views = views[0];
-	this.default = this.reader.getString(views, 'default');
+	console.log("tamanho " + this.perspectivesList.length/6);
 
-	perspective = perspective[0];
-	this.id = this.reader.getString(perspective, 'id');
-	this.near = this.reader.getFloat(perspective, 'near');
-	this.far = this.reader.getFloat(perspective, 'far');
-	this.angle = this.reader.getFloat(perspective, 'angle');
-
-	from = from[0];
-	this.fromX = this.reader.getFloat(from, 'x');
-	this.fromY = this.reader.getFloat(from, 'y');
-	this.fromZ = this.reader.getFloat(from, 'z');
-	
-	to = to[0];
-	this.toX = this.reader.getFloat(to, 'x');
-	this.toY = this.reader.getFloat(to, 'y');
-	this.toZ = this.reader.getFloat(to, 'z');
-
-	console.log("Perspective :id= " + this.id + " near= " + this.near + " far= "+ this.far + " angle= " + this.angle);
-	console.log("from x= " + this.fromX + " y= " + this.fromY + " z= " + this.fromZ);
-	console.log("to x= " + this.toX + " y= " + this.toY + " z= " + this.toZ);	
+	for(var i = 0;  i< this.perspectivesList.length /6 ; i++){
+		console.log("Perspective :id= " + this.perspectivesList[i * 6] + " near= " + this.perspectivesList[i * 6 +1] + " far= "+ this.perspectivesList[i * 6 + 2] + " angle= " + this.perspectivesList[i * 6 + 3]);
+		console.log("from x= " + this.perspectivesList[i * 6 + 4][0] + " y= " + this.perspectivesList[i * 6 + 4][1] + " z= " +  this.perspectivesList[i * 6 + 4][2]);
+		console.log("to x= " +  this.perspectivesList[i * 6 + 5][0] + " y= " + this.perspectivesList[i * 6 + 5][1] + " z= " + this.perspectivesList[i * 6 + 5][2]);	
+	}
 }	
 
 
@@ -352,14 +344,11 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 		mat.setSpecular(material[3][0], material[3][1], material[3][2], material[3][3]);
 		mat.setShininess(material[4]);
 		
-		// trocarr para eu poder aceder ao material pelo seu ID!!!
-		this.materialsList[i] = [];
-		this.materialsList[i][0] = id;
-		this.materialsList[i][1] = mat;
 
+		this.materialsList[ltMaterial[i].id] = mat;
 	};
 	
-	console.log("Material :" + this.materialsList[0].length);
+	console.log("Material :" + this.materialsList.length);
 
 }
 
@@ -573,6 +562,26 @@ MySceneGraph.prototype.parseTransformationElements = function(rootElement)
 
 	return transformationList;
 }
+/*
+MySceneGraph.prototype.parserLights = function(rootElement){
+
+
+	var lights = rootElement.reader.getElementsByTagName('lights');
+
+	if(lights == null | lights.length  == 0){
+		return "lights element is missing";
+	}
+
+	var light = lights[0];
+	var nnodes = light.length;
+
+	for(var i = 0; i < nnodes ; i++){
+
+	}
+
+}
+
+*/
 
 MySceneGraph.prototype.parserPrimitives = function(rootElement){
 
@@ -595,7 +604,7 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement){
 
 
 		if(child.tagName != 'primitive'){
-			return "erros got < " + child.tagName + " > instead of <primitive>";
+			return "error got < " + child.tagName + " > instead of <primitive>";
 		}
 
 		if(child.children == null | child.children.length != 1 ){

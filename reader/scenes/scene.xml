@@ -39,6 +39,11 @@
             <from x="0.31" y="0.32" z="0.33" />
             <to x="0.18" y="0.2" z="0.3" />
         </perspective>
+		
+		<perspective id="p2" near="0.3" far="0.2" angle="20">
+            <from x="0.20" y="0.15" z="0.50" />
+            <to x="0.13" y="0.25" z="0.32" />
+        </perspective>
         
     </views>
 	
