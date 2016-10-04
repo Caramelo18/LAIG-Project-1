@@ -11,6 +11,7 @@ function MySceneGraph(filename, scene) {
 	
 	this.rgba = ['r', 'g', 'b', 'a'];
 	this.xyzw = ['x', 'y', 'z', 'w'];
+	this.xyz = ['x', 'y', 'z'];
 
 	this.lightIndex = 0;
 
@@ -51,8 +52,8 @@ MySceneGraph.prototype.onXMLReady=function()
  	this.parseTransformations(rootElement);
 	this.parseComponents(rootElement);
 	this.parserPrimitives(rootElement);
-	//this.parserLights(rootElement);
-	
+	this.parserLights(rootElement);
+
 
 	this.loadedOk=true;
 	
@@ -564,11 +565,11 @@ MySceneGraph.prototype.parserOmniLights = function(rootElement){
 
 	if(enabled == 1)
 		this.scene.lights[this.lightIndex].enable();
-
-	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyzw, 4);
-	var ambient = this.getNvalues(rootElement.getElementsByTagName('ambient')[0], this.rgba, 4);
-	var difuse =  this.getNvalues(rootElement.getElementsByTagName('difuse')[0], this.rgba, 4);
-	var specular =  this.getNvalues(rootElement.getElementsByTagName('specular')[0], this.rgba, 4);
+	
+	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyzw);
+	var ambient = this.getNvalues(rootElement.getElementsByTagName('ambient')[0], this.rgba);
+	var difuse =  this.getNvalues(rootElement.getElementsByTagName('diffuse')[0], this.rgba);
+	var specular =  this.getNvalues(rootElement.getElementsByTagName('specular')[0], this.rgba);
 
 	omni.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
 	omni.setDiffuse(difuse[0], difuse[1], difuse[2], difuse[3]);
@@ -596,15 +597,16 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 	var enabled = this.reader.getBoolean(rootElement, 'enabled');
 	var angle = this.reader.getFloat(rootElement, 'angle');
 	var exponent = this.reader.getFloat(rootElement, 'exponent');
-
+	
+	
 	if(enabled == 1)
 		this.scene.lights[this.lightIndex].enable();
-
-	var target = this.getNvalues(rootElement.getElementsByTagName('target')[0], this.xyzw, 3)
-	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyzw, 3);
-	var ambient = this.getNvalues(rootElement.getElementsByTagName('ambient')[0], this.rgba, 4);
-	var difuse =  this.getNvalues(rootElement.getElementsByTagName('difuse')[0], this.rgba, 4);
-	var specular =  this.getNvalues(rootElement.getElementsByTagName('specular')[0], this.rgba, 4);
+	
+	var target = this.getNvalues(rootElement.getElementsByTagName('target')[0], this.xyz)
+	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyz);
+	var ambient = this.getNvalues(rootElement.getElementsByTagName('ambient')[0], this.rgba);
+	var difuse =  this.getNvalues(rootElement.getElementsByTagName('diffuse')[0], this.rgba);
+	var specular =  this.getNvalues(rootElement.getElementsByTagName('specular')[0], this.rgba);
 
 	var direction = [];
 	for(var j = 0; j < location.length; j++){
@@ -612,7 +614,7 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 	}
 
 	spot.setSpotDirection(direction[0], direction[1], direction[2]);
-	spot.setExponent(exponent);
+	spot.setSpotExponent(exponent);
 	spot.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
 	spot.setDiffuse(difuse[0], difuse[1], difuse[2], difuse[3]);
 	spot.setSpecular(specular[0], specular[1], specular[2], specular[3]);
@@ -625,16 +627,17 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 
 }
 
-MySceneGraph.prototype.getNvalues = function(rootElement, type, num){
+MySceneGraph.prototype.getNvalues = function(rootElement, type){
 	
 		if(rootElement == null)
 			this.onXMLError("error geting 4 values");
 
 		var tmp = [];
 
-		for(var i = 0; i< num; i++){
+		for(var i = 0; i< type.length; i++){
 			
-			tmp[i] = this.reader.getFloat(rootElement, this.xyzw[i]);
+			tmp[i] = this.reader.getFloat(rootElement,type[i]);
+			console.log("tmp " + tmp[i] + " type " + type[i]);
 		}
 
 		return tmp;
