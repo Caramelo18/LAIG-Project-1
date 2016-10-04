@@ -51,6 +51,7 @@ MySceneGraph.prototype.onXMLReady=function()
  	this.parseTransformations(rootElement);
 	this.parseComponents(rootElement);
 	this.parserPrimitives(rootElement);
+	//this.parserLights(rootElement);
 	
 
 	this.loadedOk=true;
@@ -519,7 +520,7 @@ MySceneGraph.prototype.parseTransformationElements = function(rootElement)
 MySceneGraph.prototype.parserLights = function(rootElement){
 
 
-	var lights = rootElement.reader.getElementsByTagName('lights')[0];
+	var lights = rootElement.getElementsByTagName('lights');
 
 	if(lights == null | lights.length  == 0){
 		onXMLError("lights element is missing");
@@ -534,6 +535,7 @@ MySceneGraph.prototype.parserLights = function(rootElement){
 	
 	for(var i = 0; i < nnodes; i++){
 		var child = light.children[i];
+		console.log(child.tagName);
 		switch(child.tagName){
 			case "omni":
 				this.parserOmniLights(child);
@@ -626,12 +628,13 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 MySceneGraph.prototype.getNvalues = function(rootElement, type, num){
 	
 		if(rootElement == null)
-			onXMLError("error geting 4 values");
+			this.onXMLError("error geting 4 values");
 
 		var tmp = [];
 
 		for(var i = 0; i< num; i++){
-			tmp[i] = this.reader.getFloat(rootElement, type[i]);
+			
+			tmp[i] = this.reader.getFloat(rootElement, this.xyzw[i]);
 		}
 
 		return tmp;
