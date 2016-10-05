@@ -40,9 +40,9 @@
             <to x="0" y="0" z="0" />
         </perspective>
 		
-		<perspective id="p2" near="0.3" far="0.2" angle="20">
-            <from x="0.20" y="0.15" z="0.50" />
-            <to x="0.13" y="0.25" z="0.32" />
+		<perspective id="p2" near="0.1" far="500" angle="20">
+            <from x="0" y="15" z="15" />
+            <to x="0" y="0" z="0" />
         </perspective>
         
     </views>

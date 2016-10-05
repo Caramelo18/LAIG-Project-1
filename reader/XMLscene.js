@@ -61,10 +61,11 @@ XMLscene.prototype.onGraphLoaded = function ()
 
 XMLscene.prototype.initCameras = function()
 {
-	console.log("init cameras: " + this.graph.cameras[5]);
-	this.cameras[0] = new CGFcamera(0.4, this.graph.cameras[1], this.graph.cameras[2], this.graph.cameras[4], this.graph.cameras[5]);
+	for(var i = 0; i < this.graph.cameras.length / 6; i++)
+		this.cameras[i] = new CGFcamera(0.4, this.graph.cameras[i * 6 + 1], this.graph.cameras[i * 6 + 2], this.graph.cameras[i * 6 + 4], this.graph.cameras[5]);
 	
-	this.camera = this.cameras[0];
+	
+	this.camera = this.cameras[this.currentCamera];
 }
 
 XMLscene.prototype.display = function () {
@@ -96,4 +97,15 @@ XMLscene.prototype.display = function () {
 		this.lights[0].update();
 	};	
 };
+
+XMLscene.prototype.changeCamera = function()
+{
+	this.currentCamera++;
+	
+	if(this.currentCamera >= this.cameras.length)
+		this.currentCamera = 0;
+	
+	this.camera = this.cameras[this.currentCamera];
+	
+}
 
