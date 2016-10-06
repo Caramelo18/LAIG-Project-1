@@ -52,7 +52,7 @@ MySceneGraph.prototype.onXMLReady=function()
  	this.parseTransformations(rootElement);
 	this.parseComponents(rootElement);
 	this.parserPrimitives(rootElement);
-	this.parserLights(rootElement);
+	this.parseLights(rootElement);
 
 
 	this.loadedOk=true;
@@ -518,8 +518,8 @@ MySceneGraph.prototype.parseTransformationElements = function(rootElement)
 	return transformationList;
 }
 
-MySceneGraph.prototype.parserLights = function(rootElement){
-
+MySceneGraph.prototype.parseLights = function(rootElement)
+{
 
 	var lights = rootElement.getElementsByTagName('lights');
 

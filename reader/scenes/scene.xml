@@ -5,8 +5,8 @@
 	<scene root="as" axis_length="2" />
 	
 	<illumination doublesided="1" local="0" >
-        <ambient r="0.5" g="0.4" b="0.3" a="0" />
-        <background r="0.1" g="0.1" b="0.1" a="0.1" />
+        <ambient r="0.2" g="0.4" b="0.8" a="0" />
+        <background r="0.1" g="0.7" b="0.1" a="1" />
     </illumination>
 	
 	<textures>
