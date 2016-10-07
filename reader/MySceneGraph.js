@@ -249,7 +249,7 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 
 MySceneGraph.prototype.parseMaterials = function(rootElement)
 {
-	var attrib = ['emission', 'ambient', 'diffuse', 'specular', 'shininess'];
+	var component = ['emission', 'ambient', 'diffuse', 'specular'];
 	var rgba = ["r", "g", "b", "a"];
 
 	var materials = rootElement.getElementsByTagName('materials');
@@ -269,23 +269,24 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 			continue;
 		
 		// is necessary to check if already exist a material with this id!!!
-
+		console.log("material id: " + id);
 			
 		var material = [];
 
 		// obtain shininess attributes
-		var x =  ltMaterial[i].getElementsByTagName('shininess')[i];	
+		var x =  ltMaterial[i].getElementsByTagName('shininess')[0];	
 		material[4] = x.getAttribute("value");
 
+		console.log("material value: " + material[4]);
 		//obtain  ambient, emission, diffuse and specular attributes
-		for(var j = 0; j < attrib.length -1; j++){
+		for(var j = 0; j < component.length ; j++){
 			
-			var att = ltMaterial[i].getElementsByTagName(attrib[j]);
+			var att = ltMaterial[i].getElementsByTagName(component[j]);
 
 			material[j] = [];
-			for(var k = 0; k < rgba.length; k++){
-
-				material[j][k] = att[i].getAttribute(rgba[k]);
+			for(var k = 0; k < rgba.length; k++)
+			{
+				material[j][k] = att[0].getAttribute(rgba[k]);
 				console.log("Material property: " + material[j][k]);
 			}	
 			
@@ -300,10 +301,10 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 		mat.setShininess(material[4]);
 		
 
-		this.materialsList[ltMaterial[i].id] = mat;
+		this.materialsList[i] = mat;
 	};
 	
-	console.log("Material :" + this.materialsList.length);
+	console.log("Materials length :" + this.materialsList.length);
 
 }
 

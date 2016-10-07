@@ -9,8 +9,6 @@ XMLscene.prototype.constructor = XMLscene;
 XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
 
-    this.initLights();
-
     this.gl.clearColor(0, 0.0, 0.0, 1.0);
 
     this.gl.clearDepth(100.0);
@@ -22,6 +20,8 @@ XMLscene.prototype.init = function (application) {
 	
 	this.currentCamera = 0;
 	this.cameras = new Array();
+	
+	this.materials = new Array();
 	
 	
 };
@@ -45,6 +45,9 @@ XMLscene.prototype.onGraphLoaded = function ()
 	
 	this.initCameras();
 	this.initIllumination();
+	this.initLights();
+	this.initMaterials();
+	
 	
 };
 
@@ -65,11 +68,18 @@ XMLscene.prototype.initIllumination = function()
 }
 
 XMLscene.prototype.initLights = function () {
-
-	this.lights[0].setPosition(2, 3, 3, 1);
-    this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
-    this.lights[0].update();
+	console.log("lights size: " + this.lights.length);
 };
+
+XMLscene.prototype.initMaterials = function()
+{
+	for(var i = 0; i < this.graph.materialsList.length; i++)
+	{
+		this.materials[i] = this.graph.materialsList[i];
+	}
+	
+	console.log("init materials: " + this.materials.length);
+}
 
 
 XMLscene.prototype.display = function () {
