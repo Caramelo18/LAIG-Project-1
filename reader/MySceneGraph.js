@@ -697,7 +697,8 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement){
 				break;	
 
 		}
-		this.primitivesList[primitiveChild.id] = primitive;
+		//primitiveChild.id
+		this.primitivesList[0] = primitive;
 
 	}
 

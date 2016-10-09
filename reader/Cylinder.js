@@ -5,60 +5,32 @@
  function Cylinder(scene, slices, stacks) {
  	CGFobject.call(this,scene);
 	
-	this.slices = slices;
-	this.stacks = stacks;
+	this.cover = new Circle(this.scene, slices , stacks);
+	this.side = new CylinderSide(this.scene, slices , stacks);
 
- 	this.initBuffers();
+
  };
 
  Cylinder.prototype = Object.create(CGFobject.prototype);
  Cylinder.prototype.constructor = Cylinder;
 
- Cylinder.prototype.initBuffers = function() {
+ Cylinder.prototype.display = function() {
 
-	this.angulo = (Math.PI*2)/this.slices;
 
- 	this.vertices = [];
- 	this.indices = [];
- 	this.normals = [];
-	this.texCoords = [];
-
-	var ang=0;
-	var x,y;
-	var z=0;
+	this.side.display();
 	
-	for(k = 0; k <= this.stacks; k++){
-		this.vertices.push(1, 0, z);
-		this.normals.push(1, 0, 0);
-		this.texCoords.push(0,k/this.stacks);
-		
-		ang=0;
 
-		for(i = 0; i < this.slices; i++){
-				
-				if(i!=(this.slices-1)){
-					ang+=this.angulo;
-					x = Math.cos(ang);
-					y = Math.sin(ang);
-					this.vertices.push(x, y, z);
-					this.normals.push(x, y, 0);
-					this.texCoords.push((i+1)/this.slices,k/this.stacks);
-				}
 
-			if(k > 0){
-				if(i==(this.slices-1)){
-           			this.indices.push(((k-1)*this.slices)+i,((k-1)*this.slices),(k*this.slices)+i);
-					this.indices.push((k*this.slices)+i,((k-1)*this.slices),(k*this.slices));
-		  		}else{
-					this.indices.push(((k-1)*this.slices)+i,((k-1)*this.slices)+1+i,(k*this.slices)+i);
-					this.indices.push((k*this.slices)+i,((k-1)*this.slices)+1+i,(k*this.slices)+1+i);
-		  			}
-			}
-		}
+	this.scene.pushMatrix();
+		this.scene.translate(0,0,1);
+		this.cover.display();
+	this.scene.popMatrix();
 
-		z += 1/this.stacks;
-	}
+	this.scene.pushMatrix();
+		this.scene.rotate(Math.PI, 0 , 1, 0);
+		this.cover.display();
+	this.scene.popMatrix();
+	
 
- 	this.primitiveType = this.scene.gl.TRIANGLES;
- 	this.initGLBuffers();
+
  };

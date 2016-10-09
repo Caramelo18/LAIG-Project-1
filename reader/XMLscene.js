@@ -106,6 +106,10 @@ XMLscene.prototype.display = function () {
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
+	var prim = this.graph.primitivesList[0];
+	console.log(prim);
+	prim.display();
+	
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
