@@ -690,8 +690,10 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement){
 				primitive = this.parserCylinder(primitiveChild);
 				break;
 			case "sphere":
+				//primitive =  this.parserSphere(primitiveChild);
 				break;		
 			case "torus":
+				//primitive = this.parserTorus(primitiveChild);
 				break;	
 
 		}
@@ -756,13 +758,52 @@ MySceneGraph.prototype.parserCylinder = function(element){
 	coord.base = this.reader.getFloat(element, 'base');
 	coord.top = this.reader.getFloat(element, 'top');
 	coord.height = this.reader.getFloat(element, 'height');
-	coord.slices = this.reader.getFloat(element, 'slices');
-	coord.stacks = this.reader.getFloat(element, 'stacks');
+	coord.slices = this.reader.getInteger(element, 'slices');
+	coord.stacks = this.reader.getInteger(element, 'stacks');
 
 	return new Cylinder(this.scene, coord.slices, coord.stacks);
 
 }
 
+/*
+MySceneGraph.prototype.parserSphere = function(element){
+	
+	var coord ={
+		radius: 0,
+		slices: 0,
+		stacks: 0
+	}
+
+	coord.radius = this.reader.getFloat(element, 'radius');
+	coord.slices = this.reader.getInteger(element, 'slices');
+	coord.stacks = this.reader.getInteger(element, 'stacks');
+
+
+	return new Sphere(this.scene, coord.radius, coord.slices, coord.stacks);
+
+}
+
+
+MySceneGraph.prototype.parserTorus = function(element){
+	
+	var coord ={
+		inner: 0,
+		outer: 0,
+		slices: 0,
+		loops:0
+	}
+
+	coord.inner = this.reader.getFloat(element, 'inner');
+	coord.outer = this.reader.getFloat(element, 'outer');
+	coord.slices = this.reader.getInteger(element, 'slices');
+	coord.loops = this.reader.getInteger(element, 'loops');
+
+
+	return new Torus(this.scene, coord.inner, coord.outer, coord.slices, coord.loops);
+
+}
+
+*/
 
 /*
  * Callback to be executed on any read error
