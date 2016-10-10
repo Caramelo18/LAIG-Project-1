@@ -16,7 +16,7 @@ function MySceneGraph(filename, scene) {
 	this.lightIndex = 0;
 
 	this.materialsList = [];
-	this.primitivesList = [];
+	this.primitivesList = {};
 	this.cameras = [];
 	this.omniLightsList = [];
 	this.spotLightsList = [];
@@ -566,6 +566,8 @@ MySceneGraph.prototype.parserOmniLights = function(rootElement){
 
 	if(enabled == 1)
 		this.scene.lights[this.lightIndex].enable();
+	else
+		this.scene.lights[this.lightIndex].disable();
 	
 	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyzw);
 	var ambient = this.getNvalues(rootElement.getElementsByTagName('ambient')[0], this.rgba);
@@ -602,6 +604,8 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 	
 	if(enabled == 1)
 		this.scene.lights[this.lightIndex].enable();
+	else
+		this.scene.lights[this.lightIndex].disable();
 	
 	var target = this.getNvalues(rootElement.getElementsByTagName('target')[0], this.xyz)
 	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyz);
@@ -655,16 +659,16 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement){
 		onXMLError("primitives element is missing or more than one element");
 	}
 
-	var primitive = elems[0];
+	var prim = elems[0];
 
-	if(primitive.children == null|| primitive.children.length == 0){
+	if(prim.children == null|| prim.children.length == 0){
 			onXMLError("Should have one or more primitives");
 	}
 
-	var nnodes = primitive.children.length;
+	var nnodes = prim.children.length;
 
 	for(var i = 0 ; i < nnodes ; i++){
-		var child  = primitive.children[i];
+		var child  = prim.children[i];
 
 
 		if(child.tagName != 'primitive'){
@@ -678,7 +682,13 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement){
 
 		var primitiveChild = child.children[0];
 		var primitve;
+
 		
+		/*
+		var id = this.reader.getString(child, 'id');
+		console.log("id = " + id); 
+*/
+
 		switch(primitiveChild.tagName){
 			case "rectangle":
 				primitive = this.parserRectangle(primitiveChild);
@@ -690,16 +700,17 @@ MySceneGraph.prototype.parserPrimitives = function(rootElement){
 				primitive = this.parserCylinder(primitiveChild);
 				break;
 			case "sphere":
-				//primitive =  this.parserSphere(primitiveChild);
+				primitive =  this.parserSphere(primitiveChild);
 				break;		
 			case "torus":
 				//primitive = this.parserTorus(primitiveChild);
 				break;	
 
 		}
-		//primitiveChild.id
-		this.primitivesList[0] = primitive;
 
+
+		this.primitivesList[child.id] = primitive;
+		
 	}
 
 }
@@ -766,7 +777,7 @@ MySceneGraph.prototype.parserCylinder = function(element){
 
 }
 
-/*
+
 MySceneGraph.prototype.parserSphere = function(element){
 	
 	var coord ={
@@ -784,7 +795,7 @@ MySceneGraph.prototype.parserSphere = function(element){
 
 }
 
-
+/*
 MySceneGraph.prototype.parserTorus = function(element){
 	
 	var coord ={

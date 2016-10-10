@@ -102,11 +102,12 @@
             <!--     rectangle, triangle, cylinder, sphere, torus -->
             <!-- os parametros devem ser interpretados, genericamente como-->
             <!-- em OpenGL/GLUT; o cilindro deve adicionalmente ter tampas -->
-          <!-- <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" /> -->
-			 <cylinder base="0.20" top="1" height="1.20" slices="8" stacks="3" />
+         
+			 <triangle x1="0" y1="0" z1="0" x2="1" y2="2" z2="4" x3="5" y3="3" z3="1" />
             <!-- <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
-            <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
-            <sphere radius="ff" slices="ii" stacks="ii" />
+			 <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
+		   <sphere radius="1" slices="5" stacks="5" />
+			<cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
             <torus inner="ff" outer="ff" slices="ii" loops="ii" /> -->
             
         </primitive>
