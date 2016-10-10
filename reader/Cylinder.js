@@ -7,7 +7,7 @@
 	
 	this.cover = new Circle(this.scene, slices);
 	this.side = new CylinderSide(this.scene, slices , stacks);
-
+	this.slices = slices;
 
  };
 
@@ -26,7 +26,8 @@
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-		this.scene.rotate(Math.PI, 1 ,1, 0);
+		this.scene.rotate(Math.PI * this.slices, 0,0,1);
+		this.scene.rotate(Math.PI, 0 ,1, 0);
 		this.cover.display();
 	this.scene.popMatrix();
 	
