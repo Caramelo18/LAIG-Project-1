@@ -773,7 +773,7 @@ MySceneGraph.prototype.parserCylinder = function(element){
 	coord.slices = this.reader.getInteger(element, 'slices');
 	coord.stacks = this.reader.getInteger(element, 'stacks');
 
-	return new Cylinder(this.scene, coord.slices, coord.stacks);
+	return new Cylinder(this.scene,coord.base, coord.top, coord.height ,coord.slices, coord.stacks);
 
 }
 

@@ -102,8 +102,8 @@
             <!--     rectangle, triangle, cylinder, sphere, torus -->
             <!-- os parametros devem ser interpretados, genericamente como-->
             <!-- em OpenGL/GLUT; o cilindro deve adicionalmente ter tampas -->
-         <sphere radius="1" slices="20" stacks="10" />
-			
+         
+			<cylinder base="1" top="1.5" height="3" slices="10" stacks="8" />
             <!-- <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
 			 <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
 		   <sphere radius="1" slices="5" stacks="5" />

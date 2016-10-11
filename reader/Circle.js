@@ -2,11 +2,12 @@
  * Cirle
  * @constructor
  */
- function Circle(scene, slices) {
+ function Circle(scene,radius, slices) {
  	CGFobject.call(this,scene);
 	
 	this.slices = slices;
-
+	this.radius = radius;
+	
  	this.initBuffers();
  };
 
@@ -33,8 +34,8 @@
         if(j == this.slices){
 	       this.indices.push(0, j, 1);
 	   }else{	
-	       x=Math.cos(angAux);
-	       y=Math.sin(angAux);
+	       x=Math.cos(angAux) * this.radius;
+	       y=Math.sin(angAux) * this.radius;
 
 	       this.vertices.push(x,y,0);
 	       this.normals.push(0,0,1);

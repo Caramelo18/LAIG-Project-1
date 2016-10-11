@@ -2,9 +2,12 @@
  * cylinder
  * @constructor
  */
- function CylinderSide(scene, slices, stacks) {
+ function CylinderSide(scene, base ,top , height, slices, stacks) {
  	CGFobject.call(this,scene);
 	
+	this.base = base;
+	this.top = top;
+	this.height = height;
 	this.slices = slices;
 	this.stacks = stacks;
 
@@ -26,20 +29,20 @@
 	var ang=0;
 	var x,y;
 	var z=0;
+	var radius = this.base;
+	var inc = (this.top - this.base)/this.stacks;
 	
 	for(k = 0; k <= this.stacks; k++){
-		this.vertices.push(1, 0, z);
+		this.vertices.push(this.base + k * inc, 0, z);
 		this.normals.push(1, 0, 0);
-		this.texCoords.push(0,k/this.stacks);
-		
+		this.texCoords.push(0,k/this.stacks);	
 		ang=0;
-
 		for(i = 0; i < this.slices; i++){
 				
 				if(i!=(this.slices-1)){
 					ang+=this.angulo;
-					x = Math.cos(ang);
-					y = Math.sin(ang);
+					x = Math.cos(ang) * radius;
+					y = Math.sin(ang) * radius;
 					this.vertices.push(x, y, z);
 					this.normals.push(x, y, 0);
 					this.texCoords.push((i+1)/this.slices,k/this.stacks);
@@ -55,8 +58,8 @@
 		  			}
 			}
 		}
-
-		z += 1/this.stacks;
+		radius += inc;
+		z += this.height/this.stacks;
 	}
 
  	this.primitiveType = this.scene.gl.TRIANGLES;
