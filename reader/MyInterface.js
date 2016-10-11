@@ -19,6 +19,17 @@ MyInterface.prototype.init = function(application) {
 	// call CGFinterface init
 	CGFinterface.prototype.init.call(this, application);
 
+	this.gui = new dat.GUI();
+
+	var l=this.gui.addFolder("Luzes");
+	l.open();
+
+	l.add(this.scene, 'luz1');
+	l.add(this.scene, 'luz2');
+
+
+
+
 	this.setActiveCamera(this.scene.camera);
 	return true;
 };

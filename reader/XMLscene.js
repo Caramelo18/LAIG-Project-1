@@ -19,9 +19,12 @@ XMLscene.prototype.init = function (application) {
 	this.axis = new CGFaxis(this);
 
 	this.currentCamera = 0;
-	this.cameras = new Array();
+	this.cameras = [];
 
-	this.materials = new Array();
+	this.materials = [];
+
+	this.luz1 = true;
+	this.luz2 = true;
 
 
 };
@@ -89,6 +92,23 @@ XMLscene.prototype.initMaterials = function()
 }
 
 
+XMLscene.prototype.updateLights = function(){
+	for(var i = 0; i < this.lights.length; i++)
+		      this.lights[i].update();
+
+	if(this.luz1)
+		this.lights[0].enable();
+	else 
+		this.lights[0].disable();			      
+
+
+	if(this.luz2)
+		this.lights[1].enable();
+	else
+		this.lights[1].disable();	
+}
+
+
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
 
@@ -119,10 +139,9 @@ XMLscene.prototype.display = function () {
 
 	if (this.graph.loadedOk)
 	{
-        for(var i = 0; i < this.lights.length; i++)
-		      this.lights[i].update();
+        this.updateLights();
 
-              prim.display();
+         prim.display();
 	};
 };
 
