@@ -24,8 +24,7 @@ XMLscene.prototype.init = function (application) {
 	this.materials = [];
 
 	this.luz1 = true;
-	this.luz2 = true;
-
+    this.luz2 = true;
 
 };
 
@@ -44,10 +43,6 @@ XMLscene.prototype.setDefaultAppearance = function () {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function ()
 {
-	this.lights[0].setVisible(true);
-    this.lights[0].enable();
-
-
 	this.axis = new CGFaxis(this, this.graph.axis_length);
 
 	this.initCameras();
@@ -56,7 +51,6 @@ XMLscene.prototype.onGraphLoaded = function ()
 	this.initMaterials();
 
     this.interface.setActiveCamera(this.camera);
-
 
 };
 
@@ -79,6 +73,10 @@ XMLscene.prototype.initIllumination = function()
 
 XMLscene.prototype.initLights = function () {
 	console.log("lights size: " + this.lights.length);
+
+    this.luz1 = this.graph.lightsOn[0];
+    this.luz2 = this.graph.lightsOn[1];
+    console.log(this.graph.lightsOn);
 };
 
 XMLscene.prototype.initMaterials = function()
@@ -92,20 +90,21 @@ XMLscene.prototype.initMaterials = function()
 }
 
 
-XMLscene.prototype.updateLights = function(){
-	for(var i = 0; i < this.lights.length; i++)
-		      this.lights[i].update();
-
+XMLscene.prototype.updateLights = function()
+{
 	if(this.luz1)
 		this.lights[0].enable();
-	else 
-		this.lights[0].disable();			      
-
+	else
+		this.lights[0].disable();
 
 	if(this.luz2)
 		this.lights[1].enable();
 	else
-		this.lights[1].disable();	
+		this.lights[1].disable();
+
+
+    for(var i = 0; i < this.lights.length; i++)
+        this.lights[i].update();
 }
 
 
@@ -133,7 +132,10 @@ XMLscene.prototype.display = function () {
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
-	var prim = this.graph.primitivesList['primRef'];
+
+    this.primitives = this.graph.primitivesList;
+    this.primitivesIDs = this.graph.primitivesIDs;
+	var prim = this.graph.primitivesList['cyl'];
 
 
 
@@ -141,7 +143,8 @@ XMLscene.prototype.display = function () {
 	{
         this.updateLights();
 
-         prim.display();
+        for(var i = 0; i < this.primitivesIDs.length; i++)
+            this.primitives[this.primitivesIDs[i]].display();
 	};
 };
 

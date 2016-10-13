@@ -27,10 +27,6 @@ MyInterface.prototype.init = function(application) {
 	l.add(this.scene, 'luz1');
 	l.add(this.scene, 'luz2');
 
-
-
-
-	this.setActiveCamera(this.scene.camera);
 	return true;
 };
 
@@ -48,7 +44,7 @@ MyInterface.prototype.processKeyboard = function(event) {
 	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
 	switch (event.keyCode)
 	{
-		case (118):	// a
+		case (118):	// v
 			this.scene.changeCamera();
 			break;
 	};
