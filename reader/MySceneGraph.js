@@ -250,7 +250,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 		this.textureList[i * 4 + 3] = e.attributes.getNamedItem("length_t").value;
 
 		var mat = new CGFappearance(this.scene);
-		mat.loadTexture(this.textureList[i * 4 + 1]);
+		mat.loadTexture('images/' + this.textureList[i * 4 + 1]);
 		this.texturesList[i] = mat;
 		console.log("Texture read from file: ID = " + this.textureList[i * 4] + ", File = " + this.textureList[i * 4 + 1] + ",S Length = " + this.textureList[i * 4 + 2] + ",T Length = " + this.textureList[i * 4 + 3]);
 	};
