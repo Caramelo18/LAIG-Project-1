@@ -3,11 +3,9 @@
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
 
-
 	// Establish bidirectional references between scene and graph
 	this.scene = scene;
 	scene.graph=this;
-
 
 	this.rgba = ['r', 'g', 'b', 'a'];
 	this.xyzw = ['x', 'y', 'z', 'w'];
@@ -16,12 +14,13 @@ function MySceneGraph(filename, scene) {
 	this.lightIndex = 0;
 
 	this.materialsList = [];
+	this.texturesList = new Array();
+
 	this.primitivesList = {};
 	this.cameras = [];
 	this.omniLightsList = [];
 	this.spotLightsList = [];
 	this.primitivesIDs = new Array();
-
 
 	// File reading
 	this.reader = new CGFXMLreader();
@@ -32,6 +31,7 @@ function MySceneGraph(filename, scene) {
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 
+	console.log("bef open");
 	this.reader.open('scenes/'+filename, this);
 }
 
@@ -244,12 +244,15 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 	{
 		var e = textures[0].children[i];
 		// process each element and store its information
-		this.textureList[e.id] = e.attributes.getNamedItem("id").value;
-		this.textureList[e.file] = e.attributes.getNamedItem("file").value;
-		this.textureList[e.s] = e.attributes.getNamedItem("length_s").value;
-		this.textureList[e.t] = e.attributes.getNamedItem("length_t").value;
+		this.textureList[i * 4] = e.attributes.getNamedItem("id").value;
+		this.textureList[i * 4 + 1] = e.attributes.getNamedItem("file").value;
+		this.textureList[i * 4 + 2] = e.attributes.getNamedItem("length_s").value;
+		this.textureList[i * 4 + 3] = e.attributes.getNamedItem("length_t").value;
 
-		console.log("Texture read from file: ID = " + this.textureList[e.id] + ", File = " + this.textureList[e.file] + ",S Length = " + this.textureList[e.s] + ",T Length = " + this.textureList[e.t]);
+		var mat = new CGFappearance(this.scene);
+		mat.loadTexture(this.textureList[i * 4 + 1]);
+		this.texturesList[i] = mat;
+		console.log("Texture read from file: ID = " + this.textureList[i * 4] + ", File = " + this.textureList[i * 4 + 1] + ",S Length = " + this.textureList[i * 4 + 2] + ",T Length = " + this.textureList[i * 4 + 3]);
 	};
 
 }
@@ -580,11 +583,8 @@ MySceneGraph.prototype.parseLights = function(rootElement)
 	var light = lights[0];
 	var nnodes = light.children.length;
 
-	this.lightsOn = new Array();
-
 	if(nnodes == 0)
 		onXMLError("there are no lights");
-
 
 	for(var i = 0; i < nnodes; i++){
 		var child = light.children[i];
@@ -610,7 +610,6 @@ MySceneGraph.prototype.parserOmniLights = function(rootElement){
 
 	omni.disable();
 	omni.setVisible(true);
-	console.log("omni " + this.lightIndex);
 
 	var id = this.reader.getString(rootElement, 'id');
 	var enabled = this.reader.getBoolean(rootElement, 'enabled');
@@ -620,7 +619,8 @@ MySceneGraph.prototype.parserOmniLights = function(rootElement){
 	else
 		this.scene.lights[this.lightIndex].disable();
 
-	this.lightsOn[this.lightIndex] = enabled;
+	this.scene.lightsStatus[this.lightIndex] = enabled;
+	this.scene.lightsNames[this.lightIndex] = id;
 
 	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyzw);
 	var ambient = this.getNvalues(rootElement.getElementsByTagName('ambient')[0], this.rgba);
@@ -647,7 +647,6 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 
 	spot.disable();
 	spot.setVisible(true);
-	console.log("spot " + this.lightIndex);
 
 	var id = this.reader.getString(rootElement, 'id');
 	var enabled = this.reader.getBoolean(rootElement, 'enabled');
@@ -660,7 +659,8 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 	else
 		this.scene.lights[this.lightIndex].disable();
 
-	this.lightsOn[this.lightIndex] = enabled;
+	this.scene.lightsStatus[this.lightIndex] = enabled;
+	this.scene.lightsNames[this.lightIndex] = id;
 
 	var target = this.getNvalues(rootElement.getElementsByTagName('target')[0], this.xyz)
 	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyz);

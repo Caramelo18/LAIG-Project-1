@@ -21,11 +21,8 @@ MyInterface.prototype.init = function(application) {
 
 	this.gui = new dat.GUI();
 
-	var l=this.gui.addFolder("Luzes");
-	l.open();
-
-	l.add(this.scene, 'luz1');
-	l.add(this.scene, 'luz2');
+	this.lights = this.gui.addFolder("Lights");
+	this.lights.open();
 
 	return true;
 };
@@ -53,3 +50,10 @@ MyInterface.prototype.processKeyboard = function(event) {
     this.setActiveCamera(this.scene.camera);
 
 };
+
+MyInterface.prototype.initLightsButtons = function() {
+	for(var i = 0; i < this.scene.graph.lightIndex; i++)
+	{
+		this.lights.add(this.scene.lightsStatus, i).name(this.scene.lightsNames[i]);
+	}
+}

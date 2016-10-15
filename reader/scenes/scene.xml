@@ -23,8 +23,8 @@
         <!-- objetos respetivos podem a violar esta regra.         -->
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, ciclindro...) -->
-        <texture id="text1" file="t1.png" length_s="0.7" length_t="0.3" />
-		<texture id="text2" file="t2.png" length_s="0.13" length_t="0.96" />
+        <texture id="text1" file="carbon.jpg" length_s="0.7" length_t="0.3" />
+		<texture id="text2" file="wood.jpg" length_s="0.13" length_t="0.96" />
 
     </textures>
 
@@ -59,7 +59,14 @@
             <specular r="1" g="1" b="1" a="1" />
         </omni>
 
-        <spot id="spot1" enabled="1" angle="10" exponent="3">
+		<omni id="omni2" enabled="1" >
+            <location x="0" y="1" z="6" w="0.2" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0" g="0" b="1" a="1" />
+            <specular r="0" g="0" b="1" a="1" />
+        </omni>
+
+        <spot id="spot1" enabled="1" angle="10" exponent="1">
             <!-- atencao, "target" e' diferente de "direction" -->
             <target x="0" y="0" z="0" />
             <location x="0" y="3" z="0" />
@@ -77,8 +84,8 @@
         <material id="mat1" >
             <emission r="0.1" g="0.5" b="0.3" a="0.2" />
             <ambient r="0.2" g="0.4" b="0.01" a="0.3" />
-            <diffuse r="0.1" g="0.5" b="0.9" a="0.7" />
-            <specular r="0.6" g="0.2" b="0.8" a="0.9" />
+            <diffuse r="0.1" g="0.7" b="0.2" a="1" />
+            <specular r="0.6" g="0.2" b="0.2" a="1" />
             <shininess value="2.1" />
         </material>
 
@@ -101,7 +108,7 @@
             <!--     rectangle, triangle, cylinder, sphere, torus -->
             <!-- os parametros devem ser interpretados, genericamente como-->
             <!-- em OpenGL/GLUT; o cilindro deve adicionalmente ter tampas -->
-			<cylinder base="1" top="1.5" height="3" slices="20" stacks="8" />
+			<cylinder base="1" top="1.5" height="3" slices="50" stacks="50" />
             <!-- <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
 			 <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
 		   <sphere radius="1" slices="5" stacks="5" />
@@ -112,7 +119,7 @@
 			<rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
 		</primitive-->
 		<primitive id="sph">
-			<sphere radius="1" slices="20" stacks="20" />
+			<sphere radius="1" slices="50" stacks="50" />
 		</primitive>
 
     </primitives>

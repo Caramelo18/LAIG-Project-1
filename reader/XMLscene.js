@@ -16,15 +16,17 @@ XMLscene.prototype.init = function (application) {
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
-	this.axis = new CGFaxis(this);
+    // creates a default camera and axis that are going to be replaced later
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+    this.axis = new CGFaxis(this);
 
 	this.currentCamera = 0;
 	this.cameras = [];
 
 	this.materials = [];
 
-	this.luz1 = true;
-    this.luz2 = true;
+    this.lightsStatus = new Array();
+    this.lightsNames = new Array();
 
 };
 
@@ -43,15 +45,15 @@ XMLscene.prototype.setDefaultAppearance = function () {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function ()
 {
-	this.axis = new CGFaxis(this, this.graph.axis_length);
+    this.axis = new CGFaxis(this, this.graph.axis_length);
 
 	this.initCameras();
 	this.initIllumination();
 	this.initLights();
 	this.initMaterials();
+    this.initTextures();
 
-    this.interface.setActiveCamera(this.camera);
-
+    this.interface.initLightsButtons();
 };
 
 XMLscene.prototype.initCameras = function()
@@ -68,15 +70,10 @@ XMLscene.prototype.initIllumination = function()
 {
 	this.gl.clearColor(this.graph.backgroundR,this.graph.backgroundG,this.graph.backgroundB,this.graph.backgroundA);
     this.setAmbient(this.graph.ambientR, this.graph.ambientG, this.graph.ambientB, this.graph.ambientA);
-
 }
 
 XMLscene.prototype.initLights = function () {
 	console.log("lights size: " + this.lights.length);
-
-    this.luz1 = this.graph.lightsOn[0];
-    this.luz2 = this.graph.lightsOn[1];
-    console.log(this.graph.lightsOn);
 };
 
 XMLscene.prototype.initMaterials = function()
@@ -89,19 +86,21 @@ XMLscene.prototype.initMaterials = function()
 	console.log("init materials: " + this.materials.length);
 }
 
+XMLscene.prototype.initTextures = function ()
+{
+    this.textures = this.graph.texturesList;
+}
+
 
 XMLscene.prototype.updateLights = function()
 {
-	if(this.luz1)
-		this.lights[0].enable();
-	else
-		this.lights[0].disable();
-
-	if(this.luz2)
-		this.lights[1].enable();
-	else
-		this.lights[1].disable();
-
+    for(var i = 0; i < this.lightsStatus.length; i++)
+    {
+        if(this.lightsStatus[i])
+            this.lights[i].enable();
+        else
+            this.lights[i].disable();
+    }
 
     for(var i = 0; i < this.lights.length; i++)
         this.lights[i].update();
@@ -135,7 +134,6 @@ XMLscene.prototype.display = function () {
 
     this.primitives = this.graph.primitivesList;
     this.primitivesIDs = this.graph.primitivesIDs;
-	var prim = this.graph.primitivesList['cyl'];
 
 
 
@@ -143,8 +141,11 @@ XMLscene.prototype.display = function () {
 	{
         this.updateLights();
 
-        for(var i = 0; i < this.primitivesIDs.length; i++)
+        for(var i = 0; i < this.primitivesIDs.length; i++){
+            this.materials[i].apply();
+            //this.textures[i].apply();
             this.primitives[this.primitivesIDs[i]].display();
+        }
 	};
 };
 
