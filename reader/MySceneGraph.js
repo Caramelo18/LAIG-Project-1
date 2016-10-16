@@ -20,8 +20,8 @@ function MySceneGraph(filename, scene) {
 	this.cameras = [];
 	this.omniLightsList = [];
 	this.spotLightsList = [];
-	this.primitivesIDs = new Array();
-
+	this.primitivesIDs = [];
+	this.experiencia =[];
 	// File reading
 	this.reader = new CGFXMLreader();
 
@@ -119,11 +119,11 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 
 	var elems =  rootElement.getElementsByTagName('globals');
 	if (elems == null) {
-		onXMLError("globals element is missing.");
+		return "globals element is missing.";
 	}
 
 	if (elems.length != 1) {
-		onXMLError("either zero or more than one 'globals' element found.");
+		return "either zero or more than one 'globals' element found.";
 	}
 
 	// various examples of different types of access
@@ -159,11 +159,11 @@ MySceneGraph.prototype.parseScene = function(rootElement)
 {
 	var elems =  rootElement.getElementsByTagName('scene');
 	if (elems == null) {
-		onXMLError("scene element is missing.");
+		return "scene element is missing.";
 	}
 
 	if (elems.length != 1) {
-		onXMLError("either zero or more than one 'scene' element found.");
+		return "either zero or more than one 'scene' element found.";
 	}
 
 	var scene = elems[0];
@@ -178,27 +178,27 @@ MySceneGraph.prototype.parseIllumination = function(rootElement)
 {
 	var elems =  rootElement.getElementsByTagName('illumination');
 	if (elems == null) {
-		onXMLError("illumination element is missing.");
+		return "illumination element is missing.";
 	}
 	if (elems.length != 1) {
-		onXMLError("either zero or more than one 'illumination' element found.");
+		return "either zero or more than one 'illumination' element found.";
 	}
 
 	var ambient = elems[0].getElementsByTagName('ambient');
 	if (ambient == null) {
-		onXMLError("ambient element is missing.");
+		return "ambient element is missing.";
 	}
 	if (ambient.length != 1) {
-		onXMLError("either zero or more than one 'ambient' element found.");
+		return "either zero or more than one 'ambient' element found.";
 	}
 
 	var background = elems[0].getElementsByTagName('background');
 	if (background == null) {
-		onXMLError("background element is missing.");
+		return "background element is missing.";
 	}
 
 	if (background.length != 1) {
-		onXMLError("either zero or more than one 'background' element found.");
+		return "either zero or more than one 'background' element found.";
 	}
 
 	elems = elems[0];
@@ -230,7 +230,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 	var textures = rootElement.getElementsByTagName('textures');
 
 	if (textures == null  || textures.length==0) {
-		onXMLError("textures element is missing.");
+		return "textures element is missing.";
 	}
 
 	this.textureList=[];
@@ -238,7 +238,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 	var numText = textures[0].children.length;
 
 	if(numText <= 0)
-		onXMLError("texture elements are missing");
+		return "texture elements are missing";
 
 	for (var i = 0; i < numText; i++)
 	{
@@ -249,9 +249,10 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 		this.textureList[i * 4 + 2] = e.attributes.getNamedItem("length_s").value;
 		this.textureList[i * 4 + 3] = e.attributes.getNamedItem("length_t").value;
 
-		var mat = new CGFappearance(this.scene);
-		mat.loadTexture('images/' + this.textureList[i * 4 + 1]);
-		this.texturesList[i] = mat;
+		var text = new CGFappearance(this.scene);
+		text.loadTexture('images/' + this.textureList[i * 4 + 1]);
+		this.experiencia[i] = text;
+		console.log(this.experiencia[i]);
 		console.log("Texture read from file: ID = " + this.textureList[i * 4] + ", File = " + this.textureList[i * 4 + 1] + ",S Length = " + this.textureList[i * 4 + 2] + ",T Length = " + this.textureList[i * 4 + 3]);
 	};
 
@@ -262,7 +263,7 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 	var views = rootElement.getElementsByTagName('views');
 
 	if (views == null  || views.length==0) {
-		onXMLError("views element is missing.");
+		return "views element is missing.";
 	}
 
 	var nnodes = views[0].children.length;
@@ -307,7 +308,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 	var materials = rootElement.getElementsByTagName('materials');
 
 	if (materials == null  || materials.length==0) {
-		onXMLError( "materials element is missing.");
+		return  "materials element is missing.";
 	}
 
 
@@ -365,13 +366,13 @@ MySceneGraph.prototype.parseTransformations = function(rootElement)
 	var transformations = rootElement.getElementsByTagName('transformations');
 
 	if (transformations == null  || transformations.length==0) {
-		onXMLError("transformations element is missing.");
+		return "transformations element is missing.";
 	}
 
 	var numTransf = transformations[0].children.length;
 
 	if(numTransf <= 0)
-		onXMLError("transformation elements are missing");
+		return "transformation elements are missing";
 
 	this.transformationList = [];
 
@@ -435,7 +436,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 	var components = rootElement.getElementsByTagName('components');
 
 	if (components == null  || components.length==0) {
-		onXMLError("components element is missing.");
+		return "components element is missing.";
 	}
 
 	var compLength = components[0].children.length;
@@ -447,7 +448,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 	var transformation = component.getElementsByTagName('transformation');
 
 	if(transformation == null) {
-		onXMLError("transformation element is missing on Components");
+		return "transformation element is missing on Components";
 	}
 
 	transformation = transformation[0];
@@ -467,7 +468,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 	var material = component.getElementsByTagName('materials');
 
 	if (material.length == 0) {
-		onXMLError("materials element is missing com Components");
+		return "materials element is missing com Components";
 	}
 
 	var materialLength = material[0].children.length;
@@ -481,7 +482,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 
 	var texture = component.getElementsByTagName('texture');
 	if(texture == null || texture.length == 0) {
-		onXMLError("texture element is missing on Components");
+		return "texture element is missing on Components";
 	}
 
 	texture = this.reader.getString(texture[0], 'id');
@@ -491,14 +492,14 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 
 	var children = component.getElementsByTagName('children');
 	if(children == null || children.length == 0) {
-		onXMLError("children element is missing on Components");
+		return "children element is missing on Components";
 	}
 
 	children = children[0];
 	var componentref = children.getElementsByTagName('componentref');
 	var primitiveref = children.getElementsByTagName('primitiveref');
 	if(componentref.length == 0 && primitiveref.length == 0) {
-		onXMLError( "children element on Components must contain componentref and/or primitiveref");
+		return "children element on Components must contain componentref and/or primitiveref";
 	}
 
 	var componentRefs = new Array();
@@ -577,14 +578,14 @@ MySceneGraph.prototype.parseLights = function(rootElement)
 	var lights = rootElement.getElementsByTagName('lights');
 
 	if(lights == null | lights.length  == 0){
-		onXMLError("lights element is missing");
+		return "lights element is missing";
 	}
 
 	var light = lights[0];
 	var nnodes = light.children.length;
 
 	if(nnodes == 0)
-		onXMLError("there are no lights");
+		return "there are no lights";
 
 	for(var i = 0; i < nnodes; i++){
 		var child = light.children[i];
@@ -709,13 +710,13 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 	var elems = rootElement.getElementsByTagName('primitives');
 
 	if(elems == null || elems.length != 1){
-		onXMLError("primitives element is missing or more than one element");
+		return "primitives element is missing or more than one element";
 	}
 
 	var prim = elems[0];
 
 	if(prim.children == null|| prim.children.length == 0){
-			onXMLError("Should have one or more primitives");
+			return "Should have one or more primitives";
 	}
 
 	var nnodes = prim.children.length;

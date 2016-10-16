@@ -9,6 +9,7 @@ XMLscene.prototype.constructor = XMLscene;
 XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
 
+	this.enableTextures(true);
     this.gl.clearColor(0, 0.0, 0.0, 1.0);
 
     this.gl.clearDepth(100.0);
@@ -25,8 +26,9 @@ XMLscene.prototype.init = function (application) {
 
 	this.materials = [];
 
-    this.lightsStatus = new Array();
-    this.lightsNames = new Array();
+	this.textures = [];
+    this.lightsStatus =[];
+    this.lightsNames = [];
 
 };
 
@@ -88,7 +90,7 @@ XMLscene.prototype.initMaterials = function()
 
 XMLscene.prototype.initTextures = function ()
 {
-    this.textures = this.graph.texturesList;
+    this.textures = this.graph.experiencia;
 }
 
 
@@ -143,7 +145,7 @@ XMLscene.prototype.display = function () {
 
         for(var i = 0; i < this.primitivesIDs.length; i++){
             this.materials[i].apply();
-            //this.textures[i].apply();
+            this.textures[i].apply();
             this.primitives[this.primitivesIDs[i]].display();
         }
 	};

@@ -23,7 +23,7 @@
         <!-- objetos respetivos podem a violar esta regra.         -->
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, ciclindro...) -->
-        <texture id="text1" file="carbon.jpg" length_s="0.7" length_t="0.3" />
+        <texture id="text1" file="carbon.jpg" length_s="1.0" length_t="1.0" />
 		<texture id="text2" file="wood.jpg" length_s="0.13" length_t="0.96" />
 
     </textures>
@@ -101,6 +101,10 @@
 
 	    <primitives>
 
+		<!-- primitive id="rect">
+			<rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
+			
+		</primitive-->
         <!-- Deve existir um ou mais blocos "primitive" -->
         <!-- Os identificadores "id" nao podem ser repetidos -->
         <primitive id="cyl">
@@ -109,6 +113,7 @@
             <!-- os parametros devem ser interpretados, genericamente como-->
             <!-- em OpenGL/GLUT; o cilindro deve adicionalmente ter tampas -->
 			<cylinder base="1" top="1.5" height="3" slices="50" stacks="50" />
+			
             <!-- <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
 			 <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
 		   <sphere radius="1" slices="5" stacks="5" />
@@ -117,7 +122,7 @@
         </primitive>
 		<!--primitive id="rect">
 			<rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
-		</primitive-->
+		</primitive -->
 		<primitive id="sph">
 			<sphere radius="1" slices="50" stacks="50" />
 		</primitive>
@@ -191,8 +196,8 @@
                 <!-- componentes ou primitivas -->
                 <componentref id="compRef1" />
 				<componentref id="compRef12" />
-                <primitiveref id="primRef" />
-				<primitiveref id="primRef34" />
+                <primitiveref id="cy1" />
+				<primitiveref id="sph" />
 
             </children>
 
