@@ -10,18 +10,20 @@ function MySceneGraph(filename, scene) {
 	this.rgba = ['r', 'g', 'b', 'a'];
 	this.xyzw = ['x', 'y', 'z', 'w'];
 	this.xyz = ['x', 'y', 'z'];
+	this.allTagNames = ['scene', 'views', 'illumination', 'lights', 'textures', 'materials','transformations','primitives', 'components'];
 
 	this.lightIndex = 0;
 
 	this.materialsList = [];
-	this.texturesList = new Array();
-
+	this.texturesList = [];
 	this.primitivesList = {};
 	this.cameras = [];
 	this.omniLightsList = [];
 	this.spotLightsList = [];
 	this.primitivesIDs = [];
 	this.experiencia =[];
+	
+
 	// File reading
 	this.reader = new CGFXMLreader();
 
@@ -44,9 +46,16 @@ MySceneGraph.prototype.onXMLReady=function()
 	var rootElement = this.reader.xmlDoc.documentElement;
 
 	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseGlobalsExample(rootElement);
+	/*var error = this.parseGlobalsExample(rootElement);
 	if (error != null) {
 		this.onXMLError(error);
+		return;
+	}
+	*/
+
+	var checkDSX = this.checkOrder(rootElement);
+	if(checkDSX != 0){
+		this.onXMLError(checkDSX);
 		return;
 	}
 
@@ -56,9 +65,21 @@ MySceneGraph.prototype.onXMLReady=function()
 		return;
 	}
 
+	var viewsError = this.parseViews(rootElement);
+	if (viewsError != null) {
+		this.onXMLError(viewsError);
+		return;
+	}
+
 	var illuminationError = this.parseIllumination(rootElement);
 	if (illuminationError != null) {
 		this.onXMLError(illuminationError);
+		return;
+	}
+
+	var lightsError = this.parseLights(rootElement);
+	if (lightsError != null) {
+		this.onXMLError(lightsError);
 		return;
 	}
 
@@ -74,21 +95,10 @@ MySceneGraph.prototype.onXMLReady=function()
 		return;
 	}
 
-	var viewsError = this.parseViews(rootElement);
-	if (viewsError != null) {
-		this.onXMLError(viewsError);
-		return;
-	}
 
 	var transformationsError = this.parseTransformations(rootElement);
 	if (transformationsError != null) {
 		this.onXMLError(transformationsError);
-		return;
-	}
-
-	var componentsError = this.parseComponents(rootElement);
-	if (componentsError != null) {
-		this.onXMLError(componentsError);
 		return;
 	}
 
@@ -98,17 +108,37 @@ MySceneGraph.prototype.onXMLReady=function()
 		return;
 	}
 
-	var lightsError = this.parseLights(rootElement);
-	if (lightsError != null) {
-		this.onXMLError(lightsError);
+	
+	var componentsError = this.parseComponents(rootElement);
+	if (componentsError != null) {
+		this.onXMLError(componentsError);
 		return;
 	}
+
 
 	this.loadedOk=true;
 
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
 	this.scene.onGraphLoaded();
 };
+
+
+MySceneGraph.prototype.checkOrder = function(rootElement){
+	if(rootElement.children.length != 9){
+		console.error("Missing tag");
+		return 1;
+	}
+
+
+	for(var i = 0;  i < this.allTagNames.length; i++){
+		if(rootElement.children[i].tagName != this.allTagNames[i]){
+			console.warn(rootElement.children[i].tagName + " is not on the right place");
+			break;
+		}
+	}
+
+	return 0;
+}
 
 
 
@@ -252,7 +282,6 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 		var text = new CGFappearance(this.scene);
 		text.loadTexture('images/' + this.textureList[i * 4 + 1]);
 		this.experiencia[i] = text;
-		console.log(this.experiencia[i]);
 		console.log("Texture read from file: ID = " + this.textureList[i * 4] + ", File = " + this.textureList[i * 4 + 1] + ",S Length = " + this.textureList[i * 4 + 2] + ",T Length = " + this.textureList[i * 4 + 3]);
 	};
 
@@ -303,7 +332,6 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 MySceneGraph.prototype.parseMaterials = function(rootElement)
 {
 	var component = ['emission', 'ambient', 'diffuse', 'specular'];
-	var rgba = ["r", "g", "b", "a"];
 
 	var materials = rootElement.getElementsByTagName('materials');
 
@@ -337,9 +365,9 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 			var att = ltMaterial[i].getElementsByTagName(component[j]);
 
 			material[j] = [];
-			for(var k = 0; k < rgba.length; k++)
+			for(var k = 0; k < this.rgba.length; k++)
 			{
-				material[j][k] = att[0].getAttribute(rgba[k]);
+				material[j][k] = att[0].getAttribute(this.rgba[k]);
 				console.log("Material property: " + material[j][k]);
 			}
 
