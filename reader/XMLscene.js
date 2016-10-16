@@ -9,7 +9,6 @@ XMLscene.prototype.constructor = XMLscene;
 XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
 
-	this.enableTextures(true);
     this.gl.clearColor(0, 0.0, 0.0, 1.0);
 
     this.gl.clearDepth(100.0);
@@ -24,9 +23,12 @@ XMLscene.prototype.init = function (application) {
 	this.currentCamera = 0;
 	this.cameras = [];
 
-	this.materials = [];
+	this.materialsList = {};
+    this.materialsIDs = []
 
-	this.textures = [];
+    this.texturesList = {};
+	this.texturesID = [];
+
     this.lightsStatus =[];
     this.lightsNames = [];
 
@@ -80,17 +82,19 @@ XMLscene.prototype.initLights = function () {
 
 XMLscene.prototype.initMaterials = function()
 {
-	for(var i = 0; i < this.graph.materialsList.length; i++)
-	{
-		this.materials[i] = this.graph.materialsList[i];
-	}
+    this.materialsList = this.graph.materialsList;
+    this.materialsIDs = this.graph.materialsIDs;
 
-	console.log("init materials: " + this.materials.length);
+    console.log("materials IDS length: " + this.materialsIDs.length);
 }
 
 XMLscene.prototype.initTextures = function ()
 {
-    this.textures = this.graph.experiencia;
+    this.textures = this.graph.texturesList;
+    this.texturesID = this.graph.texturesID;
+
+    if(this.texturesID.length > 0)
+        this.enableTextures(true);
 }
 
 
@@ -144,8 +148,8 @@ XMLscene.prototype.display = function () {
         this.updateLights();
 
         for(var i = 0; i < this.primitivesIDs.length; i++){
-            this.materials[i].apply();
-            this.textures[i].apply();
+            this.materialsList[this.materialsIDs[i]].apply();
+            //this.textures[this.texturesID[i]].apply();
             this.primitives[this.primitivesIDs[i]].display();
         }
 	};

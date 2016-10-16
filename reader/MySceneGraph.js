@@ -14,15 +14,18 @@ function MySceneGraph(filename, scene) {
 
 	this.lightIndex = 0;
 
-	this.materialsList = [];
-	this.texturesList = [];
+	this.materialsList = {};
+	this.materialsIDs = [];
+
+	this.texturesList = {};
+	this.texturesID = [];
+
 	this.primitivesList = {};
 	this.cameras = [];
 	this.omniLightsList = [];
 	this.spotLightsList = [];
 	this.primitivesIDs = [];
-	this.experiencia =[];
-	
+
 
 	// File reading
 	this.reader = new CGFXMLreader();
@@ -108,7 +111,7 @@ MySceneGraph.prototype.onXMLReady=function()
 		return;
 	}
 
-	
+
 	var componentsError = this.parseComponents(rootElement);
 	if (componentsError != null) {
 		this.onXMLError(componentsError);
@@ -263,8 +266,6 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 		return "textures element is missing.";
 	}
 
-	this.textureList=[];
-
 	var numText = textures[0].children.length;
 
 	if(numText <= 0)
@@ -274,15 +275,16 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 	{
 		var e = textures[0].children[i];
 		// process each element and store its information
-		this.textureList[i * 4] = e.attributes.getNamedItem("id").value;
-		this.textureList[i * 4 + 1] = e.attributes.getNamedItem("file").value;
-		this.textureList[i * 4 + 2] = e.attributes.getNamedItem("length_s").value;
-		this.textureList[i * 4 + 3] = e.attributes.getNamedItem("length_t").value;
+		var id = e.attributes.getNamedItem("id").value;
+		var file = e.attributes.getNamedItem("file").value;
+		var length_s = e.attributes.getNamedItem("length_s").value;
+		var length_t = e.attributes.getNamedItem("length_t").value;
 
 		var text = new CGFappearance(this.scene);
-		text.loadTexture('images/' + this.textureList[i * 4 + 1]);
-		this.experiencia[i] = text;
-		console.log("Texture read from file: ID = " + this.textureList[i * 4] + ", File = " + this.textureList[i * 4 + 1] + ",S Length = " + this.textureList[i * 4 + 2] + ",T Length = " + this.textureList[i * 4 + 3]);
+		text.loadTexture('../textures/' + file);
+		this.texturesList[id] = text;
+		this.texturesID[i] = id;
+		console.log("Texture read from file: ID = " + id + ", File = " + file + ",S Length = " + length_s + ",T Length = " + length_t);
 	};
 
 }
@@ -381,8 +383,8 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 		mat.setSpecular(material[3][0], material[3][1], material[3][2], material[3][3]);
 		mat.setShininess(material[4]);
 
-
-		this.materialsList[i] = mat;
+		this.materialsList[id] = mat;
+		this.materialsIDs[i] = id;
 	};
 
 	console.log("Materials length :" + this.materialsList.length);
@@ -500,7 +502,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 	}
 
 	var materialLength = material[0].children.length;
-	var materialID = new Array();
+	var materialID = [];
 
 	for(var i = 0; i < materialLength; i++)
 	{
@@ -530,8 +532,8 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		return "children element on Components must contain componentref and/or primitiveref";
 	}
 
-	var componentRefs = new Array();
-	var primitiveRefs = new Array();
+	var componentRefs = [];
+	var primitiveRefs = [];
 
 	for(var i = 0; i < componentref.length; i++)
 	{
@@ -550,7 +552,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 
 MySceneGraph.prototype.parseTransformationElements = function(rootElement)
 {
-	var transformationList = new Array();
+	var transformationList = [];
 
 	var translate = rootElement.getElementsByTagName('translate');
 	if (translate[0] != null)
