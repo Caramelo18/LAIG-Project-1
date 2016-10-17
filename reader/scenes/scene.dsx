@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<dsx>
+	<!-- globals background="0 0.5 0 1" drawmode="fill" shading="gouraud" cullface="none" cullorder="CCW" / -->
+
+
+	<scene root="root" axis_length="2" />
+
+	<views default="p1" >
+        <!-- declaracao obrigatoria de pelo menos uma vista; -->
+        <!-- se varias vistas declaradas, o default e' a -->
+        <!-- primeira vista; de cada vez que se pressione a tecla v/V, -->
+        <!-- a vista muda para a proxima da lista; da -->
+        <!-- ultima vista da lista volta 'a primeira -->
+        <perspective id="p1" near="0.1" far="500" angle="5">
+            <from x="15" y="15" z="15" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+
+		<perspective id="p2" near="0.1" far="500" angle="20">
+            <from x="0" y="15" z="15" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+
+    </views>
+
+	<illumination doublesided="1" local="0" >
+        <ambient r="1" g="1" b="1" a="1" />
+        <background r="0.6" g="0.6" b="0.6" a="1" />
+    </illumination>
+
+	<lights>
+
+        <!-- Deve existir um ou mais blocos "omni" ou "spot" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <omni id="omni1" enabled="1" >
+            <location x="0" y="0" z="5" w="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </omni>
+
+		<omni id="omni2" enabled="1" >
+            <location x="4" y="1" z="0" w="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </omni>
+
+		<omni id="omni3" enabled="1" >
+            <location x="0" y="-2" z="-4" w="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </omni>
+
+		<omni id="omni4" enabled="1" >
+            <location x="-4" y="0" z="0" w="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </omni>
+
+		<omni id="omni5" enabled="1" >
+            <location x="1" y="7" z="-3" w="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </omni>
+
+		<omni id="omni6" enabled="1" >
+            <location x="1" y="7" z="3" w="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </omni>
+
+		<omni id="omni7" enabled="1" >
+            <location x="-4" y="4" z="0" w="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </omni>
+
+        <spot id="spot1" enabled="1" angle="1" exponent="0.1">
+            <!-- atencao, "target" e' diferente de "direction" -->
+            <target x="0" y="0" z="0" />
+            <location x="0" y="-7" z="0" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </spot>
+    </lights>
+
+	<textures>
+
+        <!-- Deve existir um ou mais blocos "texture" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <!-- length_s e length_t sao fatores de escala de textura:-->
+        <!-- Exemplo length_s=3.0: uma ocorrencia da textura, em -->
+        <!-- comprimento, deve cobrir um comprimento igual -->
+        <!-- a 3 unidades;  -->
+        <!-- Exemplo length_t=0.4, uma ocorrencia da textura, em -->
+        <!-- largura, deve cobrir uma largura igual a 0.4 unidades.  -->
+        <!-- Transf. Geometr. do tipo escalamento sobre os -->
+        <!-- objetos respetivos podem a violar esta regra.         -->
+        <!-- Nao necessario aplicar fatores de escala em  -->
+        <!-- quadricas (esfera, ciclindro...) -->
+        <texture id="eyestext" file="../resources/target1.png" length_s="1.0" length_t="1.0" />
+		<texture id="phonescreentext" file="../resources/android7.png" length_s="1.0" length_t="1.0" />
+
+    </textures>
+
+
+    <materials>
+
+        <!-- Deve existir um ou mais blocos "material" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+
+        <material id="body" >
+            <emission r="0.1" g="0.1" b="0.1" a="0.1" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0" g="1" b="0" a="1" />
+            <specular r="0.3" g="0.3" b="0.3" a="1" />
+            <shininess value="1" />
+        </material>
+
+		<material id="neck" >
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="0.3" g="0.3" b="0.3" a="1" />
+            <shininess value="1" />
+        </material>
+
+		<material id="phone" >
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0" g="0" b="0" a="1" />
+            <specular r="0.3" g="0.3" b="0.3" a="1" />
+            <shininess value="1" />
+        </material>
+
+    </materials>
+
+	<transformations>
+
+        <!-- Deve existir um ou mais blocos "transformation" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <transformation id="bodytransf">
+           <!-- instrucoes a usar sem limite nem ordem -->
+           <!-- deve existir pelo menos uma transformacao -->
+           <translate x="0" y="2" z="0" />
+           <rotate axis="x" angle="90" />
+        </transformation>
+
+		<transformation id="necktransf">
+           <translate x="0" y="0" z="3" />
+        </transformation>
+
+		<transformation id="armtransf">
+			<rotate axis="y" angle="180" />
+             <rotate axis="x" angle="-45" />
+			 <rotate axis="y" angle="180" />
+             <translate x="0" y="0.3" z="1.7" />
+        </transformation>
+
+		<transformation id="phonetransf">
+			<rotate axis="y" angle="90" />
+			<rotate axis="x" angle="20" />
+			<translate x="-4" y="2" z="1.3"/>
+        </transformation>
+
+    </transformations>
+
+	<primitives>
+
+		<!-- primitive id="rect">
+			<rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
+
+		</primitive-->
+        <!-- Deve existir um ou mais blocos "primitive" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <primitive id="body">
+            <!-- apenas pode existir UMA das seguintes tags: -->
+            <!--     rectangle, triangle, cylinder, sphere, torus -->
+            <!-- os parametros devem ser interpretados, genericamente como-->
+            <!-- em OpenGL/GLUT; o cilindro deve adicionalmente ter tampas -->
+			<cylinder base="1.5" top="1.5" height="3" slices="30" stacks="30" />
+
+            <!-- <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
+			 <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
+		   <sphere radius="1" slices="5" stacks="5" />
+			<cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
+            <torus inner="ff" outer="ff" slices="ii" loops="ii" /> -->
+        </primitive>
+
+		<primitive id="head">
+			<sphere radius="1.5" slices="30" stacks="30" />
+		</primitive>
+
+		<primitive id="neck">
+			<cylinder base="1.5" top="1.5" height="0.2" slices="30" stacks="10" />
+		</primitive>
+
+		<primitive id="arm">
+			<cylinder base="0.27" top="0.27" height="2.3" slices="20" stacks="10" />
+		</primitive>
+
+		<primitive id="hand">
+			<sphere radius="0.27" slices="20" stacks="10" />
+		</primitive>
+
+		<primitive id="eyes">
+			<sphere radius="0.2" slices="20" stacks="10" />
+		</primitive>
+
+		<primitive id="antennas1">
+			<cylinder base="0.1" top="0.1" height="1" slices="20" stacks="10" />
+		</primitive>
+
+		<primitive id="antennas2">
+			<sphere radius="0.1" slices="20" stacks="10" />
+		</primitive>
+
+		<primitive id="phone">
+			<rectangle x1="0.0" y1="0.0" x2="5" y2="3.7" />
+		</primitive>
+
+		<primitive id="phonescreen">
+			<rectangle x1="0.0" y1="0.0" x2="4" y2="3" />
+		</primitive>
+
+    </primitives>
+
+
+
+	<components>
+		<component id="root">
+		            <!-- bloco "transformation" obrigatorio -->
+		            <transformation>
+
+		                <!-- deve conter uma referencia a uma das "transformation" -->
+		                <!-- declaradas anteriormente -->
+		                <transformationref id="bodytransf" />
+
+		                <!-- ou, ALTERNATIVAMENTE, transformacoes explicitas, -->
+		                <!-- usando zero ou mais das instrucoes seguintes, sem -->
+		                <!-- limite nem ordem -->
+		                <!-- ex: bloco transformation pode ficar sem conteudo -->
+		                <!--translate x="3" y="2" z="1" />
+		                <rotate axis="x" angle="65" />
+		                <scale x="1" y="1.3" z="1" /-->
+		            </transformation>
+
+		            <!-- declaracao obrigatoria de pelo menos um material; -->
+		            <!-- o material id="inherit", mantem (herda) material do "pai" -->
+		            <!-- se varios materiais declarados, o default e' o -->
+		            <!-- primeiro material; de cada vez que se pressione a tecla m/M, -->
+		            <!-- o material muda para o proximo material da lista; do -->
+		            <!-- ultimo material da lista volta ao primeiro -->
+		            <materials>
+		                <material id="body" />
+		            </materials>
+
+		            <!-- declaracao obrigatoria de texture -->
+		            <!-- id="inherit" mantem (herda) a textura do objecto "pai" -->
+		            <!-- id="none" remove a textura recebida do pai -->
+		            <!-- a textura declarada sobrepoe a textura recebida do -->
+		            <!-- objecto "pai" -->
+		            <texture id="none" />
+
+		            <!-- bloco "children" obrigatorio num "component" -->
+		            <children>
+
+		                <!-- deve existir uma ou mais tags "componentref" e/ou -->
+		                <!-- "primitiveref", identificando outros -->
+		                <!-- componentes ou primitivas -->
+		                <primitiveref id="body" />
+						<componentref id="neck" />
+						<componentref id="head" />
+						<componentref id="arm" />
+						<componentref id="leg" />
+						<componentref id="leg2" />
+						<componentref id="eye" />
+						<componentref id="antenna1"/>
+						<componentref id="rightantenna1"/>
+						<componentref id="phone"/>
+		            </children>
+
+		        </component>
+
+				<component id="neck">
+					<transformation>
+						<transformationref id="necktransf" />
+					</transformation>
+
+					<materials>
+						<material id="neck" />
+					</materials>
+
+					<texture id="none" />
+					<children>
+		                <primitiveref id="neck" />
+		            </children>
+				</component>
+
+				<component id="head">
+					<transformation>
+						<transformationref id="necktransf" />
+					</transformation>
+
+					<materials>
+						<material id="body" />
+					</materials>
+
+					<texture id="none" />
+					<children>
+		                <primitiveref id="head" />
+		            </children>
+				</component>
+
+
+		<component id="arm">
+			<transformation>
+				<transformationref id="armtransf" />
+			</transformation>
+
+			<materials>
+				<material id="body" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+                <primitiveref id="arm" />
+				<componentref id="hand"/>
+            </children>
+		</component>
+
+		<component id="hand">
+			<transformation>
+				<translate x="0" y="0" z="0"/>
+			</transformation>
+
+			<materials>
+				<material id="body" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+                <primitiveref id="hand" />
+				<componentref id="armhand2" />
+            </children>
+		</component>
+
+		<component id="armhand2">
+			<transformation>
+				<rotate axis="x" angle="180" />
+				<rotate axis="y" angle="-20"/>
+				<translate x="0" y="2" z="-5"/>
+			</transformation>
+
+			<materials>
+				<material id="body" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+                <primitiveref id="hand" />
+                <primitiveref id="arm" />
+            </children>
+		</component>
+
+		<component id="leg">
+			<transformation>
+				<translate x="-0.2" y="-0.6" z="-1.3"/>
+				<rotate axis="y" angle="20" />
+
+			</transformation>
+
+			<materials>
+				<material id="body" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+                <primitiveref id="arm" />
+				<componentref id="feet" />
+            </children>
+		</component>
+
+		<component id="feet">
+			<transformation>
+				<translate x="0" y="0" z="2.3"/>
+			</transformation>
+
+			<materials>
+				<material id="body" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+				<primitiveref id="hand" />
+			</children>
+		</component>
+
+		<component id="leg2">
+			<transformation>
+				<translate x="0.5" y="0.7" z="-1.3"/>
+				<rotate axis="y" angle="-30" />
+
+			</transformation>
+
+			<materials>
+				<material id="body" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+                <primitiveref id="arm" />
+				<componentref id="feet" />
+            </children>
+		</component>
+
+		<component id="eye">
+			<transformation>
+				<translate x="0.7" y="-1" z="3.7"/>
+			</transformation>
+
+			<materials>
+				<material id="neck" />
+			</materials>
+
+			<texture id="eyestext" />
+			<children>
+                <primitiveref id="eyes" />
+				<componentref id="eye2" />
+            </children>
+		</component>
+
+		<component id="eye2">
+			<transformation>
+				<translate x="0.5" y="0.9" z="0"/>
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="inherit" />
+			<children>
+                <primitiveref id="eyes" />
+            </children>
+		</component>
+
+		<component id="antenna1">
+			<transformation>
+				<translate x="0" y="-0.5" z="4"/>
+				<rotate axis="x" angle="30"/>
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+                <primitiveref id="antennas1" />
+				<componentref id="antenna2" />
+            </children>
+		</component>
+
+		<component id="antenna2">
+			<transformation>
+				<translate x="0" y="0" z="0"/>
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+                <primitiveref id="antennas2" />
+            </children>
+		</component>
+
+		<component id="rightantenna1">
+			<transformation>
+				<translate x="0" y="0.5" z="4"/>
+				<rotate axis="x" angle="-30"/>
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+                <primitiveref id="antennas1" />
+				<componentref id="rightantenna2" />
+            </children>
+		</component>
+
+		<component id="rightantenna2">
+			<transformation>
+				<translate x="0" y="0" z="0"/>
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+                <primitiveref id="antennas2" />
+            </children>
+		</component>
+
+		<component id="phone">
+			<transformation>
+				<transformationref id="phonetransf"/>
+			</transformation>
+
+			<materials>
+				<material id="phone" />
+			</materials>
+
+			<texture id="none" />
+			<children>
+                <primitiveref id="phone" />
+				<componentref id="phonescreen"/>
+            </children>
+		</component>
+
+		<component id="phonescreen">
+			<transformation>
+				<translate x="4.2" y="0.43" z="0.01"/>
+				<scale x="1.3" y="0.7" z="1"/>
+				<rotate axis="z" angle="90"/>
+			</transformation>
+
+			<materials>
+				<material id="neck" />
+			</materials>
+
+			<texture id="phonescreentext" />
+			<children>
+                <primitiveref id="phonescreen" />
+            </children>
+		</component>
+
+
+
+
+
+
+    </components>
+
+
+</dsx>
