@@ -2,9 +2,9 @@
 <dsx>
 	<!-- globals background="0 0.5 0 1" drawmode="fill" shading="gouraud" cullface="none" cullorder="CCW" / -->
 
-	
+
 	<scene root="as" axis_length="2" />
-		
+
 	<views default="p1" >
 
         <!-- declaracao obrigatoria de pelo menos uma vista; -->
@@ -23,7 +23,7 @@
         </perspective>
 
     </views>
-	
+
 	<illumination doublesided="1" local="0" >
         <ambient r="0.2" g="0.4" b="0.8" a="0" />
         <background r="0.1" g="0.7" b="0.1" a="1" />
@@ -56,7 +56,7 @@
             <specular r="0.4" g="0.5" b="0.5" a="1" />
         </spot>
     </lights>
-	
+
 	<textures>
 
         <!-- Deve existir um ou mais blocos "texture" -->
@@ -120,10 +120,13 @@
     </transformations>
 
 	<primitives>
+		<primitive id="sph">
+			<torus inner="0.20" outer="1.0" slices="10" loops="20" />
+		</primitive>
 
 		<!-- primitive id="rect">
 			<rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
-			
+
 		</primitive-->
         <!-- Deve existir um ou mais blocos "primitive" -->
         <!-- Os identificadores "id" nao podem ser repetidos -->
@@ -133,7 +136,7 @@
             <!-- os parametros devem ser interpretados, genericamente como-->
             <!-- em OpenGL/GLUT; o cilindro deve adicionalmente ter tampas -->
 			<cylinder base="1" top="1.5" height="3" slices="50" stacks="50" />
-			
+
             <!-- <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
 			 <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
 		   <sphere radius="1" slices="5" stacks="5" />
@@ -143,9 +146,7 @@
 		<!--primitive id="rect">
 			<rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
 		</primitive -->
-		<primitive id="sph">
-			<sphere radius="1" slices="50" stacks="50" />
-		</primitive>
+
 
     </primitives>
 

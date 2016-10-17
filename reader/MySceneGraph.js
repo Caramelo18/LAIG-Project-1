@@ -477,10 +477,10 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 	var compLength = components[0].children.length;
 	for(var i = 0; i < compLength; i++)
 	{
-		var component = components[0].children[i]; // alterar aqui o 0
+		var component = components[0].children[i];
 
 		var componentID = this.reader.getString(component, 'id');
-
+		console.log("componemt " + componentID); 
 		var transformation = component.getElementsByTagName('transformation');
 
 		if(transformation == null) {
@@ -802,7 +802,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				primitive =  this.parserSphere(primitiveChild);
 				break;
 			case "torus":
-				//primitive = this.parserTorus(primitiveChild);
+				primitive = this.parserTorus(primitiveChild);
 				break;
 
 		}
@@ -894,7 +894,7 @@ MySceneGraph.prototype.parserSphere = function(element){
 
 }
 
-/*
+
 MySceneGraph.prototype.parserTorus = function(element){
 
 	var coord ={
@@ -914,7 +914,7 @@ MySceneGraph.prototype.parserTorus = function(element){
 
 }
 
-*/
+
 
 /*
  * Callback to be executed on any read error

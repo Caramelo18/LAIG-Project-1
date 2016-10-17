@@ -194,6 +194,11 @@
             <torus inner="ff" outer="ff" slices="ii" loops="ii" /> -->
         </primitive>
 
+				<primitive id="torus">
+					<torus inner="3" outer="5" slices="20" loops="20" />
+				</primitive>
+
+
 		<primitive id="head">
 			<sphere radius="1.5" slices="30" stacks="30" />
 		</primitive>
