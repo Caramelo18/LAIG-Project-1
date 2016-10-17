@@ -195,7 +195,7 @@
         </primitive>
 
 				<primitive id="torus">
-					<torus inner="3" outer="5" slices="20" loops="20" />
+					<torus inner="3" outer="5" slices="20" loops="30" />
 				</primitive>
 
 

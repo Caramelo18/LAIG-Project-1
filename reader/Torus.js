@@ -30,9 +30,6 @@ Torus.prototype.initBuffers = function() {
 
 r - raio do tubo
 R - raio ao centro do objeto
-dentro slices
-fora loops
-
  */
 
  for(var i = 0 ; i <= this.loops ; i++){

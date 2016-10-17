@@ -480,7 +480,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		var component = components[0].children[i];
 
 		var componentID = this.reader.getString(component, 'id');
-		console.log("componemt " + componentID); 
+		console.log("componemt " + componentID);
 		var transformation = component.getElementsByTagName('transformation');
 
 		if(transformation == null) {
@@ -558,9 +558,6 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		this.componentsIDs[i] = componentID;
 	}
 
-	//var component = new (scene, materials, transformations, textures, primitives, componentefs){
-
-	//depois adiciona -se o objeto a um array
 }
 
 
