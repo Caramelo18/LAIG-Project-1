@@ -105,8 +105,8 @@
         <!-- objetos respetivos podem a violar esta regra.         -->
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, ciclindro...) -->
-        <texture id="eyestext" file="../textures/target1.png" length_s="1.0" length_t="1.0" />
-		<texture id="phonescreentext" file="../textures/android7.png" length_s="1.0" length_t="1.0" />
+        <texture id="eyestext" file="../../textures/target1.png" length_s="1.0" length_t="1.0" />
+		<texture id="phonescreentext" file="../../textures/android7.png" length_s="1.0" length_t="1.0" />
 
     </textures>
 

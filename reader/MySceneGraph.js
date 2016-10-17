@@ -547,6 +547,9 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		console.log("primitiveref = " + primitiveRefs[i]);
 	}
 
+	//var component = new Component(this.scene, materialID, )
+
+	//depois adiciona -se o objeto a um array
 }
 
 
