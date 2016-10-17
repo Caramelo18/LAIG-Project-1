@@ -7,6 +7,7 @@ function MySceneGraph(filename, scene) {
 	this.scene = scene;
 	scene.graph=this;
 
+	this.root;
 	this.rgba = ['r', 'g', 'b', 'a'];
 	this.xyzw = ['x', 'y', 'z', 'w'];
 	this.xyz = ['x', 'y', 'z'];
@@ -31,6 +32,8 @@ function MySceneGraph(filename, scene) {
 	this.componentsList = {};
 	this.componentsIDs = [];
 
+	this.transformationList = [];
+	this.nodes = {};
 
 	// File reading
 	this.reader = new CGFXMLreader();
@@ -207,6 +210,7 @@ MySceneGraph.prototype.parseScene = function(rootElement)
 	var scene = elems[0];
 
 	this.root = this.reader.getString(scene, 'root');
+
 	this.axis_length = this.reader.getFloat(scene, 'axis_length');
 
 	console.log("Scene read from file: root = " + this.root + ", axis_length = " + this.axis_length);
@@ -380,7 +384,6 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 
 		}
 
-
 		var mat = new CGFappearance(this.scene);
 		mat.setEmission(material[0][0], material[0][1], material[0][2], material[0][3]);
 		mat.setAmbient(material[1][0], material[1][1], material[1][2], material[1][3]);
@@ -408,8 +411,6 @@ MySceneGraph.prototype.parseTransformations = function(rootElement)
 
 	if(numTransf <= 0)
 		return "transformation elements are missing";
-
-	this.transformationList = [];
 
 	for(var i = 0; i < numTransf; i++)
 	{
@@ -489,11 +490,11 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 
 		transformation = transformation[0];
 		var transformationRef = transformation.getElementsByTagName('transformationref');
-		var transformationList = [];
+		var transformationListID = [];
 		if(transformationRef != null && transformationRef.length != 0)
 		{
-			transformationList[0] = this.reader.getString(transformationRef[0], 'id');
-			console.log("Transformation Ref ID = " +  transformationList[0]);
+			transformationListID[0] = this.reader.getString(transformationRef[0], 'id');
+			console.log("Transformation Ref ID = " +  transformationListID[0]);
 		}
 		else
 		{
@@ -540,24 +541,30 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 
 		var componentRefs = [];
 		var primitiveRefs = [];
+		var childrenIDs = [];
 
 		for(var j = 0; j < componentref.length; j++)
 		{
 			componentRefs[j] = this.reader.getString(componentref[j], 'id');
 			console.log("componentref = " + componentRefs[j]);
 		}
-
+		console.log("tamanho primitiveref                         " + primitiveref.length);
 		for(var j = 0; j < primitiveref.length; j++)
 		{
 			primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
-			console.log("primitiveref = " + primitiveRefs[i]);
+			console.log("primitiveref = " + primitiveRefs[j]);
 		}
+		var x = componentRefs;
+		var childrenIDs = x.concat(primitiveRefs);
+		console.log("tamanho dos filhos" + childrenIDs.length);
+		var component = new Component(this.scene, materialID, transformationListID, texture, primitiveRefs, componentRefs, childrenIDs);
 
-		var component = new Component(this.scene, materialID, transformationList, texture, primitiveRefs, componentRefs );
 		this.componentsList[componentID] = component;
 		this.componentsIDs[i] = componentID;
+		this.nodes[componentID] = component;
 	}
 
+	console.log(this.nodes);
 }
 
 
@@ -646,7 +653,7 @@ MySceneGraph.prototype.parseLights = function(rootElement)
 MySceneGraph.prototype.parserOmniLights = function(rootElement){
 
 	if(rootElement == null)
-		onXMLError("error on omni light");
+		return"error on omni light";
 
 	var omni = this.scene.lights[this.lightIndex];
 
@@ -683,7 +690,7 @@ MySceneGraph.prototype.parserOmniLights = function(rootElement){
 MySceneGraph.prototype.parserSpotLights = function(rootElement){
 
 	if(rootElement == null)
-		onXMLError("error on spot light");
+		return "error on spot light" ;
 
 	var spot = this.scene.lights[this.lightIndex];
 
@@ -732,7 +739,7 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 MySceneGraph.prototype.getNvalues = function(rootElement, type){
 
 	if(rootElement == null)
-		this.onXMLError("error geting 4 values");
+		return "error geting 4 values";
 
 	var tmp = [];
 
@@ -767,11 +774,11 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 
 
 		if(child.tagName != 'primitive'){
-			onXMLError("error got < " + child.tagName + " > instead of <primitive>");
+			return "error got < " + child.tagName + " > instead of <primitive>";
 		}
 
 		if(child.children == null | child.children.length != 1 ){
-			onXMLError("there must be only one primitive");
+			return "there must be only one primitive";
 		}
 
 
@@ -806,6 +813,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 
 
 		this.primitivesList[child.id] = primitive;
+		this.nodes[child.id] = primitive;
 
 	}
 
@@ -921,3 +929,72 @@ MySceneGraph.prototype.onXMLError=function (message) {
 	console.error("XML Loading Error: "+message);
 	this.loadedOk=false;
 };
+
+MySceneGraph.prototype.existsOnArray = function (element, array) {
+
+	for(var i = 0 ; i < array.length; i++){
+		if(array[i] === element)
+			return true;
+	}
+	console.log("deu erro");
+	return false;
+};
+
+MySceneGraph.prototype.displayGraph = function(){
+	this.visitGraph(this.root, null, null);
+
+}
+
+
+MySceneGraph.prototype.visitGraph = function(root, material, texture){
+
+	var node;
+  var mat;
+	var text;
+
+	node = this.nodes[root];
+	if(node instanceof Component){
+
+		//transformations
+		this.scene.pushMatrix();
+		this.scene.multMatrix(this.transformationList[node.transformationsID]);
+
+		//materials
+
+		if(node.materialID == 'inherit')
+				mat = materail;
+		else {
+			  mat = this.materialsList[node.materialID];
+		}
+		//textures
+ 		text = node.textures[node.textureIndex];
+
+		switch(text){
+				case "none":
+					 text = null;
+				break;
+				case "inherit":
+					 text = texture;
+				break;
+		}
+
+		for(var i = 0 ; i < node.childrenIDs.length; i++ ){
+			console.log(node.childrenIDs[i]);
+		this.visitGraph(node.childrenIDs[i], mat, text);
+		}
+
+
+		this.scene.popMatrix();
+
+	}else{
+			console.log("asdadadasdasda");
+			node = this.primitivesList[root];
+			mat.setTexture(text);
+			mat.apply();
+
+			node.display();
+			mat.setTexture(null);
+
+	}
+
+}

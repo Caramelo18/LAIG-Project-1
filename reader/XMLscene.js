@@ -144,12 +144,7 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
-
-        for(var i = 0; i < this.primitivesIDs.length; i++){
-            this.materialsList[this.materialsIDs[0]].apply();
-            //this.textures[this.texturesID[i]].apply();
-            this.primitives[this.primitivesIDs[i]].display();
-        }
+      //  this.graph.displayGraph();
 	};
 };
 

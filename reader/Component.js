@@ -1,7 +1,9 @@
-function Component(scene, materials, transformations, textures, primitives, componentefs){
-  this.materials = materials;
-  this.transformations = transformations;
+function Component(scene, materialID, transformationsID, textures, primitivesRefs, componentRefs, childrenIDs){
+  this.materialID = materialID;
+  this.transformationsID = transformationsID;
   this.textures = textures;
-  this.primitives = primitives;
-  this.componentefs = componentefs;
+  this.primitivesRefs = primitivesRefs;
+  this.componentRefs = componentRefs;
+  this.childrenIDs = childrenIDs;
+  this.textureIndex = 0;
 }
