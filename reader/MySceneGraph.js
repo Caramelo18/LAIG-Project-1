@@ -22,9 +22,14 @@ function MySceneGraph(filename, scene) {
 
 	this.primitivesList = {};
 	this.cameras = [];
+
 	this.omniLightsList = [];
 	this.spotLightsList = [];
+
 	this.primitivesIDs = [];
+
+	this.componentsList = {};
+	this.componentsIDs = [];
 
 
 	// File reading
@@ -470,84 +475,90 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 	}
 
 	var compLength = components[0].children.length;
-
-	var component = components[0].children[0]; // alterar aqui o 0
-
-	var componentID = this.reader.getString(component, 'id');
-
-	var transformation = component.getElementsByTagName('transformation');
-
-	if(transformation == null) {
-		return "transformation element is missing on Components";
-	}
-
-	transformation = transformation[0];
-	var transformationRef = transformation.getElementsByTagName('transformationref');
-
-	if(transformationRef != null && transformationRef.length != 0)
+	for(var i = 0; i < compLength; i++)
 	{
-		var ref = this.reader.getString(transformationRef[0], 'id');
-		console.log("Transformation Ref ID = " +  ref);
+		var component = components[0].children[i]; // alterar aqui o 0
+
+		var componentID = this.reader.getString(component, 'id');
+
+		var transformation = component.getElementsByTagName('transformation');
+
+		if(transformation == null) {
+			return "transformation element is missing on Components";
+		}
+
+		transformation = transformation[0];
+		var transformationRef = transformation.getElementsByTagName('transformationref');
+		var transformationList = [];
+		if(transformationRef != null && transformationRef.length != 0)
+		{
+			transformationList[0] = this.reader.getString(transformationRef[0], 'id');
+			console.log("Transformation Ref ID = " +  transformationList[0]);
+		}
+		else
+		{
+			transformationList = this.parseTransformationElements(transformation);
+		}
+
+
+		var material = component.getElementsByTagName('materials');
+
+		if (material.length == 0) {
+			return "materials element is missing com Components";
+		}
+
+		var materialLength = material[0].children.length;
+		var materialID = [];
+
+		for(var j = 0; j < materialLength; j++)
+		{
+			materialID[j] = this.reader.getString(material[0].children[j], 'id');
+			console.log("Material ID = " +  materialID[j]);
+		}
+
+		var texture = component.getElementsByTagName('texture');
+		if(texture == null || texture.length == 0) {
+			return "texture element is missing on Components";
+		}
+
+		texture = this.reader.getString(texture[0], 'id');
+
+		console.log("Texture = " + texture);
+
+
+		var children = component.getElementsByTagName('children');
+		if(children == null || children.length == 0) {
+			return "children element is missing on Components";
+		}
+
+		children = children[0];
+		var componentref = children.getElementsByTagName('componentref');
+		var primitiveref = children.getElementsByTagName('primitiveref');
+		if(componentref.length == 0 && primitiveref.length == 0) {
+			return "children element on Components must contain componentref and/or primitiveref";
+		}
+
+		var componentRefs = [];
+		var primitiveRefs = [];
+
+		for(var j = 0; j < componentref.length; j++)
+		{
+			componentRefs[j] = this.reader.getString(componentref[j], 'id');
+			console.log("componentref = " + componentRefs[j]);
+		}
+
+		for(var j = 0; j < primitiveref.length; j++)
+		{
+			primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
+			console.log("primitiveref = " + primitiveRefs[i]);
+		}
+
+		var component = new Component(this.scene, materialID, transformationList, texture, primitiveRefs, componentRefs );
+		this.componentsList[componentID] = component;
+		this.componentsIDs[i] = componentID;
 	}
-	else
-	{
-		var transformationList = this.parseTransformationElements(transformation);
-	}
 
-
-	var material = component.getElementsByTagName('materials');
-
-	if (material.length == 0) {
-		return "materials element is missing com Components";
-	}
-
-	var materialLength = material[0].children.length;
-	var materialID = [];
-
-	for(var i = 0; i < materialLength; i++)
-	{
-		materialID[i] = this.reader.getString(material[0].children[i], 'id');
-		console.log("Material ID = " +  materialID[i]);
-	}
-
-	var texture = component.getElementsByTagName('texture');
-	if(texture == null || texture.length == 0) {
-		return "texture element is missing on Components";
-	}
-
-	texture = this.reader.getString(texture[0], 'id');
-
-	console.log("Texture = " + texture);
-
-
-	var children = component.getElementsByTagName('children');
-	if(children == null || children.length == 0) {
-		return "children element is missing on Components";
-	}
-
-	children = children[0];
-	var componentref = children.getElementsByTagName('componentref');
-	var primitiveref = children.getElementsByTagName('primitiveref');
-	if(componentref.length == 0 && primitiveref.length == 0) {
-		return "children element on Components must contain componentref and/or primitiveref";
-	}
-
-	var componentRefs = [];
-	var primitiveRefs = [];
-
-	for(var i = 0; i < componentref.length; i++)
-	{
-		componentRefs[i] = this.reader.getString(componentref[i], 'id');
-		console.log("componentref = " + componentRefs[i]);
-	}
-
-	for(var i = 0; i < primitiveref.length; i++)
-	{
-		primitiveRefs[i] = this.reader.getString(primitiveref[i], 'id');
-		console.log("primitiveref = " + primitiveRefs[i]);
-	}
-
-	//var component = new Component(this.scene, materialID, )
+	//var component = new (scene, materials, transformations, textures, primitives, componentefs){
 
 	//depois adiciona -se o objeto a um array
 }
