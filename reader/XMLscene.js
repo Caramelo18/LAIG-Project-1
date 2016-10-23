@@ -196,7 +196,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	//transformations
 	this.pushMatrix();
 
-	//materials
+	//,
 	if(node.materialListIDs[0] == 'inherit')
 			mat = material;
 	else
@@ -204,7 +204,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
 	//textures
 	text = this.texturesList[node.texture];
-  console.log(text);
+  //console.log(text);
 
 
 	switch(node.texture){
@@ -228,7 +228,11 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
       if(this.primitives[node.primitivesRefs[i]] instanceof Triangle || this.primitives[node.primitivesRefs[i]] instanceof Rectangle){
         s = this.texturesList[node.texture + "s"];
         t = this.texturesList[node.texture + "t"];
-        this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+        if(s > 1 && t > 1)
+        {
+                this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+                mat.setTextureWrap('REPEAT', 'REPEAT');
+        }
       }
         this.primitives[node.primitivesRefs[i]].display();
     }
