@@ -106,10 +106,6 @@ XMLscene.prototype.initTextures = function ()
     if(this.texturesID.length > 0)
         this.enableTextures(true);
 
-    for(var i = 0; i < this.texturesID.length; i++){
-        console.log(this.texturesList[this.texturesID[i] + "s"]);
-        console.log(this.texturesList[this.texturesID[i] + "t"]);
-    }
 }
 
 XMLscene.prototype.initTransformations = function()
@@ -192,6 +188,8 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
     var node;
   	var mat;
 	var text;
+  var s;
+  var t;
 
 	node = this.componentsList[root];
 
@@ -202,10 +200,13 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	if(node.materialListIDs[0] == 'inherit')
 			mat = material;
 	else
-        mat = this.materialsList[node.materialListIDs[node.materialIndex]];
+      mat = this.materialsList[node.materialListIDs[node.materialIndex]];
 
 	//textures
 	text = this.texturesList[node.texture];
+  console.log(text);
+
+
 	switch(node.texture){
 			case "none":
 				 text = null;
@@ -215,8 +216,8 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 			break;
 	}
 
-    mat.setTexture(text);
-    mat.apply();
+  mat.setTexture(text);
+  mat.apply();
 
     if(node.transformationsID != null)
         this.applyTransformations(this.transformationsList[node.transformationsID]);
@@ -224,14 +225,19 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
         this.applyTransformations(node.transformations);
 
     for(var i = 0; i < node.primitivesRefs.length; i++){
+      if(this.primitives[node.primitivesRefs[i]] instanceof Triangle || this.primitives[node.primitivesRefs[i]] instanceof Rectangle){
+        s = this.texturesList[node.texture + "s"];
+        t = this.texturesList[node.texture + "t"];
+        this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+      }
         this.primitives[node.primitivesRefs[i]].display();
     }
 
 	for(var i = 0 ; i < node.componentRefs.length; i++ ){
         var childID = node.componentRefs[i];
 	    this.displayGraph(childID, mat, text);
-	}
 
+}
 	this.popMatrix();
 
 
