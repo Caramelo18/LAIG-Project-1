@@ -21,7 +21,8 @@ XMLscene.prototype.init = function (application) {
     this.axis = new CGFaxis(this);
 
 	this.currentCamera = 0;
-	this.cameras = [];
+	this.cameras = {};
+    this.camerasIDs = [];
 
 	this.materialsList = {};
     this.materialsIDs = []
@@ -70,10 +71,12 @@ XMLscene.prototype.onGraphLoaded = function ()
 
 XMLscene.prototype.initCameras = function()
 {
-	for(var i = 0; i < this.graph.cameras.length / 6; i++)
-		this.cameras[i] = new CGFcamera(0.4, this.graph.cameras[i * 6 + 1], this.graph.cameras[i * 6 + 2], this.graph.cameras[i * 6 + 4], this.graph.cameras[5]);
+	for(var i = 0; i < this.graph.cameras.length / 6; i++){
+        this.camerasIDs[i] = this.graph.cameras[i * 6];
+        this.cameras[this.camerasIDs[i]] = new CGFcamera(0.4, this.graph.cameras[i * 6 + 1], this.graph.cameras[i * 6 + 2], this.graph.cameras[i * 6 + 4], this.graph.cameras[5]);
+    }
 
-	this.camera = this.cameras[this.currentCamera];
+	this.camera = this.cameras[this.graph.defaultCamera];
     this.interface.setActiveCamera(this.camera);
 }
 
@@ -93,8 +96,6 @@ XMLscene.prototype.initMaterials = function()
 {
     this.materialsList = this.graph.materialsList;
     this.materialsIDs = this.graph.materialsIDs;
-
-    //console.log("materials IDS length: " + this.materialsIDs.length);
 }
 
 XMLscene.prototype.initTextures = function ()
@@ -104,6 +105,11 @@ XMLscene.prototype.initTextures = function ()
 
     if(this.texturesID.length > 0)
         this.enableTextures(true);
+
+    for(var i = 0; i < this.texturesID.length; i++){
+        console.log(this.texturesList[this.texturesID[i] + "s"]);
+        console.log(this.texturesList[this.texturesID[i] + "t"]);
+    }
 }
 
 XMLscene.prototype.initTransformations = function()
@@ -169,10 +175,10 @@ XMLscene.prototype.changeCamera = function()
 {
 	this.currentCamera++;
 
-	if(this.currentCamera >= this.cameras.length)
+	if(this.currentCamera >= this.camerasIDs.length)
 		this.currentCamera = 0;
 
-	this.camera = this.cameras[this.currentCamera];
+	this.camera = this.cameras[this.camerasIDs[this.currentCamera]];
 }
 
 XMLscene.prototype.changeMaterial = function(){

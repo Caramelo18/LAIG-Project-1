@@ -24,9 +24,9 @@ main=function()
     app.setScene(myScene);
     app.setInterface(myInterface);
     myScene.setInterface(myInterface);
+
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
-
 	var filename=getUrlVars()['file'] || "scene.dsx";
 
 	// create and load graph, and associate it to scene.

@@ -5,7 +5,7 @@
 
 	<scene root="root" axis_length="2" />
 
-	<views default="p1" >
+	<views default="p2" >
         <!-- declaracao obrigatoria de pelo menos uma vista; -->
         <!-- se varias vistas declaradas, o default e' a -->
         <!-- primeira vista; de cada vez que se pressione a tecla v/V, -->
@@ -105,8 +105,8 @@
         <!-- objetos respetivos podem a violar esta regra.         -->
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, ciclindro...) -->
-        <texture id="eyestext" file="../textures/target1.png" length_s="1.0" length_t="1.0" />
-		<texture id="phonescreentext" file="../textures/android7.png" length_s="1.0" length_t="1.0" />
+        <texture id="eyestext" file="../textures/target1.png" length_s="1.0" length_t="2.3" />
+		<texture id="phonescreentext" file="../textures/android7.png" length_s="3.4" length_t="7.9" />
 
     </textures>
 
@@ -131,7 +131,7 @@
             <specular r="0.3" g="0.3" b="0.3" a="1" />
             <shininess value="1" />
         </material>
-		
+
 		<material id="neck" >
             <emission r="0" g="0" b="0" a="1" />
             <ambient r="0" g="0" b="0" a="1" />
@@ -144,6 +144,14 @@
             <emission r="0" g="0" b="0" a="1" />
             <ambient r="0" g="0" b="0" a="1" />
             <diffuse r="0" g="0" b="0" a="1" />
+            <specular r="0.3" g="0.3" b="0.3" a="1" />
+            <shininess value="1" />
+        </material>
+
+		<material id="whitephone" >
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
             <specular r="0.3" g="0.3" b="0.3" a="1" />
             <shininess value="1" />
         </material>
@@ -545,6 +553,7 @@
 
 			<materials>
 				<material id="phone" />
+				<material id="whitephone" />
 			</materials>
 
 			<texture id="none" />

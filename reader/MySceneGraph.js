@@ -35,8 +35,6 @@ function MySceneGraph(filename, scene) {
 	this.transformationList = {};
 	this.transformationsIDs = [];
 
-	this.nodes = {};
-
 	// File reading
 	this.reader = new CGFXMLreader();
 
@@ -46,7 +44,6 @@ function MySceneGraph(filename, scene) {
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 
-	console.log(filename);
 	this.reader.open('scenes/'+filename, this);
 }
 
@@ -266,6 +263,8 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 
 		var text = new CGFtexture(this.scene, file);
 		this.texturesList[id] = text;
+		this.texturesList[id + "s"] = length_s;
+		this.texturesList[id + "t"] = length_t;
 		this.texturesID[i] = id;
 		//console.log("Texture read from file: ID = " + id + ", File = " + file + ",S Length = " + length_s + ",T Length = " + length_t);
 	};
@@ -285,13 +284,18 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 
 	var view = views[0];
 
-	this.default = this.reader.getString(view, 'default');
+	this.defaultCamera = this.reader.getString(view, 'default');
+	var foundDefault = false;
 
 	for(var i = 0; i <nnodes ; i++){
 
 		perspective = view.children[i];
+		var id = this.reader.getString(perspective, 'id');
 
-		this.cameras[i * 6 ] = this.reader.getString(perspective, 'id');
+		if(id == this.defaultCamera)
+			foundDefault = true;
+
+		this.cameras[i * 6 ] = id;
 		this.cameras[i * 6 + 1] = this.reader.getFloat(perspective, 'near');
 		this.cameras[i * 6 + 2] = this.reader.getFloat(perspective, 'far');
 		this.cameras[i * 6 + 3] = this.reader.getFloat(perspective, 'angle');
@@ -302,8 +306,10 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 
 		to = perspective.children[1];
 		this.cameras[i * 6 + 5] =  vec3.fromValues(this.reader.getFloat(to, 'x'), this.reader.getFloat(to, 'y'), this.reader.getFloat(to, 'z'));
-
 	}
+
+	if(!foundDefault)
+		return "Default camera does not exist";
 
 	/*console.log("tamanho " + this.cameras.length/6);
 
