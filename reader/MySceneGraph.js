@@ -261,6 +261,10 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 		var length_s = e.attributes.getNamedItem("length_s").value;
 		var length_t = e.attributes.getNamedItem("length_t").value;
 
+
+		if(this.texturesList.hasOwnProperty(id))
+			console.warn("texture " + id + " repeated");
+
 		var text = new CGFtexture(this.scene, file);
 		this.texturesList[id] = text;
 		this.texturesList[id + "s"] = length_s;
@@ -311,6 +315,13 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 	if(!foundDefault)
 		return "Default camera does not exist";
 
+	for(var i = 0; i < this.cameras.length; i += 6){
+		for(var j = i + 6; j < this.cameras.length; j += 6 ){
+			if(this.cameras[i] == this.cameras[j])
+				return "camera " + this.cameras[i] + " repeated";
+		}
+	}
+
 	/*console.log("tamanho " + this.cameras.length/6);
 
 	for(var i = 0;  i< this.cameras.length /6 ; i++){
@@ -358,6 +369,8 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 			}
 
 		}
+		if(this.materialsList.hasOwnProperty(id))
+			return "material " + id + " repeated";
 
 		var mat = new CGFappearance(this.scene);
 		mat.setEmission(material[0][0], material[0][1], material[0][2], material[0][3]);
@@ -389,7 +402,12 @@ MySceneGraph.prototype.parseTransformations = function(rootElement)
 	for(var i = 0; i < numTransf; i++)
 	{
 		var transf = transformations[0].children[i];
-		this.transformationsIDs[i] = this.reader.getString(transf, 'id');
+
+		var id =  this.reader.getString(transf, 'id');
+		this.transformationsIDs[i] = id;
+
+		if(this.transformationList.hasOwnProperty(id))
+			return "transformation " + id + " repeated";
 
 		var tr = [];
 		for(var j = 0; j < transf.children.length; j++)
@@ -443,6 +461,9 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		var component = components[0].children[i];
 
 		var componentID = this.reader.getString(component, 'id');
+
+		if(this.componentsList.hasOwnProperty(componentID))
+			return "component " +  componentID + " repeated";
 
 		var transformation = component.getElementsByTagName('transformation');
 
@@ -551,7 +572,7 @@ MySceneGraph.prototype.parseLights = function(rootElement)
 MySceneGraph.prototype.parserOmniLights = function(rootElement){
 
 	if(rootElement == null)
-		return"error on omni light";
+		return "error on omni light";
 
 	var omni = this.scene.lights[this.lightIndex];
 
@@ -566,8 +587,15 @@ MySceneGraph.prototype.parserOmniLights = function(rootElement){
 	else
 		this.scene.lights[this.lightIndex].disable();
 
+
+	for(var i = 0; i < this.lightIndex; i++){
+		if(this.scene.lightsNames[i] == id)
+			console.error("light " + id + " repeated");
+	}
+
 	this.scene.lightsStatus[this.lightIndex] = enabled;
 	this.scene.lightsNames[this.lightIndex] = id;
+
 
 	var location = this.getNvalues(rootElement.getElementsByTagName('location')[0], this.xyzw);
 	var ambient = this.getNvalues(rootElement.getElementsByTagName('ambient')[0], this.rgba);
@@ -605,6 +633,11 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 		this.scene.lights[this.lightIndex].enable();
 	else
 		this.scene.lights[this.lightIndex].disable();
+
+	for(var i = 0; i < this.lightIndex; i++){
+		if(this.scene.lightsNames[i] == id)
+			console.error("light " + id + " repeated");
+	}
 
 	this.scene.lightsStatus[this.lightIndex] = enabled;
 	this.scene.lightsNames[this.lightIndex] = id;
@@ -681,6 +714,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 		var primitve;
 
 		var id = this.reader.getString(child, 'id');
+
+		if(this.primitivesList.hasOwnProperty(id))
+			return "primitive " + id + " repeated";
 
 		switch(primitiveChild.tagName){
 			case "rectangle":

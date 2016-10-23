@@ -5,7 +5,7 @@
 
 	<scene root="root" axis_length="2" />
 
-	<views default="p2" >
+	<views default="p1" >
         <!-- declaracao obrigatoria de pelo menos uma vista; -->
         <!-- se varias vistas declaradas, o default e' a -->
         <!-- primeira vista; de cada vez que se pressione a tecla v/V, -->
