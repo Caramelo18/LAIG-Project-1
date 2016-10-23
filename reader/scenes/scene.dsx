@@ -106,7 +106,7 @@
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, ciclindro...) -->
         <texture id="eyestext" file="../textures/target1.png" length_s="1.0" length_t="2.3" />
-		<texture id="phonescreentext" file="../textures/android7.png" length_s="3.4" length_t="7.9" />
+		<texture id="phonescreentext" file="../textures/android7.png" length_s="4" length_t="3" />
 
     </textures>
 
