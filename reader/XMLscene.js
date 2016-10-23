@@ -59,13 +59,13 @@ XMLscene.prototype.onGraphLoaded = function ()
 
 	this.initCameras();
 	this.initIllumination();
-	this.initLights();
+	this.initPrimitives();
 	this.initMaterials();
-  this.initTextures();
-  this.initTransformations();
-  this.initComponents();
+    this.initTextures();
+    this.initTransformations();
+    this.initComponents();
 
-  this.interface.initLightsButtons();
+    this.interface.initLightsButtons();
 };
 
 XMLscene.prototype.initCameras = function()
@@ -84,8 +84,9 @@ XMLscene.prototype.initIllumination = function()
     this.setAmbient(this.graph.ambientR, this.graph.ambientG, this.graph.ambientB, this.graph.ambientA);
 }
 
-XMLscene.prototype.initLights = function () {
-	console.log("lights size: " + this.lights.length);
+XMLscene.prototype.initPrimitives = function () {
+    this.primitives = this.graph.primitivesList;
+    this.primitivesIDs = this.graph.primitivesIDs;
 };
 
 XMLscene.prototype.initMaterials = function()
@@ -93,7 +94,7 @@ XMLscene.prototype.initMaterials = function()
     this.materialsList = this.graph.materialsList;
     this.materialsIDs = this.graph.materialsIDs;
 
-    console.log("materials IDS length: " + this.materialsIDs.length);
+    //console.log("materials IDS length: " + this.materialsIDs.length);
 }
 
 XMLscene.prototype.initTextures = function ()
@@ -107,10 +108,8 @@ XMLscene.prototype.initTextures = function ()
 
 XMLscene.prototype.initTransformations = function()
 {
-    //console.log(this.graph.transformationList);
     this.transformationsList = this.graph.transformationList;
     this.transformationsIDs = this.graph.transformationIDs;
-
 }
 
 XMLscene.prototype.initComponents = function()
@@ -159,18 +158,10 @@ XMLscene.prototype.display = function () {
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
 
-    this.primitives = this.graph.primitivesList;
-    this.primitivesIDs = this.graph.primitivesIDs;
-
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
-        //this.graph.displayGraph();
         this.displayGraph(this.graph.root, null, null);
-    /*    for(var i = 0; i < this.primitivesIDs.length; i++){
-            console.log(this.primitivesIDs[i]);
-            this.primitives[this.primitivesIDs[i]].display();
-        }*/
 	};
 };
 
@@ -182,14 +173,11 @@ XMLscene.prototype.changeCamera = function()
 		this.currentCamera = 0;
 
 	this.camera = this.cameras[this.currentCamera];
-
 }
 
 XMLscene.prototype.changeMaterial = function(){
-
-    for(var i = 0;  i < this.componentsIDs.length; i++ ){
+    for(var i = 0;  i < this.componentsIDs.length; i++)
         this.componentsList[this.componentsIDs[i]].changeMaterial();
-    }
 }
 
 
@@ -200,23 +188,18 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	var text;
 
 	node = this.componentsList[root];
-    //console.log(node);
-	if(node instanceof Component){
 
 	//transformations
 	this.pushMatrix();
-//	this.multMatrix(this.transformationList[node.transformationsID]);
 
 	//materials
-	if(node.materialID == 'inherit')
+	if(node.materialListIDs[0] == 'inherit')
 			mat = material;
-	else {
-		  mat = this.materialsList[node.materialID];
-	}
+	else
+        mat = this.materialsList[node.materialListIDs[node.materialIndex]];
 
 	//textures
-    //console.log(this.texturesList);
-	text = this.texturesList[node.texture];//[node.textureIndex];
+	text = this.texturesList[node.texture];
 	switch(node.texture){
 			case "none":
 				 text = null;
@@ -225,18 +208,14 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 				 text = texture;
 			break;
 	}
-    console.log(text);
+
     mat.setTexture(text);
     mat.apply();
-    //console.log(node.transformationsID);
+
     if(node.transformationsID != null)
-    {
         this.applyTransformations(this.transformationsList[node.transformationsID]);
-    }
-    else {
-    //    console.log(node.transformations);
+    else
         this.applyTransformations(node.transformations);
-    }
 
     for(var i = 0; i < node.primitivesRefs.length; i++){
         this.primitives[node.primitivesRefs[i]].display();
@@ -244,37 +223,20 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
 	for(var i = 0 ; i < node.componentRefs.length; i++ ){
         var childID = node.componentRefs[i];
-        //console.log(childID);
-    //    console.log(this.graph.nodes[childID]);
-        //console.log(this.componentsList[childID]);
 	    this.displayGraph(childID, mat, text);
 	}
 
-
 	this.popMatrix();
 
-}/*else{
-		console.log("asdadadasdasda");
-		node = this.graph.primitivesList[root];
-		//mat.setTexture(text);
-	//	mat.apply();
-		node.display();
-		mat.setTexture(null);
-	}*/
 
 
 }
 
-XMLscene.prototype.applyTransformations = function(transformations){
-/*    console.log("transformations: ");
-    console.log(transformations);*/
-    //var i = transformations.length - 1; i >= 0; i--
-
-    //var i = 0; i < transformations.length; i++
+XMLscene.prototype.applyTransformations = function(transformations)
+{
     for(var i = 0; i < transformations.length; i++){
         var transf = transformations[i];
-        //console.log(transf);
-    //    console.log(transformations[i].tagName);
+
         switch(transf.type){
             case "rotate":
             this.rotate(transf.angle * Math.PI / 180,
@@ -289,7 +251,5 @@ XMLscene.prototype.applyTransformations = function(transformations){
             this.scale(transf.x, transf.y, transf.z);
             break;
         }
-
     }
-        //console.log(transformations[i]);
 }

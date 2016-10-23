@@ -1,7 +1,6 @@
 function Component(scene, materialListIDs, transformationsID, transformations, texture, primitivesRefs, componentRefs){
   this.materialListIDs = materialListIDs;
   this.materialIndex = 0;
-  this.materialID = this.materialListIDs[this.materialIndex];
   this.transformationsID = transformationsID;
   this.transformations = transformations;
   this.texture = texture;
@@ -11,10 +10,8 @@ function Component(scene, materialListIDs, transformationsID, transformations, t
 
 
 Component.prototype.changeMaterial = function () {
-    if(this.materialIndex < this.materialID.length - 1)
+    if(this.materialIndex < this.materialListIDs.length - 1)
         this.materialIndex++;
     else
         this.materialIndex = 0;
-
-    this.materialID = this.materialListIDs[this.materialIndex];
 };
