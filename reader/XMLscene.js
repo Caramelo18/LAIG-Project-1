@@ -29,6 +29,12 @@ XMLscene.prototype.init = function (application) {
     this.texturesList = {};
 	this.texturesID = [];
 
+    this.transformationsList = {};
+    this.transformationsIDs = [];
+
+    this.componentsList = {};
+    this.componentsIDs = [];
+
     this.lightsStatus =[];
     this.lightsNames = [];
 
@@ -56,6 +62,8 @@ XMLscene.prototype.onGraphLoaded = function ()
 	this.initLights();
 	this.initMaterials();
     this.initTextures();
+    this.initTransformations();
+    this.initComponents();
 
     this.interface.initLightsButtons();
 };
@@ -90,13 +98,26 @@ XMLscene.prototype.initMaterials = function()
 
 XMLscene.prototype.initTextures = function ()
 {
-    this.textures = this.graph.texturesList;
+    this.texturesList = this.graph.texturesList;
     this.texturesID = this.graph.texturesID;
 
     if(this.texturesID.length > 0)
         this.enableTextures(true);
 }
 
+XMLscene.prototype.initTransformations = function()
+{
+    //console.log(this.graph.transformationList);
+    this.transformationsList = this.graph.transformationList;
+    this.transformationsIDs = this.graph.transformationIDs;
+
+}
+
+XMLscene.prototype.initComponents = function()
+{
+    this.componentsList = this.graph.componentsList;
+    this.componentsIDs = this.graph.componentsIDs;
+}
 
 XMLscene.prototype.updateLights = function()
 {
@@ -144,7 +165,12 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
-      //  this.graph.displayGraph();
+        //this.graph.displayGraph();
+        this.displayGraph(this.graph.root, null, null);
+    /*    for(var i = 0; i < this.primitivesIDs.length; i++){
+            console.log(this.primitivesIDs[i]);
+            this.primitives[this.primitivesIDs[i]].display();
+        }*/
 	};
 };
 
@@ -157,4 +183,106 @@ XMLscene.prototype.changeCamera = function()
 
 	this.camera = this.cameras[this.currentCamera];
 
+}
+
+
+XMLscene.prototype.displayGraph = function(root, material, texture)
+{
+    var node;
+  	var mat;
+	var text;
+
+	node = this.componentsList[root];
+    //console.log(node);
+	if(node instanceof Component){
+
+	//transformations
+	this.pushMatrix();
+//	this.multMatrix(this.transformationList[node.transformationsID]);
+
+	//materials
+	if(node.materialID == 'inherit')
+			mat = material;
+	else {
+		  mat = this.materialsList[node.materialID];
+	}
+
+	//textures
+    //console.log(this.texturesList);
+	text = this.texturesList[node.texture];//[node.textureIndex];
+	switch(node.texture){
+			case "none":
+				 text = null;
+			break;
+			case "inherit":
+				 text = texture;
+			break;
+	}
+//    console.log(text);
+    mat.setTexture(text);
+    mat.apply();
+    //console.log(node.transformationsID);
+    if(node.transformationsID != null)
+    {
+        this.applyTransformations(this.transformationsList[node.transformationsID]);
+    }
+    else {
+    //    console.log(node.transformations);
+        this.applyTransformations(node.transformations);
+    }
+
+    for(var i = 0; i < node.primitivesRefs.length; i++){
+        this.primitives[node.primitivesRefs[i]].display();
+    }
+
+	for(var i = 0 ; i < node.componentRefs.length; i++ ){
+        var childID = node.componentRefs[i];
+        //console.log(childID);
+    //    console.log(this.graph.nodes[childID]);
+        //console.log(this.componentsList[childID]);
+	    this.displayGraph(childID, mat, text);
+	}
+
+
+	this.popMatrix();
+
+}/*else{
+		console.log("asdadadasdasda");
+		node = this.graph.primitivesList[root];
+		//mat.setTexture(text);
+	//	mat.apply();
+		node.display();
+		mat.setTexture(null);
+	}*/
+
+
+}
+
+XMLscene.prototype.applyTransformations = function(transformations){
+/*    console.log("transformations: ");
+    console.log(transformations);*/
+    //var i = transformations.length - 1; i >= 0; i--
+
+    //var i = 0; i < transformations.length; i++
+    for(var i = 0; i < transformations.length; i++){
+        var transf = transformations[i];
+        //console.log(transf);
+    //    console.log(transformations[i].tagName);
+        switch(transf.type){
+            case "rotate":
+            this.rotate(transf.angle * Math.PI / 180,
+                        transf.axis == "x" ? 1 : 0,
+                        transf.axis == "y" ? 1 : 0,
+                        transf.axis == "z" ? 1 : 0);
+            break;
+            case "translate":
+            this.translate(transf.x, transf.y, transf.z);
+            break;
+            case "scale":
+            this.scale(transf.x, transf.y, transf.z);
+            break;
+        }
+
+    }
+        //console.log(transformations[i]);
 }

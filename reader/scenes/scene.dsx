@@ -105,8 +105,8 @@
         <!-- objetos respetivos podem a violar esta regra.         -->
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, ciclindro...) -->
-        <texture id="eyestext" file="../../textures/target1.png" length_s="1.0" length_t="1.0" />
-		<texture id="phonescreentext" file="../../textures/android7.png" length_s="1.0" length_t="1.0" />
+        <texture id="eyestext" file="../textures/target1.png" length_s="1.0" length_t="1.0" />
+		<texture id="phonescreentext" file="../textures/android7.png" length_s="1.0" length_t="1.0" />
 
     </textures>
 
@@ -149,8 +149,8 @@
         <transformation id="bodytransf">
            <!-- instrucoes a usar sem limite nem ordem -->
            <!-- deve existir pelo menos uma transformacao -->
-           <translate x="0" y="2" z="0" />
-           <rotate axis="x" angle="90" />
+           <translate x="0" y="1" z="0" />
+           <rotate axis="x" angle="-90" />
         </transformation>
 
 		<transformation id="necktransf">
@@ -158,10 +158,9 @@
         </transformation>
 
 		<transformation id="armtransf">
-			<rotate axis="y" angle="180" />
-             <rotate axis="x" angle="-45" />
-			 <rotate axis="y" angle="180" />
-             <translate x="0" y="0.3" z="1.7" />
+			<translate x="0" y="-2.7" z="3.3"/>
+			<rotate axis="x" angle="180"/>
+			<rotate axis="x" angle="45"/>
         </transformation>
 
 		<transformation id="phonetransf">
@@ -194,9 +193,6 @@
             <torus inner="ff" outer="ff" slices="ii" loops="ii" /> -->
         </primitive>
 
-				<primitive id="torus">
-					<torus inner="3" outer="5" slices="20" loops="30" />
-				</primitive>
 
 
 		<primitive id="head">
@@ -359,6 +355,7 @@
 
 		<component id="armhand2">
 			<transformation>
+				<translate x="0" y="0" z="0"/>
 				<rotate axis="x" angle="180" />
 				<rotate axis="y" angle="-20"/>
 				<translate x="0" y="2" z="-5"/>
@@ -377,7 +374,8 @@
 
 		<component id="leg">
 			<transformation>
-				<translate x="-0.2" y="-0.6" z="-1.3"/>
+				<rotate axis="y" angle="180"/>
+				<translate x="-0.2" y="-0.6" z="-1"/>
 				<rotate axis="y" angle="20" />
 
 			</transformation>
@@ -410,7 +408,8 @@
 
 		<component id="leg2">
 			<transformation>
-				<translate x="0.5" y="0.7" z="-1.3"/>
+				<rotate axis="y" angle="180"/>
+				<translate x="0.5" y="0.7" z="-0.85"/>
 				<rotate axis="y" angle="-30" />
 
 			</transformation>
@@ -459,7 +458,8 @@
 
 		<component id="antenna1">
 			<transformation>
-				<translate x="0" y="-0.5" z="4"/>
+				<scale x="1" y="-1" z="-1"/>
+				<translate x="0" y="1" z="-5"/>
 				<rotate axis="x" angle="30"/>
 			</transformation>
 
@@ -491,7 +491,8 @@
 
 		<component id="rightantenna1">
 			<transformation>
-				<translate x="0" y="0.5" z="4"/>
+				<scale x="1" y="-1" z="-1"/>
+				<translate x="0" y="-1" z="-5"/>
 				<rotate axis="x" angle="-30"/>
 			</transformation>
 

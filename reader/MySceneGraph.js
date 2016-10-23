@@ -32,7 +32,9 @@ function MySceneGraph(filename, scene) {
 	this.componentsList = {};
 	this.componentsIDs = [];
 
-	this.transformationList = [];
+	this.transformationList = {};
+	this.transformationsIDs = [];
+
 	this.nodes = {};
 
 	// File reading
@@ -44,7 +46,7 @@ function MySceneGraph(filename, scene) {
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 
-	console.log("bef open");
+	console.log(filename);
 	this.reader.open('scenes/'+filename, this);
 }
 
@@ -174,25 +176,7 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 	this.cullface = this.reader.getItem(globals, 'cullface', ["back","front","none", "frontandback"]);
 	this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw","cw"]);
 
-	console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
-
-	/*var tempList=rootElement.getElementsByTagName('list');
-
-	if (tempList == null  || tempList.length==0) {
-		return "list element is missing.";
-	}
-
-	this.list=[];
-	// iterate over every element
-	var nnodes=tempList[0].children.length;
-	for (var i=0; i< nnodes; i++)
-	{
-		var e=tempList[0].children[i];
-
-		// process each element and store its information
-		this.list[e.id]=e.attributes.getNamedItem("coords").value;
-		console.log("Read list item id "+ e.id+" with value "+this.list[e.id]);
-	};*/
+	//console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
 
 };
 
@@ -213,7 +197,7 @@ MySceneGraph.prototype.parseScene = function(rootElement)
 
 	this.axis_length = this.reader.getFloat(scene, 'axis_length');
 
-	console.log("Scene read from file: root = " + this.root + ", axis_length = " + this.axis_length);
+	//console.log("Scene read from file: root = " + this.root + ", axis_length = " + this.axis_length);
 }
 
 MySceneGraph.prototype.parseIllumination = function(rootElement)
@@ -248,7 +232,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement)
 	this.doubleSided = this.reader.getBoolean(elems, 'doublesided');
 	this.local = this.reader.getBoolean(elems, 'local');
 
-	console.log('Illumination read from file: doubleSided = ' + this.doubleSided + ", local = " + this.local);
+	//console.log('Illumination read from file: doubleSided = ' + this.doubleSided + ", local = " + this.local);
 
 	ambient = ambient[0];
 	this.ambientR = this.reader.getFloat(ambient, 'r');
@@ -256,7 +240,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement)
 	this.ambientB = this.reader.getFloat(ambient, 'b');
 	this.ambientA = this.reader.getFloat(ambient, 'a');
 
-	console.log('Illumination read from file: Ambient R = ' + this.ambientR + ", Ambient G = " + this.ambientG + ", Ambient B = " + this.ambientB + ", Ambient A = ", this.ambientA);
+	//console.log('Illumination read from file: Ambient R = ' + this.ambientR + ", Ambient G = " + this.ambientG + ", Ambient B = " + this.ambientB + ", Ambient A = ", this.ambientA);
 
 	background = background[0];
 	this.backgroundR = this.reader.getFloat(background, 'r');
@@ -264,7 +248,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement)
 	this.backgroundB = this.reader.getFloat(background, 'b');
 	this.backgroundA = this.reader.getFloat(background, 'a');
 
-	console.log('Illumination read from file: Background R = ' + this.backgroundR + ", Background G = " + this.backgroundG + ", Background B = " + this.backgroundB + ", Background A = ", this.backgroundA);
+	//console.log('Illumination read from file: Background R = ' + this.backgroundR + ", Background G = " + this.backgroundG + ", Background B = " + this.backgroundB + ", Background A = ", this.backgroundA);
 }
 
 MySceneGraph.prototype.parseTextures = function(rootElement)
@@ -289,12 +273,12 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 		var length_s = e.attributes.getNamedItem("length_s").value;
 		var length_t = e.attributes.getNamedItem("length_t").value;
 
-		var text = new CGFappearance(this.scene);
-		text.loadTexture('../textures/' + file);
+		var text = new CGFtexture(this.scene, file);
 		this.texturesList[id] = text;
 		this.texturesID[i] = id;
-		console.log("Texture read from file: ID = " + id + ", File = " + file + ",S Length = " + length_s + ",T Length = " + length_t);
+		//console.log("Texture read from file: ID = " + id + ", File = " + file + ",S Length = " + length_s + ",T Length = " + length_t);
 	};
+	//console.log(this.texturesList);
 
 }
 
@@ -320,7 +304,7 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 		this.cameras[i * 6 + 1] = this.reader.getFloat(perspective, 'near');
 		this.cameras[i * 6 + 2] = this.reader.getFloat(perspective, 'far');
 		this.cameras[i * 6 + 3] = this.reader.getFloat(perspective, 'angle');
-		console.log( this.reader.getString(perspective, 'id') + " " + this.reader.getFloat(perspective, 'near') + " " + this.reader.getFloat(perspective, 'far') + " " + this.reader.getFloat(perspective, 'angle'));
+		//console.log( this.reader.getString(perspective, 'id') + " " + this.reader.getFloat(perspective, 'near') + " " + this.reader.getFloat(perspective, 'far') + " " + this.reader.getFloat(perspective, 'angle'));
 
 		from =perspective.children[0];
 		this.cameras[i * 6 + 4] = vec3.fromValues( this.reader.getFloat(from, 'x'), this.reader.getFloat(from, 'y'),  this.reader.getFloat(from, 'z'));
@@ -330,13 +314,13 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 
 	}
 
-	console.log("tamanho " + this.cameras.length/6);
+	/*console.log("tamanho " + this.cameras.length/6);
 
 	for(var i = 0;  i< this.cameras.length /6 ; i++){
 		console.log("Perspective :id= " + this.cameras[i * 6] + " near= " + this.cameras[i * 6 +1] + " far= "+ this.cameras[i * 6 + 2] + " angle= " + this.cameras[i * 6 + 3]);
 		console.log("from x= " + this.cameras[i * 6 + 4][0] + " y= " + this.cameras[i * 6 + 4][1] + " z= " +  this.cameras[i * 6 + 4][2]);
 		console.log("to x= " +  this.cameras[i * 6 + 5][0] + " y= " + this.cameras[i * 6 + 5][1] + " z= " + this.cameras[i * 6 + 5][2]);
-	}
+	}*/
 }
 
 
@@ -361,7 +345,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 			continue;
 
 		// is necessary to check if already exist a material with this id!!!
-		console.log("material id: " + id);
+		//console.log("material id: " + id);
 
 		var material = [];
 
@@ -369,7 +353,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 		var x =  ltMaterial[i].getElementsByTagName('shininess')[0];
 		material[4] = x.getAttribute("value");
 
-		console.log("material value: " + material[4]);
+		//console.log("material value: " + material[4]);
 		//obtain  ambient, emission, diffuse and specular attributes
 		for(var j = 0; j < component.length ; j++){
 
@@ -379,7 +363,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 			for(var k = 0; k < this.rgba.length; k++)
 			{
 				material[j][k] = att[0].getAttribute(this.rgba[k]);
-				console.log("Material property: " + material[j][k]);
+				//console.log("Material property: " + material[j][k]);
 			}
 
 		}
@@ -395,7 +379,6 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 		this.materialsIDs[i] = id;
 	};
 
-	console.log("Materials length :" + this.materialsList.length);
 
 }
 
@@ -414,57 +397,45 @@ MySceneGraph.prototype.parseTransformations = function(rootElement)
 
 	for(var i = 0; i < numTransf; i++)
 	{
-		var e = transformations[0].children[i];
-		this.transformationList[e.id] = this.reader.getString(e, 'id');
+		var transf = transformations[0].children[i];
+		this.transformationsIDs[i] = this.reader.getString(transf, 'id');
 
-		var translate = e.getElementsByTagName('translate');
-		if (translate[0] != null)
-		{
-			this.transformationList[0] = translate[0].attributes.getNamedItem("x").value;
-			this.transformationList[1] = translate[0].attributes.getNamedItem("y").value;
-			this.transformationList[2] = translate[0].attributes.getNamedItem("z").value;
-		}
-		else
-		{
-			this.transformationList[0] = 0;
-			this.transformationList[1] = 0;
-			this.transformationList[2] = 0;
-		}
+		var tr = [];
+		for(var j = 0; j < transf.children.length; j++)
+			tr.push(this.getTransformationValues(transf.children[j]));
 
-		var rotate = e.getElementsByTagName('rotate');
-		if (rotate[0] != null)
-		{
-			this.transformationList[3] = rotate[0].attributes.getNamedItem("axis").value;
-			this.transformationList[4] = rotate[0].attributes.getNamedItem("angle").value;
-		}
-		else
-		{
-			this.transformationList[3] = 0;
-			this.transformationList[4] = 0;
-		}
-
-
-		var scale = e.getElementsByTagName('scale');
-		if (scale[0] != null)
-		{
-			this.transformationList[5] = scale[0].attributes.getNamedItem("x").value;
-			this.transformationList[6] = scale[0].attributes.getNamedItem("y").value;
-			this.transformationList[7] = scale[0].attributes.getNamedItem("z").value;
-		}
-		else
-		{
-			this.transformationList[5] = 0;
-			this.transformationList[6] = 0;
-			this.transformationList[7] = 0;
-		}
-
-		console.log("Transformation read from file: ID = " + this.transformationList[e.id] +  " TX = " + this.transformationList[0] +  " TY = " + this.transformationList[1] +  " TZ = " + this.transformationList[2]
-		+ " Rotation axis: " + this.transformationList[3] + " R Angle " + this.transformationList[4]
-		+ " SX = " + this.transformationList[5] + " SY = " +  this.transformationList[6] + " SZ = " + this.transformationList[7]);
+		this.transformationList[this.transformationsIDs[i]] = tr;
 
 	}
 
+	//console.log(this.transformationList);
+}
 
+MySceneGraph.prototype.getTransformationValues = function(transformation){
+//	console.log(transformation);
+	var values = {};
+	switch(transformation.tagName)
+	{
+		case "rotate":
+		values.type = "rotate";
+		values.axis = this.reader.getString(transformation, "axis");
+		values.angle = this.reader.getString(transformation, "angle");
+		break;
+		case "translate":
+		values.type = "translate";
+		values.x = this.reader.getString(transformation, "x");
+		values.y = this.reader.getString(transformation, "y");
+		values.z = this.reader.getString(transformation, "z");
+		break;
+		case "scale":
+		values.type = "scale";
+		values.x = this.reader.getString(transformation, "x");
+		values.y = this.reader.getString(transformation, "y");
+		values.z = this.reader.getString(transformation, "z");
+		break;
+	}
+	return values;
+	//console.log(values);
 }
 
 MySceneGraph.prototype.parseComponents = function(rootElement)
@@ -481,7 +452,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		var component = components[0].children[i];
 
 		var componentID = this.reader.getString(component, 'id');
-		console.log("componemt " + componentID);
+
 		var transformation = component.getElementsByTagName('transformation');
 
 		if(transformation == null) {
@@ -490,15 +461,26 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 
 		transformation = transformation[0];
 		var transformationRef = transformation.getElementsByTagName('transformationref');
-		var transformationListID = [];
+		var transformationID;
+		var transfList = [];
 		if(transformationRef != null && transformationRef.length != 0)
 		{
-			transformationListID[0] = this.reader.getString(transformationRef[0], 'id');
-			console.log("Transformation Ref ID = " +  transformationListID[0]);
+			transformationID = this.reader.getString(transformationRef[0], 'id');
+			//console.log("Transformation Ref ID = " +  transformationListID[0]);
 		}
 		else
 		{
-			transformationList = this.parseTransformationElements(transformation);
+			//console.log(transformation);
+			transformationID = null;
+			//console.log(componentID + " added transfs: " + transformationID);
+			for(var j = 0; j < transformation.children.length; j++)
+			{
+				transfList.push(this.getTransformationValues(transformation.children[j]));
+			}
+			//console.log(transfList);
+			//	transformationList.push(this.getTransformationValues(transformation.children[i]));
+		//	transformationList = this.getTransformationValues(transformation);
+			//console.log(transformation.children.length);
 		}
 
 
@@ -514,8 +496,9 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		for(var j = 0; j < materialLength; j++)
 		{
 			materialID[j] = this.reader.getString(material[0].children[j], 'id');
-			console.log("Material ID = " +  materialID[j]);
+			//console.log("Material ID = " +  materialID[j]);
 		}
+
 
 		var texture = component.getElementsByTagName('texture');
 		if(texture == null || texture.length == 0) {
@@ -524,7 +507,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 
 		texture = this.reader.getString(texture[0], 'id');
 
-		console.log("Texture = " + texture);
+		//console.log("Texture = " + texture);
 
 
 		var children = component.getElementsByTagName('children');
@@ -541,30 +524,30 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 
 		var componentRefs = [];
 		var primitiveRefs = [];
-		var childrenIDs = [];
+//		var childrenIDs = [];
 
 		for(var j = 0; j < componentref.length; j++)
 		{
 			componentRefs[j] = this.reader.getString(componentref[j], 'id');
-			console.log("componentref = " + componentRefs[j]);
+		//	console.log("componentref = " + componentRefs[j]);
 		}
-		console.log("tamanho primitiveref                         " + primitiveref.length);
+		//console.log("tamanho primitiveref                         " + primitiveref.length);
 		for(var j = 0; j < primitiveref.length; j++)
 		{
 			primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
-			console.log("primitiveref = " + primitiveRefs[j]);
+			//console.log("primitiveref = " + primitiveRefs[j]);
 		}
 		var x = componentRefs;
-		var childrenIDs = x.concat(primitiveRefs);
-		console.log("tamanho dos filhos" + childrenIDs.length);
-		var component = new Component(this.scene, materialID, transformationListID, texture, primitiveRefs, componentRefs, childrenIDs);
-
+		//var childrenIDs = x.concat(primitiveRefs);
+		//console.log("tamanho dos filhos" + childrenIDs.length);
+		var component = new Component(this.scene, materialID, transformationID, transfList, texture, primitiveRefs, componentRefs);
+		//console.log(componentID + " " + transformationID);
 		this.componentsList[componentID] = component;
 		this.componentsIDs[i] = componentID;
-		this.nodes[componentID] = component;
+	//	this.nodes[componentID] = component;
 	}
-
-	console.log(this.nodes);
+	//console.log(this.componentsList);
+	//console.log(this.nodes);
 }
 
 
@@ -612,11 +595,11 @@ MySceneGraph.prototype.parseTransformationElements = function(rootElement)
 		transformationList[6] = 0;
 		transformationList[7] = 0;
 	}
-
+/*
 	console.log("Transformation read from file (component): " +  " TX = " + transformationList[0] +  " TY = " + transformationList[1] +  " TZ = " + transformationList[2]
 	+ " Rotation axis: " + transformationList[3] + " R Angle " + transformationList[4]
 	+ " SX = " + transformationList[5] + " SY = " +  transformationList[6] + " SZ = " + transformationList[7]);
-
+*/
 	return transformationList;
 }
 
@@ -637,7 +620,7 @@ MySceneGraph.prototype.parseLights = function(rootElement)
 
 	for(var i = 0; i < nnodes; i++){
 		var child = light.children[i];
-		console.log(child.tagName);
+		//console.log(child.tagName);
 		switch(child.tagName){
 			case "omni":
 				this.parserOmniLights(child);
@@ -745,7 +728,7 @@ MySceneGraph.prototype.getNvalues = function(rootElement, type){
 
 	for(var i = 0; i< type.length; i++){
 		tmp[i] = this.reader.getFloat(rootElement,type[i]);
-		console.log("tmp " + tmp[i] + " type " + type[i]);
+	//	console.log("tmp " + tmp[i] + " type " + type[i]);
 	}
 
 	return tmp;
@@ -787,7 +770,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 
 
 		var id = this.reader.getString(child, 'id');
-		console.log("id = " + id);
+		//console.log("id = " + id);
 
 
 		this.primitivesIDs[i] = id;
@@ -949,7 +932,7 @@ MySceneGraph.prototype.displayGraph = function(){
 MySceneGraph.prototype.visitGraph = function(root, material, texture){
 
 	var node;
-  var mat;
+  	var mat;
 	var text;
 
 	node = this.nodes[root];
@@ -962,7 +945,7 @@ MySceneGraph.prototype.visitGraph = function(root, material, texture){
 		//materials
 
 		if(node.materialID == 'inherit')
-				mat = materail;
+				mat = material;
 		else {
 			  mat = this.materialsList[node.materialID];
 		}
@@ -978,9 +961,10 @@ MySceneGraph.prototype.visitGraph = function(root, material, texture){
 				break;
 		}
 
+		console.log("child length: " +  node.childrenIDs.length);
 		for(var i = 0 ; i < node.childrenIDs.length; i++ ){
 			console.log(node.childrenIDs[i]);
-		this.visitGraph(node.childrenIDs[i], mat, text);
+		//this.visitGraph(node.childrenIDs[i], mat, text);
 		}
 
 
