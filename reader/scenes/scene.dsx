@@ -124,6 +124,14 @@
             <shininess value="1" />
         </material>
 
+		 <material id="body1" >
+            <emission r="0.1" g="0.1" b="0.1" a="0.1" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0" g="0" b="1" a="1" />
+            <specular r="0.3" g="0.3" b="0.3" a="1" />
+            <shininess value="1" />
+        </material>
+		
 		<material id="neck" >
             <emission r="0" g="0" b="0" a="1" />
             <ambient r="0" g="0" b="0" a="1" />
@@ -261,6 +269,7 @@
 		            <!-- ultimo material da lista volta ao primeiro -->
 		            <materials>
 		                <material id="body" />
+						<material id="body1" />
 		            </materials>
 
 		            <!-- declaracao obrigatoria de texture -->
@@ -312,6 +321,7 @@
 
 					<materials>
 						<material id="body" />
+						<material id="body1" />
 					</materials>
 
 					<texture id="none" />
@@ -328,6 +338,7 @@
 
 			<materials>
 				<material id="body" />
+				<material id="body1" />
 			</materials>
 
 			<texture id="none" />
@@ -344,6 +355,7 @@
 
 			<materials>
 				<material id="body" />
+				<material id="body1" />
 			</materials>
 
 			<texture id="none" />
@@ -363,6 +375,7 @@
 
 			<materials>
 				<material id="body" />
+				<material id="body1" />
 			</materials>
 
 			<texture id="none" />
@@ -382,6 +395,7 @@
 
 			<materials>
 				<material id="body" />
+				<material id="body1" />
 			</materials>
 
 			<texture id="none" />
@@ -398,6 +412,7 @@
 
 			<materials>
 				<material id="body" />
+				<material id="body1" />
 			</materials>
 
 			<texture id="none" />
@@ -416,6 +431,7 @@
 
 			<materials>
 				<material id="body" />
+				<material id="body1" />
 			</materials>
 
 			<texture id="none" />

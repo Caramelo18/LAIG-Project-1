@@ -61,11 +61,11 @@ XMLscene.prototype.onGraphLoaded = function ()
 	this.initIllumination();
 	this.initLights();
 	this.initMaterials();
-    this.initTextures();
-    this.initTransformations();
-    this.initComponents();
+  this.initTextures();
+  this.initTransformations();
+  this.initComponents();
 
-    this.interface.initLightsButtons();
+  this.interface.initLightsButtons();
 };
 
 XMLscene.prototype.initCameras = function()
@@ -185,6 +185,13 @@ XMLscene.prototype.changeCamera = function()
 
 }
 
+XMLscene.prototype.changeMaterial = function(){
+
+    for(var i = 0;  i < this.componentsIDs.length; i++ ){
+        this.componentsList[this.componentsIDs[i]].changeMaterial();
+    }
+}
+
 
 XMLscene.prototype.displayGraph = function(root, material, texture)
 {
@@ -218,7 +225,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 				 text = texture;
 			break;
 	}
-//    console.log(text);
+    console.log(text);
     mat.setTexture(text);
     mat.apply();
     //console.log(node.transformationsID);

@@ -44,6 +44,9 @@ MyInterface.prototype.processKeyboard = function(event) {
 		case (118):	// v
 			this.scene.changeCamera();
 			break;
+		case (109):
+			this.scene.changeMaterial();
+			break;
 	};
 
 
