@@ -13,31 +13,34 @@ Torus.prototype.constructor = Torus;
 
 Torus.prototype.initBuffers = function() {
 
- this.radius = this.outer - this.inner;
- this.radiusCenter = this.outer;
+ this.radius = (this.outer - this.inner)/2;
+ this.radiusCenter = this.inner + this.radius;
+
+/*
+radius - raio do tubo
+radiusCenter - raio ao centro do objeto
+*/
 
  this.sigma = (Math.PI * 2)/this.slices;
- this.teta = (Math.PI * 2)/this.loops;
+ this.theta = (Math.PI * 2)/this.loops;
 
  this.vertices = [];
  this.indices = [];
  this.normals = [];
  this.texCoords = [];
-
- /* x = (R + rcos(v))*cos(u)
-    y = (R + rcos(v))*sin(u)
+/*
+    x = (R + r*cos(v))*cos(u)
+    y = (R + r*cos(v))*sin(u)
     z = r*sin(v)
 
-r - raio do tubo
-R - raio ao centro do objeto
- */
+*/
 
  for(var i = 0 ; i <= this.loops ; i++){
    for(var j = 0 ; j <= this.slices; j++){
 
-     var x = (this.radiusCenter + this.radius * Math.cos(j * this.sigma)) * Math.cos(i * this.teta);
-     var y = (this.radiusCenter + this.radius * Math.cos(j * this.sigma)) * Math.sin(i * this.teta);
-     var z = this.radius * Math.sin(j * this.sigma);
+     var x = (this.radiusCenter + this.radius * Math.cos(i * this.theta)) * Math.cos(j * this.sigma);
+     var y = (this.radiusCenter + this.radius * Math.cos(i * this.theta)) * Math.sin(j * this.sigma);
+     var z = this.radius * Math.sin(i * this.theta);
 
      this.vertices.push(x,y,z);
      this.normals.push(x,y,z);
@@ -54,6 +57,15 @@ R - raio ao centro do objeto
    }
  }
 
+for (var stack = 0; stack < this.loops; stack++) {
+    for (var slice = 0; slice < this.slices; slice++) {
+        var first = (stack * (this.slices + 1)) + slice;
+        var second = first + this.slices + 1;
+
+        this.indices.push(first, second + 1, second);
+        this.indices.push(first, first + 1, second + 1);
+    }
+}
 
 
  this.primitiveType = this.scene.gl.TRIANGLES;
