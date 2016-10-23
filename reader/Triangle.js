@@ -45,11 +45,11 @@ Triangle.prototype.initBuffers = function () {
 				BC.y = this.y3 - this.y2;
 				BC.z = this.z3 - this.z2;
 
-				N.copy(AB);
+				vec3.copy(N,AB);
 				// cross product
 
-				N.cross(BC);
-				N.normalize();
+				vec3.cross(N,AB, BC);
+				vec3.normalize(N,N);
 
 
 		this.normals = [
@@ -58,11 +58,11 @@ Triangle.prototype.initBuffers = function () {
            N.x,N.y,N.z
     ];
 
-		distanceAB = AB.length();
-		distanceBC = BC.length();
-		distanceAC = AC.length();
+		distanceAB = vec3.length(AB);
+		distanceBC = vec3.length(BC);
+		distanceAC = vec3.length(AC);
 
-		this.alfa = Math.acos((Math.pow(distanceBC, 2) - Math.pow(distanceAC, 2)  + Math.pow(distanceAB, 2)) / (2 * distanceBC * distanceAB));
+		alfa = Math.acos((Math.pow(distanceBC, 2) - Math.pow(distanceAC, 2)  + Math.pow(distanceAB, 2)) / (2 * distanceBC * distanceAB));
 		this.comp = distanceAB;
 		this.texelX = distanceAB - distanceBC * Math.cos(alfa);
 		this.texelY  = distanceBC* Math.sin(alfa);
