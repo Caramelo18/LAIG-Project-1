@@ -24,38 +24,28 @@ Triangle.prototype.initBuffers = function () {
 			];
 
 	this.indices = [
-            2,1,0,
             0,1,2,
         ];
 
-				var AB = vec3.create();
-				var AC = vec3.create();
-				var BC = vec3.create();
-				var N = vec3.create();
+		var AB = vec3.create(this.x2 - this.x1,this.y2 - this.y1,this.z2 - this.z1 );
+		
+		console.log(AB[0]);
+		console.log(AB.y);
+		console.log(AB.z);
+		var AC = vec3.create( this.x3 - this.x1,this.y3 - this.y1,this.z3 - this.z1);
+		var BC = vec3.create( this.x3 - this.x2, this.y3 - this.y2, this.z3 - this.z2);
+		var N = vec3.create();
 
-				AB.x = this.x2 - this.x1;
-				AB.y = this.y2 - this.y1;
-				AB.z = this.z2 - this.z1;
 
-				AC.x = this.x3 - this.x1;
-				AC.y = this.y3 - this.y1;
-				AC.z = this.z3 - this.z1;
+		vec3.cross(N,AB, BC);
+		vec3.normalize(N,N);
 
-				BC.x = this.x3 - this.x2;
-				BC.y = this.y3 - this.y2;
-				BC.z = this.z3 - this.z2;
-
-				vec3.copy(N,AB);
-				// cross product
-
-				vec3.cross(N,AB, BC);
-				vec3.normalize(N,N);
 
 
 		this.normals = [
-           N.x,N.y,N.z,
-           N.x,N.y,N.z,
-           N.x,N.y,N.z
+           N[0],N[1],N[2],
+           N[0],N[1],N[2],
+           N[0],N[1],N[2]
     ];
 
 		distanceAB = vec3.length(AB);
