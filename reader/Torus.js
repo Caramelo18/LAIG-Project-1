@@ -4,7 +4,7 @@ function Torus(scene, inner, outer, slices, loops) {
  this.outer = outer;
  this.slices = slices;
  this.loops = loops;
-
+ this.stacks = loops;
  this.initBuffers();
 };
 
@@ -50,12 +50,14 @@ radiusCenter - raio ao centro do objeto
  }
 
 
- for(var loop = 0 ; loop < this.loops ; ++loop){
-   for(var slice = 0; slice < this.slices ; ++slice){
-     this.indices.push(loop * (this.slices + 1) + slice, (loop + 1) * (this.slices + 1) + slice, (loop + 1) * (this.slices + 1) + slice + 1);
-     this.indices.push(loop * (this.slices + 1) + slice, (loop + 1) * (this.slices + 1) + slice + 1, loop * (this.slices + 1) + slice + 1);
-   }
+ for (var loop = 0; loop < this.loops; loop++) {
+     for (var slice = 0; slice < this.slices; slice++) {
+        this.indices.push((loop * (this.slices + 1)) + slice, (loop * (this.slices + 1)) + slice + this.slices + 2, (loop * (this.slices + 1)) + slice + this.slices + 1);
+        this.indices.push((loop * (this.slices + 1)) + slice, (loop * (this.slices + 1)) + slice + 1,  (loop * (this.slices + 1)) + slice + this.slices + 2);
+     }
  }
+
+
 
 
 
