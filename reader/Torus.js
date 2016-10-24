@@ -57,15 +57,6 @@ radiusCenter - raio ao centro do objeto
    }
  }
 
-for (var stack = 0; stack < this.loops; stack++) {
-    for (var slice = 0; slice < this.slices; slice++) {
-        var first = (stack * (this.slices + 1)) + slice;
-        var second = first + this.slices + 1;
-
-        this.indices.push(first, second + 1, second);
-        this.indices.push(first, first + 1, second + 1);
-    }
-}
 
 
  this.primitiveType = this.scene.gl.TRIANGLES;
