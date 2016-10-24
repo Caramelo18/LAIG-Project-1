@@ -45,10 +45,6 @@ Triangle.prototype.initBuffers = function () {
 		distanceAB = vec3.length(AB);
 		distanceBC = vec3.length(BC);
 		distanceAC = vec3.length(AC);
-		//Ab ->b
-		//Ac ->a
-		//BC ->c
-
 		alfa = Math.acos((Math.pow(distanceBC, 2) - Math.pow(distanceAC, 2)  + Math.pow(distanceAB, 2)) / (2 * distanceBC * distanceAB));
 		this.comp = distanceBC;
 		this.texelX = distanceAB - distanceAC * Math.cos(alfa);
@@ -69,7 +65,11 @@ Triangle.prototype.initBuffers = function () {
 
 
 Triangle.prototype.updateTexCoords = function (ampS, ampT) {
-	this.maxS = ampS;
-	this.maxT = ampT;
-	this.initBuffers();
+	this.texCoords = [
+	 			0.0, 0.0,
+	 			this.comp/ampS, 1.0,
+	 			this.texelX/ ampS, 1- this.texelY/ampT
+	 ];
+
+	 this.updateTexCoordsGLBuffers();
 }
