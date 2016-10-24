@@ -27,26 +27,20 @@ Triangle.prototype.initBuffers = function () {
             0,1,2,
         ];
 
-		var AB = vec3.create(this.x2 - this.x1,this.y2 - this.y1,this.z2 - this.z1 );
-		
-		console.log(AB[0]);
-		console.log(AB.y);
-		console.log(AB.z);
-		var AC = vec3.create( this.x3 - this.x1,this.y3 - this.y1,this.z3 - this.z1);
-		var BC = vec3.create( this.x3 - this.x2, this.y3 - this.y2, this.z3 - this.z2);
-		var N = vec3.create();
+		var AB = vec3.fromValues(this.x2 - this.x1,this.y2 - this.y1,this.z2 - this.z1 );
+		var AC = vec3.fromValues( this.x3 - this.x1,this.y3 - this.y1,this.z3 - this.z1);
+		var BC = vec3.fromValues( this.x3 - this.x2, this.y3 - this.y2, this.z3 - this.z2);
 
+		var N = vec3.create();
 
 		vec3.cross(N,AB, BC);
 		vec3.normalize(N,N);
 
-
-
 		this.normals = [
-           N[0],N[1],N[2],
-           N[0],N[1],N[2],
-           N[0],N[1],N[2]
-    ];
+				N[0], N[1], N[2],
+				N[0], N[1], N[2],
+				N[0], N[1], N[2]
+		];
 
 		distanceAB = vec3.length(AB);
 		distanceBC = vec3.length(BC);
@@ -56,12 +50,13 @@ Triangle.prototype.initBuffers = function () {
 		this.comp = distanceAB;
 		this.texelX = distanceAB - distanceBC * Math.cos(alfa);
 		this.texelY  = distanceBC* Math.sin(alfa);
-
 		this.texCoords = [
+
 			0.0, 0.0,
-			this.comp, 1.0,
-			this.texelX, 1- this.texelY
-	];
+		this.comp, 1.0,
+		this.texelX, 1- this.texelY
+		];
+
 
 
 	this.primitiveType=this.scene.gl.TRIANGLES;
@@ -70,10 +65,7 @@ Triangle.prototype.initBuffers = function () {
 
 
 Triangle.prototype.updateTexCoords = function (ampS, ampT) {
-		this.texCoords = [
-			0.0, 0.0,
-			this.comp/ampS, 1.0,
-			this.texelX/ ampS, 1- this.texelY/ampT
-		];
-			 this.updateTexCoordsGLBuffers();
+	this.maxS = ampS;
+	this.maxT = ampT;
+	this.initBuffers();
 }

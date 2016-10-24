@@ -228,13 +228,12 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
       if(this.primitives[node.primitivesRefs[i]] instanceof Triangle || this.primitives[node.primitivesRefs[i]] instanceof Rectangle){
         s = this.texturesList[node.texture + "s"];
         t = this.texturesList[node.texture + "t"];
-        if(s > 1 && t > 1)
-        {
-                this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
-                mat.setTextureWrap('REPEAT', 'REPEAT');
+        if(s > 1 && t > 1){
+            this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+            mat.setTextureWrap('REPEAT', 'REPEAT');
         }
       }
-        this.primitives[node.primitivesRefs[i]].display();
+      this.primitives[node.primitivesRefs[i]].display();
     }
 
 	for(var i = 0 ; i < node.componentRefs.length; i++ ){
