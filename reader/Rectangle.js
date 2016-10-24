@@ -6,6 +6,8 @@ function Rectangle(scene,x1,x2,y1,y2) {
 	this.y1 = y1;
 	this.y2 = y2;
 
+	this.diffX = this.x2 - this.x1;
+	this.diffY = this.y2 - this.y1;
 	this.initBuffers();
 };
 
@@ -36,10 +38,10 @@ Rectangle.prototype.initBuffers = function () {
 	this.maxT = 1;
 
 	this.texCoords = [
-		0, this.maxT,
-		this.maxS, this.maxT,
-		0, 0,
-		this.maxS, 0
+		0.0, 1.0,
+	 	this.diffX, 1.0,
+	 	this.diffX, 1.0 - this.diffY,
+	 	0.0, 1.0 - this.diffY
     ];
 
 	this.primitiveType=this.scene.gl.TRIANGLES;
@@ -47,7 +49,12 @@ Rectangle.prototype.initBuffers = function () {
 };
 
 Rectangle.prototype.updateTexCoords = function (ampS, ampT) {
-	this.maxS = ampS;
-	this.maxT = ampT;
-	this.initBuffers();
-}
+ 	this.texCoords = [
+ 			0.0, 1.0,
+ 			this.diffX*ampS, 1.0,
+ 			this.diffX*ampS, 1.0 - (this.diffY*ampT),
+ 			0.0, 1.0 - (this.diffY*ampT)
+    ];
+
+		 this.updateTexCoordsGLBuffers();
+ }
