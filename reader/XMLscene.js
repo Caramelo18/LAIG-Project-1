@@ -237,7 +237,6 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	//transformations
 	this.pushMatrix();
 
-	//,
 	if(node.materialListIDs[0] == 'inherit')
 			mat = material;
 	else
@@ -245,9 +244,6 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
 	//textures
 	text = this.texturesList[node.texture];
-  //console.log(text);
-
-
 	switch(node.texture){
 			case "none":
 				 text = null;
@@ -257,8 +253,8 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 			break;
 	}
 
-  mat.setTexture(text);
-  mat.apply();
+    mat.setTexture(text);
+    mat.apply();
 
     if(node.transformationsID != null)
         this.applyTransformations(this.transformationsList[node.transformationsID]);

@@ -1,5 +1,6 @@
-
-
+/*
+	Reads and stores data from the dsx file
+*/
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
 
@@ -97,7 +98,6 @@ MySceneGraph.prototype.onXMLReady=function()
 		return;
 	}
 
-
 	var transformationsError = this.parseTransformations(rootElement);
 	if (transformationsError != null) {
 		this.onXMLError(transformationsError);
@@ -109,7 +109,6 @@ MySceneGraph.prototype.onXMLReady=function()
 		this.onXMLError(primitivesError);
 		return;
 	}
-
 
 	var componentsError = this.parseComponents(rootElement);
 	if (componentsError != null) {
@@ -125,7 +124,11 @@ MySceneGraph.prototype.onXMLReady=function()
 };
 
 
+/*
+	Verifies if the order of the elements is correct
+*/
 MySceneGraph.prototype.checkOrder = function(rootElement){
+
 	if(rootElement.children.length != 9){
 		console.error("Wrong number of tags");
 		return 1;
@@ -168,6 +171,9 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 
 };
 
+/*
+	Reads and stores data from the scene element
+*/
 MySceneGraph.prototype.parseScene = function(rootElement)
 {
 	var elems =  rootElement.getElementsByTagName('scene');
@@ -188,6 +194,9 @@ MySceneGraph.prototype.parseScene = function(rootElement)
 	//console.log("Scene read from file: root = " + this.root + ", axis_length = " + this.axis_length);
 }
 
+/*
+	Reads and stores data from the illumination element
+*/
 MySceneGraph.prototype.parseIllumination = function(rootElement)
 {
 	var elems =  rootElement.getElementsByTagName('illumination');
@@ -239,6 +248,9 @@ MySceneGraph.prototype.parseIllumination = function(rootElement)
 	//console.log('Illumination read from file: Background R = ' + this.backgroundR + ", Background G = " + this.backgroundG + ", Background B = " + this.backgroundB + ", Background A = ", this.backgroundA);
 }
 
+/*
+	Reads and stores data from the textures element
+*/
 MySceneGraph.prototype.parseTextures = function(rootElement)
 {
 	var textures = rootElement.getElementsByTagName('textures');
@@ -272,10 +284,12 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 		this.texturesID[i] = id;
 		//console.log("Texture read from file: ID = " + id + ", File = " + file + ",S Length = " + length_s + ",T Length = " + length_t);
 	};
-	//console.log(this.texturesList);
 
 }
 
+/*
+	Reads and stores data from the views element
+*/
 MySceneGraph.prototype.parseViews = function(rootElement)
 {
 	var views = rootElement.getElementsByTagName('views');
@@ -331,7 +345,9 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 	}*/
 }
 
-
+/*
+	Reads and stores data from materials element
+*/
 MySceneGraph.prototype.parseMaterials = function(rootElement)
 {
 	var component = ['emission', 'ambient', 'diffuse', 'specular'];
@@ -386,6 +402,9 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 
 }
 
+/*
+	Reads and stores data from transformations element
+*/
 MySceneGraph.prototype.parseTransformations = function(rootElement)
 {
 	var transformations = rootElement.getElementsByTagName('transformations');
@@ -420,8 +439,10 @@ MySceneGraph.prototype.parseTransformations = function(rootElement)
 	//console.log(this.transformationList);
 }
 
+/*
+	reads and returns an array with data from the transformation received
+*/
 MySceneGraph.prototype.getTransformationValues = function(transformation){
-//	console.log(transformation);
 	var values = {};
 	switch(transformation.tagName)
 	{
@@ -447,6 +468,10 @@ MySceneGraph.prototype.getTransformationValues = function(transformation){
 	//console.log(values);
 }
 
+
+/*
+	Reads and stores data from components element
+*/
 MySceneGraph.prototype.parseComponents = function(rootElement)
 {
 	var components = rootElement.getElementsByTagName('components');
@@ -495,6 +520,9 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		var materialLength = material[0].children.length;
 		var materialID = [];
 
+		if(materialLength == 0)
+			return "every element must include at least a material";
+
 		//reads materialsIDs
 		for(var j = 0; j < materialLength; j++)
 			materialID[j] = this.reader.getString(material[0].children[j], 'id');
@@ -539,6 +567,9 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 	//console.log(this.componentsList);
 }
 
+/*
+	Reads and stores data from lights element
+*/
 MySceneGraph.prototype.parseLights = function(rootElement)
 {
 
@@ -568,7 +599,9 @@ MySceneGraph.prototype.parseLights = function(rootElement)
 	}
 }
 
-
+/*
+	Reads and stores data from a omniLight element
+*/
 MySceneGraph.prototype.parserOmniLights = function(rootElement){
 
 	if(rootElement == null)
@@ -613,6 +646,9 @@ MySceneGraph.prototype.parserOmniLights = function(rootElement){
 	omni.update();
 }
 
+/*
+	Reads and stores data from a Spot Light element
+*/
 MySceneGraph.prototype.parserSpotLights = function(rootElement){
 
 	if(rootElement == null)
@@ -664,13 +700,15 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 
 	this.lightIndex++;
 	spot.update();
-
 }
 
+/*
+	returns a filled array with info from the tags passed in the type array
+*/
 MySceneGraph.prototype.getNvalues = function(rootElement, type){
 
 	if(rootElement == null)
-		return "error geting 4 values";
+		return "error geting values";
 
 	var tmp = [];
 
@@ -682,7 +720,9 @@ MySceneGraph.prototype.getNvalues = function(rootElement, type){
 }
 
 
-
+/*
+	Reads and stores data from primitives element
+*/
 MySceneGraph.prototype.parsePrimitives = function(rootElement){
 
 	var elems = rootElement.getElementsByTagName('primitives');
@@ -742,6 +782,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 
 }
 
+/*
+	Returns a new rectangle with the data read from the file
+*/
 MySceneGraph.prototype.parserRectangle = function(element){
 	var coord ={
 		x1:0,
@@ -758,6 +801,9 @@ MySceneGraph.prototype.parserRectangle = function(element){
 	return new Rectangle(this.scene,coord.x1, coord.x2, coord.y1, coord.y2);
 }
 
+/*
+	Returns a new triangle with the data read from the file
+*/
 MySceneGraph.prototype.parserTriangle = function(element){
 	var coord ={
 		x1:0,
@@ -784,6 +830,10 @@ MySceneGraph.prototype.parserTriangle = function(element){
 	return new Triangle(this.scene,coord.x1, coord.y1, coord.z1 ,coord.x2, coord.y2, coord.z2,coord.x3, coord.y3, coord.z3);
 }
 
+
+/*
+	Returns a new cylinder with the data read from the file
+*/
 MySceneGraph.prototype.parserCylinder = function(element){
 	var coord ={
 		base: 0,
@@ -803,6 +853,9 @@ MySceneGraph.prototype.parserCylinder = function(element){
 }
 
 
+/*
+	Returns a new sphere with the data read from the file
+*/
 MySceneGraph.prototype.parserSphere = function(element){
 	var coord ={
 		radius: 0,
@@ -817,7 +870,9 @@ MySceneGraph.prototype.parserSphere = function(element){
 	return new Sphere(this.scene, coord.radius, coord.slices, coord.stacks);
 }
 
-
+/*
+	Returns a new torus with the data read from the file
+*/
 MySceneGraph.prototype.parserTorus = function(element){
 	var coord ={
 		inner: 0,
@@ -835,21 +890,10 @@ MySceneGraph.prototype.parserTorus = function(element){
 }
 
 
-
 /*
  * Callback to be executed on any read error
  */
 MySceneGraph.prototype.onXMLError=function (message) {
 	console.error("XML Loading Error: "+message);
 	this.loadedOk=false;
-};
-
-MySceneGraph.prototype.existsOnArray = function (element, array) {
-
-	for(var i = 0 ; i < array.length; i++){
-		if(array[i] === element)
-			return true;
-	}
-	console.log("deu erro");
-	return false;
 };
