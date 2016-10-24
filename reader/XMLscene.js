@@ -6,6 +6,9 @@ function XMLscene() {
 XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
+/**
+initialization of variables Scene
+*/
 XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
 
@@ -40,12 +43,17 @@ XMLscene.prototype.init = function (application) {
     this.lightsNames = [];
 
 };
-
+/*
+  defines the interface of the scene
+*/
 
 XMLscene.prototype.setInterface = function (interface) {
     this.interface = interface;
 }
 
+/*
+  defines the default appearance of the scene
+*/
 XMLscene.prototype.setDefaultAppearance = function () {
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
@@ -58,10 +66,10 @@ XMLscene.prototype.onGraphLoaded = function ()
 {
     this.axis = new CGFaxis(this, this.graph.axis_length);
 
-	this.initCameras();
-	this.initIllumination();
-	this.initPrimitives();
-	this.initMaterials();
+	  this.initCameras();
+	  this.initIllumination();
+	  this.initPrimitives();
+	  this.initMaterials();
     this.initTextures();
     this.initTransformations();
     this.initComponents();
@@ -69,6 +77,10 @@ XMLscene.prototype.onGraphLoaded = function ()
     this.interface.initLightsButtons();
 };
 
+
+/**
+initialization of the cameras
+*/
 XMLscene.prototype.initCameras = function()
 {
 	for(var i = 0; i < this.graph.cameras.length / 6; i++){
@@ -77,27 +89,38 @@ XMLscene.prototype.initCameras = function()
     }
 
 	this.camera = this.cameras[this.graph.defaultCamera];
-    this.interface.setActiveCamera(this.camera);
+  this.interface.setActiveCamera(this.camera);
 }
 
-
+/**
+initialization of the illumination
+*/
 XMLscene.prototype.initIllumination = function()
 {
 	this.gl.clearColor(this.graph.backgroundR,this.graph.backgroundG,this.graph.backgroundB,this.graph.backgroundA);
-    this.setAmbient(this.graph.ambientR, this.graph.ambientG, this.graph.ambientB, this.graph.ambientA);
+  this.setAmbient(this.graph.ambientR, this.graph.ambientG, this.graph.ambientB, this.graph.ambientA);
 }
 
+/**
+initialization of the primitives of the Scene
+*/
 XMLscene.prototype.initPrimitives = function () {
     this.primitives = this.graph.primitivesList;
     this.primitivesIDs = this.graph.primitivesIDs;
 };
 
+/**
+initialization of the materials of the Scene
+*/
 XMLscene.prototype.initMaterials = function()
 {
     this.materialsList = this.graph.materialsList;
     this.materialsIDs = this.graph.materialsIDs;
 }
 
+/**
+initialization of the textures of the Scene
+*/
 XMLscene.prototype.initTextures = function ()
 {
     this.texturesList = this.graph.texturesList;
@@ -108,18 +131,27 @@ XMLscene.prototype.initTextures = function ()
 
 }
 
+/**
+initialization of the transformations of the Scene
+*/
 XMLscene.prototype.initTransformations = function()
 {
     this.transformationsList = this.graph.transformationList;
     this.transformationsIDs = this.graph.transformationIDs;
 }
 
+/**
+initialization of the components of the Scene
+*/
 XMLscene.prototype.initComponents = function()
 {
     this.componentsList = this.graph.componentsList;
     this.componentsIDs = this.graph.componentsIDs;
 }
 
+/**
+  update the lights (enable/disable)
+*/
 XMLscene.prototype.updateLights = function()
 {
     for(var i = 0; i < this.lightsStatus.length; i++)
@@ -139,12 +171,12 @@ XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
 
 	// Clear image and depth buffer everytime we update the scene
-    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+  this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+  this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
 	// Initialize Model-View matrix as identity (no transformation
 	this.updateProjectionMatrix();
-    this.loadIdentity();
+  this.loadIdentity();
 
 	// Apply transformations corresponding to the camera position relative to the origin
 	this.applyViewMatrix();
@@ -167,6 +199,9 @@ XMLscene.prototype.display = function () {
 	};
 };
 
+/**
+change the current Camera when you press "v"
+*/
 XMLscene.prototype.changeCamera = function()
 {
 	this.currentCamera++;
@@ -177,16 +212,22 @@ XMLscene.prototype.changeCamera = function()
 	this.camera = this.cameras[this.camerasIDs[this.currentCamera]];
 }
 
+/**
+change the current material of the component when you press "m"
+*/
 XMLscene.prototype.changeMaterial = function(){
     for(var i = 0;  i < this.componentsIDs.length; i++)
         this.componentsList[this.componentsIDs[i]].changeMaterial();
 }
 
+/**
+  displayGraph
+*/
 
 XMLscene.prototype.displayGraph = function(root, material, texture)
 {
-    var node;
-  	var mat;
+  var node;
+  var mat;
 	var text;
   var s;
   var t;
@@ -243,9 +284,11 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 }
 	this.popMatrix();
 
-
-
 }
+
+/**
+  apply the the proper transformation to the component
+*/
 
 XMLscene.prototype.applyTransformations = function(transformations)
 {
