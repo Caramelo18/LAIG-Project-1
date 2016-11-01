@@ -137,7 +137,11 @@ MySceneGraph.prototype.onXMLReady=function()
 */
 MySceneGraph.prototype.checkOrder = function(rootElement){
 
-	if(rootElement.children.length != this.allTagNames.length){
+	console.log(rootElement.children.length);
+	for (var i = 0; i < rootElement.children.length; i++) {
+		console.log(rootElement.children[i]);
+	}
+	if(rootElement.children.length != 10){
 		console.error("Wrong number of tags");
 		return 1;
 	}
@@ -913,34 +917,39 @@ MySceneGraph.prototype.parseAnimations = function(variable){
 for(var i = 0; i < animations.length; i++ ){
 	var element = animations[i];
 	var id = this.reader.getString(element, 'id');
-	var span = this.reader.getFloat(element, 'float');
+	var span = this.reader.getFloat(element, 'span');
 	var type = this.reader.getString(element, 'type');
-	var controlPoints= [];
+	var controlPoints = [];
 
-	animationsIDs[i] = id;
+	this.animationsIDs[i] = id;
 
 	switch (type) {
-		case linear:
-				var control = element.child;
-				controlPoints[0] = this.reader.getFloat(control, 'xx');
-				controlPoints[1] = this.reader.getFloat(control, 'yy');
-				controlPoints[2] = this.reader.getFloat(control, 'zz');
-				console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0] +  " control1= " + controlPoints[1] +  " control2= " + controlPoints[2]);
-			//	animationsList[id] = new LinearAnimation(id, controlPoints, span);
+		case "linear":
+				var control = element.getElementsByTagName('controlpoint');
+				for (var j = 0; j < control.length; j++) {
+					var x = control[j].attributes.getNamedItem('xx').value;
+					var y = control[j].attributes.getNamedItem("yy").value;
+					var z = control[j].attributes.getNamedItem("zz").value;
+					controlPoints.push(vec3.fromValues(x,y,z));
+				}
+
+
+				console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
+			//	this.animationsList[id] = new LinearAnimation(id, controlPoints, span);
 
 			break;
-		case circular:
+		case "circular":
 			var centerVariables = element.attributes.getNamedItem("center").value.match(/[^ ]+/g);
 			var center = [];
 			center.push(centerVariables[0]);
 			center.push(centerVariables[1]);
 			center.push(centerVariables[2]);
 
-			var radirus = this.reader.getFloat(element, 'radius');
+			var radius = this.reader.getFloat(element, 'radius');
 			var startang = this.reader.getFloat(element, 'startang');
 			var rotang = this.reader.getFloat(element, 'rotang');
 			console.log("id = " + id + " span= " + span + " type= " + type + " centerX= " + center[0]+ " centerY= " + center[1] + " centerZ= " + center[2] + " radius= " + radius + " startang= "+ startang + " rotang= " + rotang);
-	  	//animationsList[id] = new CircularAnimation();
+	  	//this.animationsList[id] = new CircularAnimation();
 			break;
 	}
 }
