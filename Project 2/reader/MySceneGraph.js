@@ -12,7 +12,7 @@ function MySceneGraph(filename, scene) {
 	this.rgba = ['r', 'g', 'b', 'a'];
 	this.xyzw = ['x', 'y', 'z', 'w'];
 	this.xyz = ['x', 'y', 'z'];
-	this.allTagNames = ['scene', 'views', 'illumination', 'lights', 'textures', 'materials','transformations','primitives', 'components'];
+	this.allTagNames = ['scene', 'views', 'illumination', 'lights', 'textures', 'materials','transformations','primitives', 'components', 'animations'];
 
 	this.lightIndex = 0;
 
@@ -35,6 +35,9 @@ function MySceneGraph(filename, scene) {
 
 	this.transformationList = {};
 	this.transformationsIDs = [];
+
+	this.animationsList = {};
+	this.animationsIDs = [];
 
 	// File reading
 	this.reader = new CGFXMLreader();
@@ -116,6 +119,11 @@ MySceneGraph.prototype.onXMLReady=function()
 		return;
 	}
 
+	var animationsError = this.parseAnimations(rootElement);
+	if (animationsError != null) {
+		this.onXMLError(animationsError);
+		return;
+	}
 
 	this.loadedOk=true;
 
@@ -129,13 +137,15 @@ MySceneGraph.prototype.onXMLReady=function()
 */
 MySceneGraph.prototype.checkOrder = function(rootElement){
 
-	if(rootElement.children.length != 9){
+	if(rootElement.children.length != this.allTagNames.length){
 		console.error("Wrong number of tags");
 		return 1;
 	}
 
 	for(var i = 0;  i < this.allTagNames.length; i++){
 		if(rootElement.children[i].tagName != this.allTagNames[i]){
+			console.log(rootElement.children[i].tagName);
+			console.log(this.allTagNames[i]);
 			console.warn(rootElement.children[i].tagName + " is not on the right place");
 			break;
 		}
@@ -888,6 +898,57 @@ MySceneGraph.prototype.parserTorus = function(element){
 
 	return new Torus(this.scene, coord.inner, coord.outer, coord.slices, coord.loops);
 }
+
+
+MySceneGraph.prototype.parseAnimations = function(variable){
+
+	var allElements = variable.getElementsByTagName('animations');
+
+	if(allElements == null){
+		return "animations element is missing";
+	}
+
+	var animations = allElements[0].getElementsByTagName('animation');
+
+for(var i = 0; i < animations.length; i++ ){
+	var element = animations[i];
+	var id = this.reader.getString(element, 'id');
+	var span = this.reader.getFloat(element, 'float');
+	var type = this.reader.getString(element, 'type');
+	var controlPoints= [];
+
+	animationsIDs[i] = id;
+
+	switch (type) {
+		case linear:
+				var control = element.child;
+				controlPoints[0] = this.reader.getFloat(control, 'xx');
+				controlPoints[1] = this.reader.getFloat(control, 'yy');
+				controlPoints[2] = this.reader.getFloat(control, 'zz');
+				console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0] +  " control1= " + controlPoints[1] +  " control2= " + controlPoints[2]);
+			//	animationsList[id] = new LinearAnimation(id, controlPoints, span);
+
+			break;
+		case circular:
+			var centerVariables = element.attributes.getNamedItem("center").value.match(/[^ ]+/g);
+			var center = [];
+			center.push(centerVariables[0]);
+			center.push(centerVariables[1]);
+			center.push(centerVariables[2]);
+
+			var radirus = this.reader.getFloat(element, 'radius');
+			var startang = this.reader.getFloat(element, 'startang');
+			var rotang = this.reader.getFloat(element, 'rotang');
+			console.log("id = " + id + " span= " + span + " type= " + type + " centerX= " + center[0]+ " centerY= " + center[1] + " centerZ= " + center[2] + " radius= " + radius + " startang= "+ startang + " rotang= " + rotang);
+	  	//animationsList[id] = new CircularAnimation();
+			break;
+	}
+}
+}
+
+
+
+
 
 
 /*
