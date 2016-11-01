@@ -935,7 +935,7 @@ for(var i = 0; i < animations.length; i++ ){
 
 
 				console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
-			//	this.animationsList[id] = new LinearAnimation(id, controlPoints, span);
+			this.animationsList[id] = new LinearAnimation(id, controlPoints, span);
 
 			break;
 		case "circular":
@@ -949,7 +949,7 @@ for(var i = 0; i < animations.length; i++ ){
 			var startang = this.reader.getFloat(element, 'startang');
 			var rotang = this.reader.getFloat(element, 'rotang');
 			console.log("id = " + id + " span= " + span + " type= " + type + " centerX= " + center[0]+ " centerY= " + center[1] + " centerZ= " + center[2] + " radius= " + radius + " startang= "+ startang + " rotang= " + rotang);
-	  	//this.animationsList[id] = new CircularAnimation();
+	  	this.animationsList[id] = new CircularAnimation(id, span, center, radius, startang, rotang);
 			break;
 	}
 }
