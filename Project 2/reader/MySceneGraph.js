@@ -788,7 +788,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 			case "torus":
 				primitive = this.parserTorus(primitiveChild);
 				break;
-
+			case "plane":
+				primitive = this.parserPlane(primitiveChild);
+				break;
 		}
 		this.primitivesIDs[i] = id;
 		this.primitivesList[child.id] = primitive;
@@ -903,6 +905,17 @@ MySceneGraph.prototype.parserTorus = function(element){
 	return new Torus(this.scene, coord.inner, coord.outer, coord.slices, coord.loops);
 }
 
+// <plane dimX="ff" dimY="ff" partsX="ii" partsY="ii"/>
+ MySceneGraph.prototype.parserPlane() = function(element){
+
+	 var dimX = this.reader.getFloat(element, 'dimX');
+	 var dimY = this.reader.getFloat(element, 'dimY');
+	 var partsX = this.reader.getFloat(element, 'partsX');
+	 var partsY = this.reader.getFloat(element, 'partsY');
+
+	 return new Plane(this.scene, dimX, dimY, partsX, partsY);
+ }
+
 
 MySceneGraph.prototype.parseAnimations = function(variable){
 
@@ -954,9 +967,6 @@ for(var i = 0; i < animations.length; i++ ){
 	}
 }
 }
-
-
-
 
 
 
