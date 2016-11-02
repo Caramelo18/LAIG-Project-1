@@ -2,35 +2,32 @@ function LinearAnimation(id, controlPoints, time){
   this.init(id);
   this.controlPoints = controlPoints;
   this.time = time;
-  this.totalDistance = 0;
-  this.velocity = 0;
+  this.totalDistance = this.calculateDistance();
+  this.velocity = this.calculateVelocity();
   this.currentPointMin = 0;
-  setVariables();
 }
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
-LinearAnimation.prototype.setVariables = function () {
-    calculateDistance();
-    calculateVelocity();
-};
 
 LinearAnimation.prototype.calculateDistance = function () {
 
-  this.totalDistance = 0;
+  var dist = 0;
 
   for (var i = 1; i < this.controlPoints.length; i++) {
-      this.totalDistance += Math.sqrt(Math.pow(this.controlPoints[i][0] - this.controlPoints[i - 1][0], 2)+
-                                      Math.pow(this.controlPoints[i][1] - this.controlPoints[i - 1][1], 2)+
-                                      Math.pow(this.controlPoints[i][2] - this.controlPoints[i - 1][2], 2));
+      dist += Math.sqrt(Math.pow(this.controlPoints[i][0] - this.controlPoints[i - 1][0], 2)+
+                        Math.pow(this.controlPoints[i][1] - this.controlPoints[i - 1][1], 2)+
+                        Math.pow(this.controlPoints[i][2] - this.controlPoints[i - 1][2], 2));
   }
+  return dist;
 };
 
 LinearAnimation.prototype.calculateVelocity = function () {
 
-  this.velocity = this.totalDistance/this.time;
+  var vel = this.totalDistance/this.time;
 
+  return vel;
 };
 
 LinearAnimation.prototype.calculateRotation = function(point1, point2){

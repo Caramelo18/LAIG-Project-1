@@ -1,9 +1,9 @@
-function Animation{
+function Animation(){
 
 }
 
 Animation.prototype.constructor = Animation;
 
-Animation.prototype.initIdAbstract = function(id){
+Animation.prototype.init = function(id){
   this.id = id;
 }
