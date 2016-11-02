@@ -12,6 +12,7 @@ function MySceneGraph(filename, scene) {
 	this.rgba = ['r', 'g', 'b', 'a'];
 	this.xyzw = ['x', 'y', 'z', 'w'];
 	this.xyz = ['x', 'y', 'z'];
+	this.doublexyz = ['xx', 'yy', 'zz'];
 	this.allTagNames = ['scene', 'views', 'illumination', 'lights', 'textures', 'materials','transformations','primitives', 'components', 'animations'];
 
 	this.lightIndex = 0;
@@ -791,6 +792,15 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 			case "plane":
 				primitive = this.parserPlane(primitiveChild);
 				break;
+			case "vehicle":
+				primitive = new Vehicle(this.scene);
+				break;
+			case "terrain":
+				primitive = this.parserTerrain(primitiveChild);
+				break;
+			case "patch":
+				primitive = this.parserPatch(primitiveChild);
+				break;
 		}
 		this.primitivesIDs[i] = id;
 		this.primitivesList[child.id] = primitive;
@@ -905,17 +915,41 @@ MySceneGraph.prototype.parserTorus = function(element){
 	return new Torus(this.scene, coord.inner, coord.outer, coord.slices, coord.loops);
 }
 
-// <plane dimX="ff" dimY="ff" partsX="ii" partsY="ii"/>
- MySceneGraph.prototype.parserPlane() = function(element){
+
+ MySceneGraph.prototype.parserPlane = function(element){
 
 	 var dimX = this.reader.getFloat(element, 'dimX');
 	 var dimY = this.reader.getFloat(element, 'dimY');
 	 var partsX = this.reader.getFloat(element, 'partsX');
 	 var partsY = this.reader.getFloat(element, 'partsY');
 
+	  console.log("dimX= "+ dimX + " dimY= " + dimY + " partsX= "+ partsX + " partsY= "+ partsY );
+
 	 return new Plane(this.scene, dimX, dimY, partsX, partsY);
  }
 
+ MySceneGraph.prototype.parserTerrain = function(element){
+	 var texture = this.reader.getString(element, 'texture');
+	 var heightmap = this.reader.getString(element, 'heightmap');
+
+   console.log("texture= "+ texture + "  heightmap= " + heightmap  );
+	 return new Terrain(this.scene, texture, heightmap);
+
+ }
+
+
+MySceneGraph.prototype.parserPatch = function(element){
+			var orderU = this.reader.getInteger(element, 'orderU');
+			var orderV = this.reader.getInteger(element, 'orderV');
+			var partsU = this.reader.getInteger(element, 'partsU');
+			var partsV = this.reader.getInteger(element, 'partsV');
+
+			var contPoints = this.getControlPoints(element, this.xyz);
+
+		 console.log("orderU= "+ orderU + "  orderV= " + orderV + " partsU= "+ partsU + " partsV= "+ partsV );
+		 return new Patch(this.scene, orderU, orderV, partsU, partsV, contPoints);
+
+}
 
 MySceneGraph.prototype.parseAnimations = function(variable){
 
@@ -938,14 +972,7 @@ for(var i = 0; i < animations.length; i++ ){
 
 	switch (type) {
 		case "linear":
-				var control = element.getElementsByTagName('controlpoint');
-				for (var j = 0; j < control.length; j++) {
-					var x = control[j].attributes.getNamedItem('xx').value;
-					var y = control[j].attributes.getNamedItem("yy").value;
-					var z = control[j].attributes.getNamedItem("zz").value;
-					controlPoints.push(vec3.fromValues(x,y,z));
-				}
-
+				controlPoints = this.getControlPoints(element, this.doublexyz);
 
 				console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
 			this.animationsList[id] = new LinearAnimation(id, controlPoints, span);
@@ -968,6 +995,20 @@ for(var i = 0; i < animations.length; i++ ){
 }
 }
 
+MySceneGraph.prototype.getControlPoints = function (element, variables){
+
+	var controlPoints = [];
+
+	var control = element.getElementsByTagName('controlpoint');
+	for (var j = 0; j < control.length; j++) {
+		var x = control[j].attributes.getNamedItem(variables[0]).value;
+		var y = control[j].attributes.getNamedItem(variables[1]).value;
+		var z = control[j].attributes.getNamedItem(variables[2]).value;
+		controlPoints.push(vec3.fromValues(x,y,z));
+	}
+
+	return  controlPoints;
+}
 
 
 /*

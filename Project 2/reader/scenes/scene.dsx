@@ -247,7 +247,26 @@
 			<rectangle x1="0.0" y1="0.0" x2="4" y2="3" />
 		</primitive>
 
-    </primitives>
+	<primitive id="testPlane">
+     <plane dimX="0.5" dimY="0.3" partsX="5" partsY="7"/>
+  </primitive>
+
+  <primitive id="testPatch">
+    <patch orderU="2" orderV="3" partsU="4" partsV="5" >
+    <controlpoint x="0.1" y="0.2" z="0.3" />
+    </patch>
+  </primitive>
+
+  <primitive id="testVehicle">
+   <vehicle/>
+  </primitive>
+
+  <primitive id="testTerrain">
+   <terrain texture="TOP" heightmap="YES" />
+  </primitive>
+
+
+</primitives>
 
 
 
