@@ -201,10 +201,12 @@ XMLscene.prototype.display = function () {
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
 
+
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
-        this.displayGraph(this.graph.root, null, null);
+        //this.displayGraph(this.graph.root, null, null);
+        this.primitives[this.primitivesIDs[11]].display();
 	};
 };
 

@@ -572,13 +572,14 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		for(var j = 0; j < primitiveref.length; j++)
 			primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
 
-
+	var animationList = [];
+/*
 		var animation = component.getElementsByTagName('animation');
 
-		var animationList = [];
+
 		for(var j = 0; j < animation[0].children.length; j++)
 			animationList[j] = this.reader.getString(animation[0].children[j], 'id');
-
+*/
 		var component = new Component(this.scene, materialID, transformationID, transfList, texture, primitiveRefs, componentRefs, animationList);
 
 		this.componentsList[componentID] = component;
