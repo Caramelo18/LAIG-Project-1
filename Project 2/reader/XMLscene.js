@@ -42,6 +42,9 @@ XMLscene.prototype.init = function (application) {
     this.lightsStatus =[];
     this.lightsNames = [];
 
+    this.animationsList = {};
+    this.animationsIDs = [];
+
 };
 /*
   defines the interface of the scene
@@ -66,13 +69,14 @@ XMLscene.prototype.onGraphLoaded = function ()
 {
     this.axis = new CGFaxis(this, this.graph.axis_length);
 
-	  this.initCameras();
-	  this.initIllumination();
-	  this.initPrimitives();
-	  this.initMaterials();
+	this.initCameras();
+	this.initIllumination();
+	this.initPrimitives();
+	this.initMaterials();
     this.initTextures();
     this.initTransformations();
     this.initComponents();
+    this.initAnimations();
 
     this.interface.initLightsButtons();
 };
@@ -147,6 +151,11 @@ XMLscene.prototype.initComponents = function()
 {
     this.componentsList = this.graph.componentsList;
     this.componentsIDs = this.graph.componentsIDs;
+}
+
+XMLscene.prototype.initAnimations = function(){
+    this.animationsList = this.graph.animationsList;
+    this.animationsIDs = this.graph.animationsIDs;
 }
 
 /**
@@ -252,9 +261,6 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 			break;
 	}
 
-
-
-
     if(node.transformationsID != null)
         this.applyTransformations(this.transformationsList[node.transformationsID]);
     else
@@ -274,6 +280,11 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
       mat.setTexture(text);
       mat.apply();
 
+      for(var j = 0; j < node.animationList.length;j++) {
+          var animation = this.animationsList[node.animationList[j]];
+          var point = animation.animate();
+          this.translate(point[0], point[1], point[2]);
+      }
       this.primitives[node.primitivesRefs[i]].display();
     }
 

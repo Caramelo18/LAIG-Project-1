@@ -573,7 +573,13 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 			primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
 
 
-		var component = new Component(this.scene, materialID, transformationID, transfList, texture, primitiveRefs, componentRefs);
+		var animation = component.getElementsByTagName('animation');
+
+		var animationList = [];
+		for(var j = 0; j < animation[0].children.length; j++)
+			animationList[j] = this.reader.getString(animation[0].children[j], 'id');
+
+		var component = new Component(this.scene, materialID, transformationID, transfList, texture, primitiveRefs, componentRefs, animationList);
 
 		this.componentsList[componentID] = component;
 		this.componentsIDs[i] = componentID;
@@ -975,7 +981,7 @@ for(var i = 0; i < animations.length; i++ ){
 				controlPoints = this.getControlPoints(element, this.doublexyz);
 
 				console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
-			this.animationsList[id] = new LinearAnimation(id, controlPoints, span);
+			this.animationsList[id] = new LinearAnimation(id, controlPoints, span, this.scene);
 
 			break;
 		case "circular":
