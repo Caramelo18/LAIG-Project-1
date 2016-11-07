@@ -1007,14 +1007,16 @@ MySceneGraph.prototype.getControlPoints = function (element, variables){
 
 	var control = element.getElementsByTagName('controlpoint');
 	for (var j = 0; j < control.length; j++) {
-		var x = control[j].attributes.getNamedItem(variables[0]).value;
-		var y = control[j].attributes.getNamedItem(variables[1]).value;
-		var z = control[j].attributes.getNamedItem(variables[2]).value;
-		controlPoints.push(vec3.fromValues(x,y,z));
+		var x = this.reader.getFloat(control[j],variables[0]);
+		var y = this.reader.getFloat(control[j],variables[1]);
+		var z = this.reader.getFloat(control[j],variables[2]);
+
+		controlPoints.push([x,y,z,1]);
 	}
 
 	return  controlPoints;
 }
+
 
 
 /*
