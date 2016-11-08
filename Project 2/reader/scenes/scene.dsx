@@ -248,7 +248,7 @@
 		</primitive>
 
 	<primitive id="testPlane">
-     <plane dimX="0.5" dimY="0.3" partsX="5" partsY="7"/>
+     <plane dimX="3" dimY="5" partsX="5" partsY="7"/>
   </primitive>
 
   <primitive id="testPatch">
