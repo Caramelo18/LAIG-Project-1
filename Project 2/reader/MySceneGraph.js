@@ -986,12 +986,11 @@ for(var i = 0; i < animations.length; i++ ){
 
 			break;
 		case "circular":
-			var centerVariables = element.attributes.getNamedItem("center").value.match(/[^ ]+/g);
 			var center = [];
-			center.push(centerVariables[0]);
-			center.push(centerVariables[1]);
-			center.push(centerVariables[2]);
-
+			center.push( this.reader.getFloat(element,'centerx'));
+			center.push( this.reader.getFloat(element,'centery'));
+			center.push( this.reader.getFloat(element,'centerz'));
+			
 			var radius = this.reader.getFloat(element, 'radius');
 			var startang = this.reader.getFloat(element, 'startang');
 			var rotang = this.reader.getFloat(element, 'rotang');
