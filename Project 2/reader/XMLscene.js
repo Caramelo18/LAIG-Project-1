@@ -206,7 +206,7 @@ XMLscene.prototype.display = function () {
 	{
         this.updateLights();
         //this.displayGraph(this.graph.root, null, null);
-        this.primitives["testPlane"].display();
+        this.primitives["testChessBoard"].display();
 	};
 };
 

@@ -21,7 +21,6 @@ function Plane(scene, dimX, dimY, partsX, partsY){
 Plane.prototype = Object.create(CGFobject.prototype);
 Plane.prototype.constructor = Plane;
 
-
 Plane.prototype.display = function () {
   this.plane.display();
 };

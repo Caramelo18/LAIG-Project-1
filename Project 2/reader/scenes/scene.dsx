@@ -260,12 +260,13 @@
     </patch>
   </primitive>
 
-  <primitive id="testVehicle">
-   <vehicle/>
-  </primitive>
 
-  <primitive id="testTerrain">
-   <terrain texture="TOP" heightmap="YES" />
+  <primitive id="testChessBoard">
+   <chessboard du="8" dv="8" textureref="YES"  su="5" sv="5">
+	 	<c1 r="-2.0" g="-2.0" b="0.0" a="1.0"/>
+		<c2 r="-2.0" g="2.0" b="0.0" a="1.0"/>
+		<cs r="-2.0" g="-2.0" b="0.0" a="1.0"/>
+		</chessboard>
   </primitive>
 
 

@@ -780,6 +780,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 		if(this.primitivesList.hasOwnProperty(id))
 			return "primitive " + id + " repeated";
 
+		console.log(primitiveChild.tagName);
 		switch(primitiveChild.tagName){
 			case "rectangle":
 				primitive = this.parserRectangle(primitiveChild);
@@ -802,8 +803,8 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 			case "vehicle":
 				primitive = new Vehicle(this.scene);
 				break;
-			case "terrain":
-				primitive = this.parserTerrain(primitiveChild);
+			case "chessboard":
+				primitive = this.parserChessBoard(primitiveChild);
 				break;
 			case "patch":
 				primitive = this.parserPatch(primitiveChild);
@@ -935,12 +936,23 @@ MySceneGraph.prototype.parserTorus = function(element){
 	 return new Plane(this.scene, dimX, dimY, partsX, partsY);
  }
 
- MySceneGraph.prototype.parserTerrain = function(element){
-	 var texture = this.reader.getString(element, 'texture');
-	 var heightmap = this.reader.getString(element, 'heightmap');
+ MySceneGraph.prototype.parserChessBoard = function(element){
+	 var textureRef = this.reader.getString(element, 'textureref');
+	 var du = this.reader.getInteger(element, 'du');
+	 var dv = this.reader.getInteger(element, 'dv');
+	 var su = this.reader.getInteger(element, 'su');
+	 var sv = this.reader.getInteger(element, 'sv');
 
-   console.log("texture= "+ texture + "  heightmap= " + heightmap  );
-	 return new Terrain(this.scene, texture, heightmap);
+	 var c1 = this.getNvalues(element.getElementsByTagName('c1')[0], this.rgba);
+	 var c2 = this.getNvalues(element.getElementsByTagName('c2')[0], this.rgba);
+	 var cs = this.getNvalues(element.getElementsByTagName('cs')[0], this.rgba);
+
+	 console.log("texture= "+ textureRef + "  du= " + du + " dv = " + dv + " su= " + su + " sv = " + sv  );
+	 console.log(c1);
+	 console.log(c2);
+	 console.log(cs);
+
+	 return new ChessBoard(this.scene, du, dv, textureRef, su, sv, c1, c2, cs);
 
  }
 
@@ -990,7 +1002,7 @@ for(var i = 0; i < animations.length; i++ ){
 			center.push( this.reader.getFloat(element,'centerx'));
 			center.push( this.reader.getFloat(element,'centery'));
 			center.push( this.reader.getFloat(element,'centerz'));
-			
+
 			var radius = this.reader.getFloat(element, 'radius');
 			var startang = this.reader.getFloat(element, 'startang');
 			var rotang = this.reader.getFloat(element, 'rotang');
