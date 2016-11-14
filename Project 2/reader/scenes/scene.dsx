@@ -106,8 +106,8 @@
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, ciclindro...) -->
         <texture id="eyestext" file="../textures/target1.png" length_s="1.0" length_t="2.3" />
-		<texture id="phonescreentext" file="../textures/android7.png" length_s="1" length_t="1" />
-
+				<texture id="phonescreentext" file="../textures/android7.png" length_s="1" length_t="1" />
+				<texture id="wood" file="../textures/wood.jpg" length_s="1" length_t="1" />
     </textures>
 
 
@@ -262,7 +262,7 @@
 
 
   <primitive id="testChessBoard">
-   <chessboard du="8" dv="8" textureref="YES"  su="5" sv="5">
+   <chessboard du="8" dv="8" textureref="wood"  su="5" sv="5">
 	 	<c1 r="-2.0" g="-2.0" b="0.0" a="1.0"/>
 		<c2 r="-2.0" g="2.0" b="0.0" a="1.0"/>
 		<cs r="-2.0" g="-2.0" b="0.0" a="1.0"/>
