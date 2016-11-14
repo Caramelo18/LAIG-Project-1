@@ -44,9 +44,16 @@ CircularAnimation.prototype.animate = function(){
     console.log(Math.sin(this.angle) * this.radius);
     console.log(Math.sqrt( (Math.cos(this.angle)*this.radius * Math.cos(this.angle)*this.radius) +  (Math.sin(this.angle) * this.radius * Math.sin(this.angle) * this.radius)  ));
 */
-    this.scene.rotate(this.angle, 0,1,0);
-    this.scene.translate(Math.cos(this.angle)*this.radius, 0 , Math.sin(this.angle) * this.radius);
-    this.scene.translate(this.center[0], this.center[1], this.center[2]);
+    var mat1 = this.getRotationMatrix("y", this.angle);
+    this.scene.multMatrix(mat1);
+    var mat2 = this.getTranslationMatrix(Math.cos(this.angle)*this.radius, 0 , Math.sin(this.angle) * this.radius);
+    this.scene.multMatrix(mat2);
+    var mat3 = this.getTranslationMatrix(this.center[0], this.center[1], this.center[2]);
+    this.scene.multMatrix(mat3);
+    
+    //this.scene.rotate(this.angle, 0,1,0);
+    //this.scene.translate(Math.cos(this.angle)*this.radius, 0 , Math.sin(this.angle) * this.radius);
+    //this.scene.translate(this.center[0], this.center[1], this.center[2]);
     if(this.angle > this.startang + this.rotang)
         return;
 

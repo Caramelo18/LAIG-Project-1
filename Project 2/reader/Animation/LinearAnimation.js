@@ -55,8 +55,10 @@ LinearAnimation.prototype.animate = function() {
     this.currentPoint[1] += this.increments[this.currentControlPoint][1] ;
     this.currentPoint[2] += this.increments[this.currentControlPoint][2] ;
 
-    this.scene.translate(this.currentPoint[0],this.currentPoint[1], this.currentPoint[2]);
+    //this.scene.translate(this.currentPoint[0],this.currentPoint[1], this.currentPoint[2]);
+    var matrix = this.getTranslationMatrix(this.currentPoint[0], this.currentPoint[1], this.currentPoint[2]);
 
+    this.scene.multMatrix(matrix);
     this.intermediatePoint++;
 
     if(this.currentPoint[this.currentControlPoint] > this.controlPoints[this.currentControlPoint + 1][0]) // TODO - not even close
@@ -64,6 +66,8 @@ LinearAnimation.prototype.animate = function() {
         this.currentControlPoint++;
         this.intermediatePoint = 0;
     }
+
+
 
     return this.currentPoint;
 }
