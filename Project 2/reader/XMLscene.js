@@ -16,7 +16,7 @@ XMLscene.prototype.init = function (application) {
 
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
-	this.gl.enable(this.gl.CULL_FACE);
+	//this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
     // creates a default camera and axis that are going to be replaced later
@@ -205,8 +205,8 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
-        //this.displayGraph(this.graph.root, null, null);
-        this.primitives["testChessBoard"].display();
+        this.displayGraph(this.graph.root, null, null);
+        //this.primitives["testChessBoard"].display();
 	};
 };
 
@@ -281,11 +281,10 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
       mat.setTexture(text);
       mat.apply();
-
+      
       for(var j = 0; j < node.animationList.length;j++) {
           var animation = this.animationsList[node.animationList[j]];
-          var point = animation.animate();
-          this.translate(point[0], point[1], point[2]);
+          animation.animate();
       }
       this.primitives[node.primitivesRefs[i]].display();
     }

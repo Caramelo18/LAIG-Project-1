@@ -1,5 +1,5 @@
 /*
-	Reads and stores data from the dsx file
+Reads and stores data from the dsx file
 */
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
@@ -44,17 +44,17 @@ function MySceneGraph(filename, scene) {
 	this.reader = new CGFXMLreader();
 
 	/*
-	 * Read the contents of the xml file, and refer to this class for loading and error handlers.
-	 * After the file is read, the reader calls onXMLReady on this object.
-	 * If any error occurs, the reader calls onXMLError on this object, with an error message
-	 */
+	* Read the contents of the xml file, and refer to this class for loading and error handlers.
+	* After the file is read, the reader calls onXMLReady on this object.
+	* If any error occurs, the reader calls onXMLError on this object, with an error message
+	*/
 
 	this.reader.open('scenes/'+filename, this);
 }
 
 /*
- * Callback to be executed after successful reading
- */
+* Callback to be executed after successful reading
+*/
 MySceneGraph.prototype.onXMLReady=function()
 {
 	console.log("XML Loading finished.");
@@ -134,13 +134,13 @@ MySceneGraph.prototype.onXMLReady=function()
 
 
 /*
-	Verifies if the order of the elements is correct
+Verifies if the order of the elements is correct
 */
 MySceneGraph.prototype.checkOrder = function(rootElement){
 
-	console.log(rootElement.children.length);
+	//console.log(rootElement.children.length);
 	for (var i = 0; i < rootElement.children.length; i++) {
-		console.log(rootElement.children[i]);
+		//console.log(rootElement.children[i]);
 	}
 	if(rootElement.children.length != 10){
 		console.error("Wrong number of tags");
@@ -162,8 +162,8 @@ MySceneGraph.prototype.checkOrder = function(rootElement){
 
 
 /*
- * Example of method that parses elements of one block and stores information in a specific data structure
- */
+* Example of method that parses elements of one block and stores information in a specific data structure
+*/
 MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 
 	var elems =  rootElement.getElementsByTagName('globals');
@@ -187,7 +187,7 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 };
 
 /*
-	Reads and stores data from the scene element
+Reads and stores data from the scene element
 */
 MySceneGraph.prototype.parseScene = function(rootElement)
 {
@@ -210,7 +210,7 @@ MySceneGraph.prototype.parseScene = function(rootElement)
 }
 
 /*
-	Reads and stores data from the illumination element
+Reads and stores data from the illumination element
 */
 MySceneGraph.prototype.parseIllumination = function(rootElement)
 {
@@ -264,7 +264,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement)
 }
 
 /*
-	Reads and stores data from the textures element
+Reads and stores data from the textures element
 */
 MySceneGraph.prototype.parseTextures = function(rootElement)
 {
@@ -277,7 +277,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 	var numText = textures[0].children.length;
 
 	if(numText <= 0)
-		return "texture elements are missing";
+	return "texture elements are missing";
 
 	for (var i = 0; i < numText; i++)
 	{
@@ -290,7 +290,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 
 
 		if(this.texturesList.hasOwnProperty(id))
-			console.warn("texture " + id + " repeated");
+		console.warn("texture " + id + " repeated");
 
 		var text = new CGFtexture(this.scene, file);
 		this.texturesList[id] = text;
@@ -303,7 +303,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement)
 }
 
 /*
-	Reads and stores data from the views element
+Reads and stores data from the views element
 */
 MySceneGraph.prototype.parseViews = function(rootElement)
 {
@@ -326,7 +326,7 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 		var id = this.reader.getString(perspective, 'id');
 
 		if(id == this.defaultCamera)
-			foundDefault = true;
+		foundDefault = true;
 
 		this.cameras[i * 6 ] = id;
 		this.cameras[i * 6 + 1] = this.reader.getFloat(perspective, 'near');
@@ -342,26 +342,26 @@ MySceneGraph.prototype.parseViews = function(rootElement)
 	}
 
 	if(!foundDefault)
-		return "Default camera does not exist";
+	return "Default camera does not exist";
 
 	for(var i = 0; i < this.cameras.length; i += 6){
 		for(var j = i + 6; j < this.cameras.length; j += 6 ){
 			if(this.cameras[i] == this.cameras[j])
-				return "camera " + this.cameras[i] + " repeated";
+			return "camera " + this.cameras[i] + " repeated";
 		}
 	}
 
 	/*console.log("tamanho " + this.cameras.length/6);
 
 	for(var i = 0;  i< this.cameras.length /6 ; i++){
-		console.log("Perspective :id= " + this.cameras[i * 6] + " near= " + this.cameras[i * 6 +1] + " far= "+ this.cameras[i * 6 + 2] + " angle= " + this.cameras[i * 6 + 3]);
-		console.log("from x= " + this.cameras[i * 6 + 4][0] + " y= " + this.cameras[i * 6 + 4][1] + " z= " +  this.cameras[i * 6 + 4][2]);
-		console.log("to x= " +  this.cameras[i * 6 + 5][0] + " y= " + this.cameras[i * 6 + 5][1] + " z= " + this.cameras[i * 6 + 5][2]);
-	}*/
+	console.log("Perspective :id= " + this.cameras[i * 6] + " near= " + this.cameras[i * 6 +1] + " far= "+ this.cameras[i * 6 + 2] + " angle= " + this.cameras[i * 6 + 3]);
+	console.log("from x= " + this.cameras[i * 6 + 4][0] + " y= " + this.cameras[i * 6 + 4][1] + " z= " +  this.cameras[i * 6 + 4][2]);
+	console.log("to x= " +  this.cameras[i * 6 + 5][0] + " y= " + this.cameras[i * 6 + 5][1] + " z= " + this.cameras[i * 6 + 5][2]);
+}*/
 }
 
 /*
-	Reads and stores data from materials element
+Reads and stores data from materials element
 */
 MySceneGraph.prototype.parseMaterials = function(rootElement)
 {
@@ -381,7 +381,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 		var id = ltMaterial[i].attributes.getNamedItem("id").value;
 
 		if(id === null)
-			continue;
+		continue;
 
 		var material = [];
 
@@ -401,7 +401,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 
 		}
 		if(this.materialsList.hasOwnProperty(id))
-			return "material " + id + " repeated";
+		return "material " + id + " repeated";
 
 		var mat = new CGFappearance(this.scene);
 		mat.setEmission(material[0][0], material[0][1], material[0][2], material[0][3]);
@@ -418,7 +418,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement)
 }
 
 /*
-	Reads and stores data from transformations element
+Reads and stores data from transformations element
 */
 MySceneGraph.prototype.parseTransformations = function(rootElement)
 {
@@ -431,7 +431,7 @@ MySceneGraph.prototype.parseTransformations = function(rootElement)
 	var numTransf = transformations[0].children.length;
 
 	if(numTransf <= 0)
-		return "transformation elements are missing";
+	return "transformation elements are missing";
 
 	for(var i = 0; i < numTransf; i++)
 	{
@@ -441,11 +441,11 @@ MySceneGraph.prototype.parseTransformations = function(rootElement)
 		this.transformationsIDs[i] = id;
 
 		if(this.transformationList.hasOwnProperty(id))
-			return "transformation " + id + " repeated";
+		return "transformation " + id + " repeated";
 
 		var tr = [];
 		for(var j = 0; j < transf.children.length; j++)
-			tr.push(this.getTransformationValues(transf.children[j]));
+		tr.push(this.getTransformationValues(transf.children[j]));
 
 		this.transformationList[this.transformationsIDs[i]] = tr;
 
@@ -455,7 +455,7 @@ MySceneGraph.prototype.parseTransformations = function(rootElement)
 }
 
 /*
-	reads and returns an array with data from the transformation received
+reads and returns an array with data from the transformation received
 */
 MySceneGraph.prototype.getTransformationValues = function(transformation){
 	var values = {};
@@ -485,7 +485,7 @@ MySceneGraph.prototype.getTransformationValues = function(transformation){
 
 
 /*
-	Reads and stores data from components element
+Reads and stores data from components element
 */
 MySceneGraph.prototype.parseComponents = function(rootElement)
 {
@@ -503,7 +503,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		var componentID = this.reader.getString(component, 'id');
 
 		if(this.componentsList.hasOwnProperty(componentID))
-			return "component " +  componentID + " repeated";
+		return "component " +  componentID + " repeated";
 
 		var transformation = component.getElementsByTagName('transformation');
 
@@ -517,12 +517,12 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		var transfList = [];
 		// reads transformationref or the transformation list
 		if(transformationRef != null && transformationRef.length != 0)
-			transformationID = this.reader.getString(transformationRef[0], 'id');
+		transformationID = this.reader.getString(transformationRef[0], 'id');
 		else
 		{
 			transformationID = null;
 			for(var j = 0; j < transformation.children.length; j++)
-				transfList.push(this.getTransformationValues(transformation.children[j]));
+			transfList.push(this.getTransformationValues(transformation.children[j]));
 		}
 
 
@@ -536,11 +536,11 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		var materialID = [];
 
 		if(materialLength == 0)
-			return "every element must include at least a material";
+		return "every element must include at least a material";
 
 		//reads materialsIDs
 		for(var j = 0; j < materialLength; j++)
-			materialID[j] = this.reader.getString(material[0].children[j], 'id');
+		materialID[j] = this.reader.getString(material[0].children[j], 'id');
 
 
 		var texture = component.getElementsByTagName('texture');
@@ -567,19 +567,19 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 		var primitiveRefs = [];
 
 		for(var j = 0; j < componentref.length; j++)
-			componentRefs[j] = this.reader.getString(componentref[j], 'id');
+		componentRefs[j] = this.reader.getString(componentref[j], 'id');
 
 		for(var j = 0; j < primitiveref.length; j++)
-			primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
+		primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
 
-	var animationList = [];
-/*
+		var animationList = [];
+
 		var animation = component.getElementsByTagName('animation');
 
 
 		for(var j = 0; j < animation[0].children.length; j++)
 			animationList[j] = this.reader.getString(animation[0].children[j], 'id');
-*/
+
 		var component = new Component(this.scene, materialID, transformationID, transfList, texture, primitiveRefs, componentRefs, animationList);
 
 		this.componentsList[componentID] = component;
@@ -590,7 +590,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement)
 }
 
 /*
-	Reads and stores data from lights element
+Reads and stores data from lights element
 */
 MySceneGraph.prototype.parseLights = function(rootElement)
 {
@@ -605,29 +605,29 @@ MySceneGraph.prototype.parseLights = function(rootElement)
 	var nnodes = light.children.length;
 
 	if(nnodes == 0)
-		return "there are no lights";
+	return "there are no lights";
 
 	for(var i = 0; i < nnodes; i++){
 		var child = light.children[i];
 		//console.log(child.tagName);
 		switch(child.tagName){
 			case "omni":
-				this.parserOmniLights(child);
-				break;
+			this.parserOmniLights(child);
+			break;
 			case "spot":
-				this.parserSpotLights(child);
-				break;
+			this.parserSpotLights(child);
+			break;
 		}
 	}
 }
 
 /*
-	Reads and stores data from a omniLight element
+Reads and stores data from a omniLight element
 */
 MySceneGraph.prototype.parserOmniLights = function(rootElement){
 
 	if(rootElement == null)
-		return "error on omni light";
+	return "error on omni light";
 
 	var omni = this.scene.lights[this.lightIndex];
 
@@ -638,14 +638,14 @@ MySceneGraph.prototype.parserOmniLights = function(rootElement){
 	var enabled = this.reader.getBoolean(rootElement, 'enabled');
 
 	if(enabled == 1)
-		this.scene.lights[this.lightIndex].enable();
+	this.scene.lights[this.lightIndex].enable();
 	else
-		this.scene.lights[this.lightIndex].disable();
+	this.scene.lights[this.lightIndex].disable();
 
 
 	for(var i = 0; i < this.lightIndex; i++){
 		if(this.scene.lightsNames[i] == id)
-			console.error("light " + id + " repeated");
+		console.error("light " + id + " repeated");
 	}
 
 	this.scene.lightsStatus[this.lightIndex] = enabled;
@@ -669,12 +669,12 @@ MySceneGraph.prototype.parserOmniLights = function(rootElement){
 }
 
 /*
-	Reads and stores data from a Spot Light element
+Reads and stores data from a Spot Light element
 */
 MySceneGraph.prototype.parserSpotLights = function(rootElement){
 
 	if(rootElement == null)
-		return "error on spot light" ;
+	return "error on spot light" ;
 
 	var spot = this.scene.lights[this.lightIndex];
 
@@ -688,13 +688,13 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 
 
 	if(enabled == 1)
-		this.scene.lights[this.lightIndex].enable();
+	this.scene.lights[this.lightIndex].enable();
 	else
-		this.scene.lights[this.lightIndex].disable();
+	this.scene.lights[this.lightIndex].disable();
 
 	for(var i = 0; i < this.lightIndex; i++){
 		if(this.scene.lightsNames[i] == id)
-			console.error("light " + id + " repeated");
+		console.error("light " + id + " repeated");
 	}
 
 	this.scene.lightsStatus[this.lightIndex] = enabled;
@@ -725,12 +725,12 @@ MySceneGraph.prototype.parserSpotLights = function(rootElement){
 }
 
 /*
-	returns a filled array with info from the tags passed in the type array
+returns a filled array with info from the tags passed in the type array
 */
 MySceneGraph.prototype.getNvalues = function(rootElement, type){
 
 	if(rootElement == null)
-		return "error geting values";
+	return "error geting values";
 
 	var tmp = [];
 
@@ -743,7 +743,7 @@ MySceneGraph.prototype.getNvalues = function(rootElement, type){
 
 
 /*
-	Reads and stores data from primitives element
+Reads and stores data from primitives element
 */
 MySceneGraph.prototype.parsePrimitives = function(rootElement){
 
@@ -756,7 +756,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 	var prim = elems[0];
 
 	if(prim.children == null|| prim.children.length == 0){
-			return "Should have one or more primitives";
+		return "Should have one or more primitives";
 	}
 
 	var nnodes = prim.children.length;
@@ -778,37 +778,37 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 		var id = this.reader.getString(child, 'id');
 
 		if(this.primitivesList.hasOwnProperty(id))
-			return "primitive " + id + " repeated";
+		return "primitive " + id + " repeated";
 
 		console.log(primitiveChild.tagName);
 		switch(primitiveChild.tagName){
 			case "rectangle":
-				primitive = this.parserRectangle(primitiveChild);
-				break;
+			primitive = this.parserRectangle(primitiveChild);
+			break;
 			case "triangle":
-				primitive = this.parserTriangle(primitiveChild);
-				break;
+			primitive = this.parserTriangle(primitiveChild);
+			break;
 			case "cylinder":
-				primitive = this.parserCylinder(primitiveChild);
-				break;
+			primitive = this.parserCylinder(primitiveChild);
+			break;
 			case "sphere":
-				primitive =  this.parserSphere(primitiveChild);
-				break;
+			primitive =  this.parserSphere(primitiveChild);
+			break;
 			case "torus":
-				primitive = this.parserTorus(primitiveChild);
-				break;
+			primitive = this.parserTorus(primitiveChild);
+			break;
 			case "plane":
-				primitive = this.parserPlane(primitiveChild);
-				break;
+			primitive = this.parserPlane(primitiveChild);
+			break;
 			case "vehicle":
-				primitive = new Vehicle(this.scene);
-				break;
+			primitive = new Vehicle(this.scene);
+			break;
 			case "chessboard":
-				primitive = this.parserChessBoard(primitiveChild);
-				break;
+			primitive = this.parserChessBoard(primitiveChild);
+			break;
 			case "patch":
-				primitive = this.parserPatch(primitiveChild);
-				break;
+			primitive = this.parserPatch(primitiveChild);
+			break;
 		}
 		this.primitivesIDs[i] = id;
 		this.primitivesList[child.id] = primitive;
@@ -817,7 +817,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 }
 
 /*
-	Returns a new rectangle with the data read from the file
+Returns a new rectangle with the data read from the file
 */
 MySceneGraph.prototype.parserRectangle = function(element){
 	var coord ={
@@ -836,7 +836,7 @@ MySceneGraph.prototype.parserRectangle = function(element){
 }
 
 /*
-	Returns a new triangle with the data read from the file
+Returns a new triangle with the data read from the file
 */
 MySceneGraph.prototype.parserTriangle = function(element){
 	var coord ={
@@ -866,7 +866,7 @@ MySceneGraph.prototype.parserTriangle = function(element){
 
 
 /*
-	Returns a new cylinder with the data read from the file
+Returns a new cylinder with the data read from the file
 */
 MySceneGraph.prototype.parserCylinder = function(element){
 	var coord ={
@@ -888,7 +888,7 @@ MySceneGraph.prototype.parserCylinder = function(element){
 
 
 /*
-	Returns a new sphere with the data read from the file
+Returns a new sphere with the data read from the file
 */
 MySceneGraph.prototype.parserSphere = function(element){
 	var coord ={
@@ -905,7 +905,7 @@ MySceneGraph.prototype.parserSphere = function(element){
 }
 
 /*
-	Returns a new torus with the data read from the file
+Returns a new torus with the data read from the file
 */
 MySceneGraph.prototype.parserTorus = function(element){
 	var coord ={
@@ -924,49 +924,49 @@ MySceneGraph.prototype.parserTorus = function(element){
 }
 
 
- MySceneGraph.prototype.parserPlane = function(element){
+MySceneGraph.prototype.parserPlane = function(element){
 
-	 var dimX = this.reader.getFloat(element, 'dimX');
-	 var dimY = this.reader.getFloat(element, 'dimY');
-	 var partsX = this.reader.getFloat(element, 'partsX');
-	 var partsY = this.reader.getFloat(element, 'partsY');
+	var dimX = this.reader.getFloat(element, 'dimX');
+	var dimY = this.reader.getFloat(element, 'dimY');
+	var partsX = this.reader.getFloat(element, 'partsX');
+	var partsY = this.reader.getFloat(element, 'partsY');
 
-	  console.log("dimX= "+ dimX + " dimY= " + dimY + " partsX= "+ partsX + " partsY= "+ partsY );
+	console.log("dimX= "+ dimX + " dimY= " + dimY + " partsX= "+ partsX + " partsY= "+ partsY );
 
-	 return new Plane(this.scene, dimX, dimY, partsX, partsY);
- }
+	return new Plane(this.scene, dimX, dimY, partsX, partsY);
+}
 
- MySceneGraph.prototype.parserChessBoard = function(element){
-	 var textureRef = this.reader.getString(element, 'textureref');
-	 var du = this.reader.getInteger(element, 'du');
-	 var dv = this.reader.getInteger(element, 'dv');
-	 var su = this.reader.getInteger(element, 'su');
-	 var sv = this.reader.getInteger(element, 'sv');
+MySceneGraph.prototype.parserChessBoard = function(element){
+	var textureRef = this.reader.getString(element, 'textureref');
+	var du = this.reader.getInteger(element, 'du');
+	var dv = this.reader.getInteger(element, 'dv');
+	var su = this.reader.getInteger(element, 'su');
+	var sv = this.reader.getInteger(element, 'sv');
 
-	 var c1 = this.getNvalues(element.getElementsByTagName('c1')[0], this.rgba);
-	 var c2 = this.getNvalues(element.getElementsByTagName('c2')[0], this.rgba);
-	 var cs = this.getNvalues(element.getElementsByTagName('cs')[0], this.rgba);
+	var c1 = this.getNvalues(element.getElementsByTagName('c1')[0], this.rgba);
+	var c2 = this.getNvalues(element.getElementsByTagName('c2')[0], this.rgba);
+	var cs = this.getNvalues(element.getElementsByTagName('cs')[0], this.rgba);
 
-	 console.log("texture= "+ textureRef + "  du= " + du + " dv = " + dv + " su= " + su + " sv = " + sv  );
-	 console.log(c1);
-	 console.log(c2);
-	 console.log(cs);
+	console.log("texture= "+ textureRef + "  du= " + du + " dv = " + dv + " su= " + su + " sv = " + sv  );
+	console.log(c1);
+	console.log(c2);
+	console.log(cs);
 
-	 return new ChessBoard(this.scene, du, dv, textureRef, su, sv, c1, c2, cs);
+	return new ChessBoard(this.scene, du, dv, textureRef, su, sv, c1, c2, cs);
 
- }
+}
 
 
 MySceneGraph.prototype.parserPatch = function(element){
-			var orderU = this.reader.getInteger(element, 'orderU');
-			var orderV = this.reader.getInteger(element, 'orderV');
-			var partsU = this.reader.getInteger(element, 'partsU');
-			var partsV = this.reader.getInteger(element, 'partsV');
+	var orderU = this.reader.getInteger(element, 'orderU');
+	var orderV = this.reader.getInteger(element, 'orderV');
+	var partsU = this.reader.getInteger(element, 'partsU');
+	var partsV = this.reader.getInteger(element, 'partsV');
 
-			var contPoints = this.getControlPoints(element, this.xyz);
+	var contPoints = this.getControlPoints(element, this.xyz);
 
-		 console.log("orderU= "+ orderU + "  orderV= " + orderV + " partsU= "+ partsU + " partsV= "+ partsV );
-		 return new Patch(this.scene, orderU, orderV, partsU, partsV, contPoints);
+	console.log("orderU= "+ orderU + "  orderV= " + orderV + " partsU= "+ partsU + " partsV= "+ partsV );
+	return new Patch(this.scene, orderU, orderV, partsU, partsV, contPoints);
 
 }
 
@@ -980,24 +980,24 @@ MySceneGraph.prototype.parseAnimations = function(variable){
 
 	var animations = allElements[0].getElementsByTagName('animation');
 
-for(var i = 0; i < animations.length; i++ ){
-	var element = animations[i];
-	var id = this.reader.getString(element, 'id');
-	var span = this.reader.getFloat(element, 'span');
-	var type = this.reader.getString(element, 'type');
-	var controlPoints = [];
+	for(var i = 0; i < animations.length; i++ ){
+		var element = animations[i];
+		var id = this.reader.getString(element, 'id');
+		var span = this.reader.getFloat(element, 'span');
+		var type = this.reader.getString(element, 'type');
+		var controlPoints = [];
 
-	this.animationsIDs[i] = id;
+		this.animationsIDs[i] = id;
 
-	switch (type) {
-		case "linear":
-				controlPoints = this.getControlPoints(element, this.doublexyz);
+		switch (type) {
+			case "linear":
+			controlPoints = this.getControlPoints(element, this.doublexyz);
 
-				console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
+			console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
 			this.animationsList[id] = new LinearAnimation(id, controlPoints, span, this.scene);
 
 			break;
-		case "circular":
+			case "circular":
 			var center = [];
 			center.push( this.reader.getFloat(element,'centerx'));
 			center.push( this.reader.getFloat(element,'centery'));
@@ -1007,10 +1007,10 @@ for(var i = 0; i < animations.length; i++ ){
 			var startang = this.reader.getFloat(element, 'startang');
 			var rotang = this.reader.getFloat(element, 'rotang');
 			console.log("id = " + id + " span= " + span + " type= " + type + " centerX= " + center[0]+ " centerY= " + center[1] + " centerZ= " + center[2] + " radius= " + radius + " startang= "+ startang + " rotang= " + rotang);
-	  	this.animationsList[id] = new CircularAnimation(id, span, center, radius, startang, rotang);
+			this.animationsList[id] = new CircularAnimation(id, span, center, radius, startang, rotang, this.scene);
 			break;
+		}
 	}
-}
 }
 
 MySceneGraph.prototype.getControlPoints = function (element, variables){
@@ -1032,8 +1032,8 @@ MySceneGraph.prototype.getControlPoints = function (element, variables){
 
 
 /*
- * Callback to be executed on any read error
- */
+* Callback to be executed on any read error
+*/
 MySceneGraph.prototype.onXMLError=function (message) {
 	console.error("XML Loading Error: "+message);
 	this.loadedOk=false;

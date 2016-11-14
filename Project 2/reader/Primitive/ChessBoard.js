@@ -12,7 +12,7 @@ function  ChessBoard(scene, du, dv, textureRef, su, sv, controlPoints, c1, c2, c
 
  var dimension = 1.0;
 
- this.chessShader = new CGFShader(this.gl,"Shaders/chess.vert", ,"Shaders/chess.frag");
+ this.chessShader = new CGFShader(this.gl,"Shaders/chess.vert", "Shaders/chess.frag");
  this.plane = new Plane(this.scene, dimension, dimension, this.du, this.dv);
 
 };
@@ -25,6 +25,6 @@ ChessBoard.prototype.display = function(){
 
       this.setActiveShader(this.chessShader);
       this.plane.display();
-      
+
     this.scene.popMatrix();
 }

@@ -7,6 +7,7 @@ function LinearAnimation(id, controlPoints, time, scene){
   this.currentControlPoint = 0;
   this.intermediatePoint = 0;
   this.currentPoint = this.controlPoints[0];
+  this.scene = scene;
 
   this.calculateVectors();
 }
@@ -45,14 +46,16 @@ LinearAnimation.prototype.calculateIncrement = function (vector, time) {
 
 LinearAnimation.prototype.animate = function() {
     if(this.currentControlPoint >= this.controlPoints.length - 1)
+    {
+        this.scene.translate(this.currentPoint[0],this.currentPoint[1], this.currentPoint[2]);
         return this.currentPoint;
+    }
 
+    this.currentPoint[0] += this.increments[this.currentControlPoint][0] ;
+    this.currentPoint[1] += this.increments[this.currentControlPoint][1] ;
+    this.currentPoint[2] += this.increments[this.currentControlPoint][2] ;
 
-    this.currentPoint[0] += this.increments[this.currentControlPoint][0] * this.intermediatePoint;
-    this.currentPoint[1] += this.increments[this.currentControlPoint][1] * this.intermediatePoint;
-    this.currentPoint[2] += this.increments[this.currentControlPoint][2] * this.intermediatePoint;
-
-//    this.scene.translate(this.currentPoint[0], this.currentPoint[1], this.currentPoint[2]);
+    this.scene.translate(this.currentPoint[0],this.currentPoint[1], this.currentPoint[2]);
 
     this.intermediatePoint++;
 
@@ -61,7 +64,7 @@ LinearAnimation.prototype.animate = function() {
         this.currentControlPoint++;
         this.intermediatePoint = 0;
     }
-    
+
     return this.currentPoint;
 }
 /*
