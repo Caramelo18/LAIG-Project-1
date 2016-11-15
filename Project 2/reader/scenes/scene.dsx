@@ -263,9 +263,9 @@
 
   <primitive id="testChessBoard">
    <chessboard du="8" dv="8" textureref="wood"  su="5" sv="5">
-	 	<c1 r="-2.0" g="-2.0" b="0.0" a="1.0"/>
-		<c2 r="-2.0" g="2.0" b="0.0" a="1.0"/>
-		<cs r="-2.0" g="-2.0" b="0.0" a="1.0"/>
+	 	<c1 r="0.5" g="0.5" b="0.3" a="1.0"/>
+		<c2 r="0.7" g="0.0" b="0.2" a="1.0"/>
+		<cs r="0.3" g="1.0" b="0.6" a="1.0"/>
 		</chessboard>
   </primitive>
 

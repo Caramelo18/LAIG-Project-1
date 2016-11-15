@@ -9,8 +9,10 @@ uniform vec4 c1;
 uniform vec4 c2;
 uniform vec4 cs;
 
-uniform sampler2D uSampler;
+uniform float offSetX;
+uniform float offSetY;
 
+uniform sampler2D uSampler;
 
 void main() {
 

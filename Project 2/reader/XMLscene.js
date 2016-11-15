@@ -205,8 +205,8 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
-        this.displayGraph(this.graph.root, null, null);
-        //this.primitives["testChessBoard"].display();
+        //this.displayGraph(this.graph.root, null, null);
+        this.primitives["testChessBoard"].display();
 	};
 };
 
@@ -281,7 +281,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
       mat.setTexture(text);
       mat.apply();
-      
+
       for(var j = 0; j < node.animationList.length;j++) {
           var animation = this.animationsList[node.animationList[j]];
           animation.animate();
