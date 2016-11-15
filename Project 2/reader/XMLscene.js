@@ -205,8 +205,8 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
-        //this.displayGraph(this.graph.root, null, null);
-        this.primitives["testChessBoard"].display();
+        this.displayGraph(this.graph.root, null, null);
+        //this.primitives["testChessBoard"].display();
 	};
 };
 
@@ -268,7 +268,10 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
     else
         this.applyTransformations(node.transformations);
 
-
+    for(var j = 0; j < node.animationList.length;j++) {
+        var animation = this.animationsList[node.animationList[j]];
+        animation.animate();
+    }
     for(var i = 0; i < node.primitivesRefs.length; i++){
       if(this.primitives[node.primitivesRefs[i]] instanceof Triangle || this.primitives[node.primitivesRefs[i]] instanceof Rectangle){
       var  s = this.texturesList[node.texture + "s"];
@@ -282,10 +285,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
       mat.setTexture(text);
       mat.apply();
 
-      for(var j = 0; j < node.animationList.length;j++) {
-          var animation = this.animationsList[node.animationList[j]];
-          animation.animate();
-      }
+
       this.primitives[node.primitivesRefs[i]].display();
     }
 

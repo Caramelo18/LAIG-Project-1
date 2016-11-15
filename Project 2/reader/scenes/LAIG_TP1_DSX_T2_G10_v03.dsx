@@ -24,7 +24,7 @@
             <from x="16" y="16" z="16" />
             <to x="0" y="0" z="0" />
         </perspective>
-        <perspective id="V5" near="0.1" far="500" angle="90">
+        <perspective id="V5" near="0.1" far="1000" angle="45">
             <from x="16" y="16" z="16" />
             <to x="0" y="0" z="0" />
         </perspective>
@@ -98,10 +98,7 @@
         <!-- objetos respetivos podem a violar esta regra.         -->
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, ciclindro...) -->
-        <texture id="sky" file="scenes//textures//sky.jpg" length_s="1" length_t="1" />
-        <texture id="fire" file="scenes//textures//fire.jpg" length_s="1" length_t="1" />
-        <!-- <texture id="beach" file="scenes//textures//beach.jpg" length_s="1" length_t="1" /> -->
-        <texture id="snow" file="scenes//textures//snow.jpg" length_s="3" length_t="3" />
+        <texture id="sky" file="../textures/target1.png" length_s="1" length_t="1" />
 
     </textures>
 
@@ -527,6 +524,11 @@
 
             <texture id="none" />
 
+            <animation>
+                <!--animationref id="oi"/-->
+                <animationref id="oiCircular"/>
+            </animation>
+
             <children>
                 <componentref id="SMLEye" />
 				<componentref id="SMREye" />
@@ -728,7 +730,7 @@
                 <material id="redMat" />
             </materials>
 
-            <texture id="fire" />
+            <texture id="none" />
 
             <children>
                 <primitiveref id="ringLord" />
@@ -762,7 +764,7 @@
                 <material id="snowMat" />
             </materials>
 
-            <texture id="snow" />
+            <texture id="none" />
 
             <children>
                 <primitiveref id="rectangle" />
@@ -827,7 +829,7 @@
                 <material id="skyMat" />
             </materials>
 
-            <texture id="sky" />
+            <texture id="none" />
 
             <children>
                 <primitiveref id="rectangle" />
@@ -865,5 +867,19 @@
 
     </components>
 
+    <animations>
+        <!-- podem existir zero ou mais nós "animation" -->
+        <!-- span é o tempo, em segundos, que a animação deve -->
+        <!-- demorar. Nesta versão do formato DSX, type pode ter -->
+        <!-- o valor "linear" ou "circular"; na animacao circular -->
+        <!-- os angulos sao expressos em graus  -->
+        <animation id="oi" span="2" type="linear">
+            <controlpoint xx="0" yy="0" zz="0" />
+            <controlpoint xx="1" yy="0" zz="0" />
+            <controlpoint xx="1" yy="1" zz="1" />
+        </animation>
+        <animation id="oiCircular" span="3" type="circular" centerx="10" centery="0.66" centerz="1"
+            radius="10" startang="0" rotang="90" />
+    </animations>
 
 </dsx>

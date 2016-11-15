@@ -8,7 +8,7 @@ function CircularAnimation(id,time, center, radius, startang, rotang, scene){
   this.startang = startang;
   this.rotang = rotang;
   this.scene = scene;
-  console.log(this.center);
+
   this.calculateValues();
 }
 
@@ -44,13 +44,17 @@ CircularAnimation.prototype.animate = function(){
     console.log(Math.sin(this.angle) * this.radius);
     console.log(Math.sqrt( (Math.cos(this.angle)*this.radius * Math.cos(this.angle)*this.radius) +  (Math.sin(this.angle) * this.radius * Math.sin(this.angle) * this.radius)  ));
 */
-    var mat1 = this.getRotationMatrix("y", this.angle);
+
+    var mat1 = this.getTranslationMatrix(Math.sin(this.angle) * this.radius, 0 , Math.cos(this.angle)*this.radius);
     this.scene.multMatrix(mat1);
-    var mat2 = this.getTranslationMatrix(Math.cos(this.angle)*this.radius, 0 , Math.sin(this.angle) * this.radius);
+    var mat2 = this.getRotationMatrix("y", this.angle);
     this.scene.multMatrix(mat2);
     var mat3 = this.getTranslationMatrix(this.center[0], this.center[1], this.center[2]);
     this.scene.multMatrix(mat3);
-    
+/*
+    var deg2Rad = Math.PI / 180;
+    console.log(this.angle/deg2Rad);*/
+
     //this.scene.rotate(this.angle, 0,1,0);
     //this.scene.translate(Math.cos(this.angle)*this.radius, 0 , Math.sin(this.angle) * this.radius);
     //this.scene.translate(this.center[0], this.center[1], this.center[2]);
