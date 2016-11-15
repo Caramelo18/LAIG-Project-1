@@ -938,6 +938,8 @@ MySceneGraph.prototype.parserPlane = function(element){
 
 MySceneGraph.prototype.parserChessBoard = function(element){
 	var textureRef = this.reader.getString(element, 'textureref');
+	var texture = this.texturesList[textureRef];
+
 	var du = this.reader.getInteger(element, 'du');
 	var dv = this.reader.getInteger(element, 'dv');
 	var su = this.reader.getInteger(element, 'su');
@@ -952,7 +954,8 @@ MySceneGraph.prototype.parserChessBoard = function(element){
 	console.log(c2);
 	console.log(cs);
 
-	return new ChessBoard(this.scene, du, dv, textureRef, su, sv, c1, c2, cs);
+
+	return new ChessBoard(this.scene, du, dv, texture, su, sv, c1, c2, cs);
 
 }
 

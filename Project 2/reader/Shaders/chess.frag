@@ -2,21 +2,20 @@
 precision highp float;
 #endif
 
-varying vec4 vFinalColor;
+
 varying vec2 vTextureCoord;
+
+uniform vec4 c1;
+uniform vec4 c2;
+uniform vec4 cs;
 
 uniform sampler2D uSampler;
 
-uniform bool uUseTexture;
 
 void main() {
 
-	if (uUseTexture)
-	{
-		vec4 textureColor = texture2D(uSampler, vTextureCoord);
-		gl_FragColor = textureColor * vFinalColor;
-	}
-	else
-		gl_FragColor = vFinalColor;
 
-}
+		vec4 textureColor = texture2D(uSampler, vTextureCoord);
+		gl_FragColor = textureColor * c1;
+
+	}
