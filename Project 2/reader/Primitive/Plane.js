@@ -1,3 +1,8 @@
+/**
+* plane
+* @constructor
+*/
+
 function Plane(scene, dimX, dimY, partsX, partsY){
   CGFobject.call(this,scene);
 
@@ -8,10 +13,10 @@ function Plane(scene, dimX, dimY, partsX, partsY){
   this.order = 1;
 
   var controlPoints = [
-                        [0,this.dimY, 0,1],
-                        [this.dimX, this.dimY ,0,1],
-                        [0,0,0,1],
-                        [this.dimX,0,0,1]
+                        [-this.dimX/2,-this.dimY/2, 0,1],
+                        [-this.dimX/2,this.dimY/2, 0,1],
+                        [this.dimX/2,-this.dimY/2, 0,1],
+                        [this.dimX/2,this.dimY/2, 0,1]
                       ];
 
   this.plane = new Patch(this.scene, this.order, this.order, this.partsX, this.partsY, controlPoints);

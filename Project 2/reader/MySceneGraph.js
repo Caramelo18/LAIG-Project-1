@@ -925,7 +925,9 @@ MySceneGraph.prototype.parserTorus = function(element){
 	return new Torus(this.scene, coord.inner, coord.outer, coord.slices, coord.loops);
 }
 
-
+/*
+Returns a new plane with the data read from the file
+*/
 MySceneGraph.prototype.parserPlane = function(element){
 
 	var dimX = this.reader.getFloat(element, 'dimX');
@@ -938,6 +940,9 @@ MySceneGraph.prototype.parserPlane = function(element){
 	return new Plane(this.scene, dimX, dimY, partsX, partsY);
 }
 
+/*
+Returns a new chessboard with the data read from the file
+*/
 MySceneGraph.prototype.parserChessBoard = function(element){
 	var textureRef = this.reader.getString(element, 'textureref');
 	var texture = this.texturesList[textureRef];
@@ -961,7 +966,9 @@ MySceneGraph.prototype.parserChessBoard = function(element){
 
 }
 
-
+/*
+Returns a new patch with the data read from the file
+*/
 MySceneGraph.prototype.parserPatch = function(element){
 	var orderU = this.reader.getInteger(element, 'orderU');
 	var orderV = this.reader.getInteger(element, 'orderV');
@@ -975,6 +982,9 @@ MySceneGraph.prototype.parserPatch = function(element){
 
 }
 
+/*
+	Reads and stores data from animations element
+*/
 MySceneGraph.prototype.parseAnimations = function(variable){
 
 	var allElements = variable.getElementsByTagName('animations');
@@ -1018,6 +1028,9 @@ MySceneGraph.prototype.parseAnimations = function(variable){
 	}
 }
 
+/*
+reads and return the controlPoints
+*/
 MySceneGraph.prototype.getControlPoints = function (element, variables){
 
 	var controlPoints = [];

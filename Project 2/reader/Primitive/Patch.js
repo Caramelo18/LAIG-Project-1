@@ -1,3 +1,8 @@
+/**
+* Patch
+* @constructor
+*/
+
 function Patch(scene, orderU, orderV, partsU, partsV, controlPoints) {
  CGFobject.call(this,scene);
 
