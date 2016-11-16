@@ -10,11 +10,11 @@ function  ChessBoard(scene, du, dv, texture, su, sv, c1, c2, cs){
  this.c1 = c1;
  this.c2 = c2;
  this.cs = cs;
- console.log(this.cs);
+ //console.log(this.cs);
 
  // se alguma casa tiver selecionada (0,5), se nao (-1,-1)
 
- var dimension = 1.0;
+ var dimension = 3;
  var offX = dimension/this.du;
  var offY = dimension/this.dv;
 
@@ -23,9 +23,10 @@ function  ChessBoard(scene, du, dv, texture, su, sv, c1, c2, cs){
 
 
  this.chessShader.setUniformsValues({uSampler: 1});
- this.chessShader.setUniformsValues({c1: [this.c1.r, this.c1.g, this.c1.b, this.c1.a]});
- this.chessShader.setUniformsValues({c2: [this.c2.r, this.c2.g, this.c2.b, this.c2.a]});
- this.chessShader.setUniformsValues({cs: [this.cs.r, this.cs.g, this.cs.b, this.cs.a]});
+
+ this.chessShader.setUniformsValues({c1: [this.c1[0], this.c1[1], this.c1[2], this.c1[3]]});
+ this.chessShader.setUniformsValues({c2: [this.c2[0], this.c2[1], this.c2[2], this.c2[3]]});
+ this.chessShader.setUniformsValues({cs: [this.cs[0], this.cs[1], this.cs[2], this.cs[3]]});
  this.chessShader.setUniformsValues({offSetX: offX});
  this.chessShader.setUniformsValues({offSetY: offY});
 

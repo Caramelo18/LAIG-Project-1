@@ -32,7 +32,6 @@ LinearAnimation.prototype.calculateVectors = function() {
     for(var i = 0; i < this.vectors.length; i++){
         this.increments[i] = this.calculateIncrement(this.vectors[i], time);
     }
-    console.log(this.increments);
 }
 
 LinearAnimation.prototype.calculateIncrement = function (vector, time) {

@@ -34,7 +34,7 @@ Patch.prototype.getKnotsVector = function(order) {
 	var v = [];
   var numberOfPoints = (order + 1)*2;
 
-  console.log("points= " + numberOfPoints);
+//  console.log("points= " + numberOfPoints);
 
 	for (var i=0; i<numberOfPoints; i++) {
 		v.push(Math.round(i/numberOfPoints));
@@ -47,11 +47,11 @@ Patch.prototype.makeSurface = function (degree1, degree2) {
   var knots1 = this.getKnotsVector(degree1);
   var knots2 = this.getKnotsVector(degree2);
 
-  console.log(this.controlVertexes);
+//  console.log(this.controlVertexes);
 
   var nurbsSurface = new CGFnurbsSurface(degree1, degree2, knots1, knots2, this.controlVertexes);
 
-  console.log(nurbsSurface);
+ // console.log(nurbsSurface);
   getSurfacePoint = function(u, v) {
     return nurbsSurface.getPoint(u, v);
   };

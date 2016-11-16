@@ -782,7 +782,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 		if(this.primitivesList.hasOwnProperty(id))
 		return "primitive " + id + " repeated";
 
-		console.log(primitiveChild.tagName);
+		//console.log(primitiveChild.tagName);
 		switch(primitiveChild.tagName){
 			case "rectangle":
 			primitive = this.parserRectangle(primitiveChild);
@@ -933,7 +933,7 @@ MySceneGraph.prototype.parserPlane = function(element){
 	var partsX = this.reader.getFloat(element, 'partsX');
 	var partsY = this.reader.getFloat(element, 'partsY');
 
-	console.log("dimX= "+ dimX + " dimY= " + dimY + " partsX= "+ partsX + " partsY= "+ partsY );
+	//console.log("dimX= "+ dimX + " dimY= " + dimY + " partsX= "+ partsX + " partsY= "+ partsY );
 
 	return new Plane(this.scene, dimX, dimY, partsX, partsY);
 }
@@ -951,10 +951,10 @@ MySceneGraph.prototype.parserChessBoard = function(element){
 	var c2 = this.getNvalues(element.getElementsByTagName('c2')[0], this.rgba);
 	var cs = this.getNvalues(element.getElementsByTagName('cs')[0], this.rgba);
 
-	console.log("texture= "+ textureRef + "  du= " + du + " dv = " + dv + " su= " + su + " sv = " + sv  );
+	/*console.log("texture= "+ textureRef + "  du= " + du + " dv = " + dv + " su= " + su + " sv = " + sv  );
 	console.log(c1);
 	console.log(c2);
-	console.log(cs);
+	console.log(cs);*/
 
 
 	return new ChessBoard(this.scene, du, dv, texture, su, sv, c1, c2, cs);
@@ -998,7 +998,7 @@ MySceneGraph.prototype.parseAnimations = function(variable){
 			case "linear":
 			controlPoints = this.getControlPoints(element, this.doublexyz);
 
-			console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
+			//console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
 			this.animationsList[id] = new LinearAnimation(id, controlPoints, span, this.scene);
 
 			break;
@@ -1011,7 +1011,7 @@ MySceneGraph.prototype.parseAnimations = function(variable){
 			var radius = this.reader.getFloat(element, 'radius');
 			var startang = this.reader.getFloat(element, 'startang');
 			var rotang = this.reader.getFloat(element, 'rotang');
-			console.log("id = " + id + " span= " + span + " type= " + type + " centerX= " + center[0]+ " centerY= " + center[1] + " centerZ= " + center[2] + " radius= " + radius + " startang= "+ startang + " rotang= " + rotang);
+			//console.log("id = " + id + " span= " + span + " type= " + type + " centerX= " + center[0]+ " centerY= " + center[1] + " centerZ= " + center[2] + " radius= " + radius + " startang= "+ startang + " rotang= " + rotang);
 			this.animationsList[id] = new CircularAnimation(id, span, center, radius, startang, rotang, this.scene);
 			break;
 		}

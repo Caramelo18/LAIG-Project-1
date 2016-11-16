@@ -16,7 +16,7 @@ XMLscene.prototype.init = function (application) {
 
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
-	//this.gl.enable(this.gl.CULL_FACE);
+	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
     // creates a default camera and axis that are going to be replaced later
