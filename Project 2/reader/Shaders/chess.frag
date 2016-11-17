@@ -6,33 +6,50 @@ uniform vec4 c1;
 uniform vec4 c2;
 uniform vec4 cs;
 
-uniform float offSetX;
-uniform float offSetY;
+uniform float distX;
+uniform float distY;
+
+uniform float su;
+uniform float sv;
+uniform float du;
+uniform float dv;
 
 uniform sampler2D uSampler;
 varying vec2 vTextureCoord;
 
 varying vec4 coords;
-varying vec4 normal;
+varying float selected;
 
 void main() {
 
 
-		//vec4 textureColor = texture2D(uSampler, vTextureCoord);
-//		gl_FragColor = textureColor * c1;
-		float x = 0.5*(coords[0] + 1.0);
-		float y = 0.5*(coords[1] + 1.0);
-		gl_FragColor = c1;
+	//vec4 textureColor = texture2D(uSampler, vTextureCoord);
+	//		gl_FragColor = textureColor * c1;
 
-         // checkerboard shader:
-         if ((mod(8.0*x, 1.0) < 0.5) ^^ (mod(8.0*y, 1.0) < 0.5))
-         {
-            gl_FragColor = c1;
-         }
-         else
-         {
-            gl_FragColor = c2;
-         }
+	float x = coords[0] / distX;
+	float y = coords[1] / distY;
+
+	if(mod(x, 2.0) < 1.0 ^^ mod(y, 2.0) < 1.0)
+	gl_FragColor = c1;
+	else
+	gl_FragColor = c2;
+
+	/*float nsv = dv - sv - 1.0;
+	if(su != -1.0 && sv != -1.0){
+		float minX = su * distX - (distX*du/2.0);
+		float minY = nsv * distY - (distY*dv/2.0);
+		float maxX = minX + distX;
+		float maxY = minY + distY;
+
+
+		if(x >= minX && x <= maxX && y >= minY && y <= maxY)
+			gl_FragColor = cs;
+
+	}*/
+	if(selected == 1.0)
+		gl_FragColor = cs;
+
+	
 
 
 }

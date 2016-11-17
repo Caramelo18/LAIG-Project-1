@@ -10,12 +10,42 @@ varying vec2 vTextureCoord;
 uniform sampler2D uSampler;
 
 varying vec4 coords;
-varying vec4 normal;
+
+uniform float distX;
+uniform float distY;
+uniform float du;
+uniform float dv;
+
+uniform float su;
+uniform float sv;
+
+varying float selected;
+
+
+varying vec4 select;
 
 void main() {
-	vec4 vertex = vec4(aVertexPosition+aVertexNormal, 1.0);
-	normal = vec4(aVertexNormal, 1.0);
-	coords=vertex;
+	vec4 vertex = vec4(aVertexPosition, 1.0);
+	coords= vertex;
+
+	float nsv = dv - sv - 1.0;
+	if(su != -1.0 && sv != -1.0){
+		float minX = su * distX - (distX*du/2.0);
+		float minY = nsv * distY - (distY*dv/2.0);
+		float maxX = minX + distX;
+		float maxY = minY + distY;
+
+		float x = vertex[0];
+		float y = vertex[1];
+
+		if(x >= minX && x <= maxX && y >= minY && y <= maxY)
+		{
+			vertex = vertex + vec4(0,0,0.05,0);
+			selected = 1.0;
+		}
+		else
+			selected = 0.0;
+	}
 
 	gl_Position = uPMatrix * uMVMatrix * vertex;
 
