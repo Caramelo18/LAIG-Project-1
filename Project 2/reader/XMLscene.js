@@ -205,8 +205,8 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
-        //this.displayGraph(this.graph.root, null, null);
-        this.primitives["testVehicle"].display();
+        this.displayGraph(this.graph.root, null, null);
+        //this.primitives["testVehicle"].display();
 	};
 };
 

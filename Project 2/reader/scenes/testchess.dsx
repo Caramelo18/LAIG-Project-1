@@ -16,9 +16,9 @@
 			<to x="0" y="0" z="0" />
 		</perspective>
 
-		<perspective id="p2" near="0.1" far="500" angle="20">
-			<from x="0" y="15" z="15" />
-			<to x="0" y="0" z="0" />
+		<perspective id="p2" near="0.7" far="500" angle="20">
+			<from x="0" y="5" z="15" />
+			<to x="15" y="0" z="0" />
 		</perspective>
 
 		<perspective id="p3" near="0.1" far="500" angle="20">
@@ -121,9 +121,9 @@
 	</primitive>
 
 	<primitive id="testChessBoard">
-	 <chessboard du="8" dv="8" textureref="wood"  su="5" sv="5">
+	 <chessboard du="6" dv="6" textureref="wood"  su="0" sv="0">
 		  <c1 r="0.5" g="0.5" b="0.3" a="1.0"/>
-		  <c2 r="0.7" g="0.0" b="0.2" a="1.0"/>
+		  <c2 r="0.7" g="0.0" b="0.1" a="1.0"/>
 		  <cs r="0.3" g="1.0" b="0.6" a="1.0"/>
 		  </chessboard>
 	</primitive>

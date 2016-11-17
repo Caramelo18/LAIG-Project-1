@@ -23,8 +23,7 @@ varying float selected;
 void main() {
 
 
-	//vec4 textureColor = texture2D(uSampler, vTextureCoord);
-	//		gl_FragColor = textureColor * c1;
+	vec4 textureColor = texture2D(uSampler, vTextureCoord);
 
 	float x = coords[0] / distX;
 	float y = coords[1] / distY;
@@ -34,22 +33,10 @@ void main() {
 	else
 	gl_FragColor = c2;
 
-	/*float nsv = dv - sv - 1.0;
-	if(su != -1.0 && sv != -1.0){
-		float minX = su * distX - (distX*du/2.0);
-		float minY = nsv * distY - (distY*dv/2.0);
-		float maxX = minX + distX;
-		float maxY = minY + distY;
-
-
-		if(x >= minX && x <= maxX && y >= minY && y <= maxY)
-			gl_FragColor = cs;
-
-	}*/
 	if(selected == 1.0)
 		gl_FragColor = cs;
 
-	
+		gl_FragColor = textureColor * gl_FragColor;
 
 
 }

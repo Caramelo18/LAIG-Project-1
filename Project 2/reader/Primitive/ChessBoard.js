@@ -21,16 +21,19 @@ function  ChessBoard(scene, du, dv, texture, su, sv, c1, c2, cs){
 
  this.chessShader = new CGFshader(this.scene.gl,"Shaders/chess.vert", "Shaders/chess.frag");
 
-
  this.chessShader.setUniformsValues({uSampler: 1});
 
  this.chessShader.setUniformsValues({c1: [this.c1[0], this.c1[1], this.c1[2], this.c1[3]]});
  this.chessShader.setUniformsValues({c2: [this.c2[0], this.c2[1], this.c2[2], this.c2[3]]});
  this.chessShader.setUniformsValues({cs: [this.cs[0], this.cs[1], this.cs[2], this.cs[3]]});
- this.chessShader.setUniformsValues({offSetX: offX});
- this.chessShader.setUniformsValues({offSetY: offY});
+ this.chessShader.setUniformsValues({distX: offX});
+ this.chessShader.setUniformsValues({distY: offY});
+ this.chessShader.setUniformsValues({su: this.su});
+ this.chessShader.setUniformsValues({sv: this.sv});
+ this.chessShader.setUniformsValues({du: this.du});
+ this.chessShader.setUniformsValues({dv: this.dv});
 
- this.plane = new Plane(this.scene, dimension, dimension, this.du, this.dv);
+ this.plane = new Plane(this.scene, dimension, dimension, this.du * 10 , this.dv * 10);
 
 };
 
