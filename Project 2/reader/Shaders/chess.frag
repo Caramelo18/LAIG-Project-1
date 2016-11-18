@@ -28,15 +28,33 @@ void main() {
 	float x = coords[0] / distX;
 	float y = coords[1] / distY;
 
+	if(mod(du, 2.0) != 0.0 || mod(dv, 2.0) != 0.0){
+		x -= (distX*du/2.0);
+		y -= (distY*dv/2.0);
+	}
+
 	if(mod(x, 2.0) < 1.0 ^^ mod(y, 2.0) < 1.0)
 	gl_FragColor = c1;
 	else
 	gl_FragColor = c2;
 
-	if(selected == 1.0)
-		gl_FragColor = cs;
+	/*	if(selected == 1.0)
+	gl_FragColor = cs;*/
 
-		gl_FragColor = textureColor * gl_FragColor;
+	float nsv = dv - sv - 1.0;
+	if(su != -1.0 && sv != -1.0){
+		float minX = su * distX - (distX*du/2.0);
+		float minY = nsv * distY - (distY*dv/2.0);
+		float maxX = minX + distX;
+		float maxY = minY + distY;
+
+		float cx = coords[0];
+		float cy = coords[1];
+		if(cx >= minX && cx <= maxX && cy >= minY && cy <= maxY)
+			gl_FragColor = cs;
+	}
+
+	gl_FragColor = textureColor * gl_FragColor;
 
 
 }
