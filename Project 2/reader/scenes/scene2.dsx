@@ -164,8 +164,8 @@
 		            </transformation>
 
 					<animation>
-						<!--animationref id="oi"/-->
-						<animationref id="oiCircular"/>
+						<!--animationref id="oiCircular"/-->
+						<animationref id="oi"/>
 					</animation>
 
 		            <!-- declaracao obrigatoria de pelo menos um material; -->
@@ -211,8 +211,8 @@
 		    <!-- o valor "linear" ou "circular"; na animacao circular -->
 		    <!-- os angulos sao expressos em graus  -->
 		    <animation id="oi" span="2" type="linear">
-		        <controlpoint xx="0" yy="0" zz="0" />
-				<controlpoint xx="1" yy="0" zz="0" />
+		        <controlpoint xx="0" yy="2" zz="0" />
+				<controlpoint xx="-1" yy="0" zz="0" />
 				<controlpoint xx="1" yy="1" zz="1" />
 		    </animation>
 		    <animation id="oiCircular" span="3" type="circular" centerx="0" centery="0" centerz="0"

@@ -7,6 +7,7 @@ function Component(scene, materialListIDs, transformationsID, transformations, t
   this.primitivesRefs = primitivesRefs;
   this.componentRefs = componentRefs;
   this.animationList = animations;
+  this.currentAnimation = 0;
 }
 
 

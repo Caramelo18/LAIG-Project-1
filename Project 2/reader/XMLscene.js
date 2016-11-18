@@ -45,6 +45,10 @@ XMLscene.prototype.init = function (application) {
     this.animationsList = {};
     this.animationsIDs = [];
 
+    this.fps = 60;
+    var updatePeriod = 1000/60;
+    this.setUpdatePeriod(500);
+
 };
 /*
   defines the interface of the scene
@@ -268,9 +272,11 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
     else
         this.applyTransformations(node.transformations);
 
-    for(var j = 0; j < node.animationList.length;j++) {
-        var animation = this.animationsList[node.animationList[j]];
-        animation.animate();
+
+    if(node.currentAnimation < node.animationList.length){
+        var animation = this.animationsList[node.animationList[node.currentAnimation]];
+        if(animation.animate() == 1 && node.currentAnimation + 1 < node.animationList.length)
+            node.currentAnimation++;
     }
     for(var i = 0; i < node.primitivesRefs.length; i++){
       if(this.primitives[node.primitivesRefs[i]] instanceof Triangle || this.primitives[node.primitivesRefs[i]] instanceof Rectangle){
