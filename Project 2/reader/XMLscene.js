@@ -46,8 +46,8 @@ XMLscene.prototype.init = function (application) {
     this.animationsIDs = [];
 
     this.fps = 60;
-    var updatePeriod = 1000/60;
-    this.setUpdatePeriod(500);
+    var updatePeriod = 1000/this.fps;
+    this.setUpdatePeriod(updatePeriod);
 
 };
 /*
