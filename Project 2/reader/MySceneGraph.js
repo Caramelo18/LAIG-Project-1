@@ -139,9 +139,9 @@ Verifies if the order of the elements is correct
 MySceneGraph.prototype.checkOrder = function(rootElement){
 
 	//console.log(rootElement.children.length);
-	for (var i = 0; i < rootElement.children.length; i++) {
-		//console.log(rootElement.children[i]);
-	}
+	/*for (var i = 0; i < rootElement.children.length; i++) {
+		console.log(rootElement.children[i]);
+	}*/
 	if(rootElement.children.length != 10){
 		console.error("Wrong number of tags");
 		return 1;

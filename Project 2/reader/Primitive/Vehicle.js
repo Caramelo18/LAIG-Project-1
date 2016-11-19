@@ -58,12 +58,32 @@ var controlPoints = [
 
  this.patchAppereance = new CGFappearance(this.scene);
  this.patchAppereance.loadTexture("../textures/airPlane.jpg");
+
+ this.torus = new Torus(scene, 0.4, 1, 30, 30);
+
+ this.base = new VTriangle(scene, 0, 0, 0, 0, 0.9, 0, 0, 0, 2);
 };
 
 Vehicle.prototype = Object.create(CGFobject.prototype);
 Vehicle.prototype.constructor = Vehicle;
 
 Vehicle.prototype.display = function () {
+
+  this.scene.pushMatrix();
+    this.scene.translate(0, 0, 1);
+    this.torus.display();
+  this.scene.popMatrix();
+
+  this.scene.pushMatrix();
+    this.base.display();
+    this.scene.rotate(Math.PI/2, 0,0,1);
+    this.base.display();
+    this.scene.rotate(Math.PI/2, 0,0,1);
+    this.base.display();
+    this.scene.rotate(Math.PI/2, 0,0,1);
+    this.base.display();
+  this.scene.popMatrix();
+
 
   this.scene.pushMatrix();
     this.patchAppereance.apply();
@@ -78,4 +98,6 @@ Vehicle.prototype.display = function () {
     this.scene.translate(0,0.5,0);
     this.patch1.display();
   this.scene.popMatrix();
+
+
 };

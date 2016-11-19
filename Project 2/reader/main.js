@@ -11,7 +11,7 @@ function getUrlVars() {
 }
 
 serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'Primitive/Rectangle.js',  'Primitive/Triangle.js', 'Primitive/CylinderSide.js','Primitive/Circle.js','Primitive/Cylinder.js', 'Primitive/Sphere.js', 'Component.js', 'Primitive/Torus.js', 'Animation/Animation.js','Animation/LinearAnimation.js',
-'Animation/CircularAnimation.js', 'Primitive/Patch.js', 'Primitive/Plane.js', 'Primitive/ChessBoard.js', 'Primitive/Vehicle.js',
+'Animation/CircularAnimation.js', 'Primitive/Patch.js', 'Primitive/Plane.js', 'Primitive/ChessBoard.js', 'Primitive/Vehicle.js', 'Primitive/VTriangle.js',
 main=function()
 {
 	// Standard application, scene and interface setup
