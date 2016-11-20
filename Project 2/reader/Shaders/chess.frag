@@ -14,6 +14,8 @@ uniform float sv;
 uniform float du;
 uniform float dv;
 
+uniform float dimension;
+
 uniform sampler2D uSampler;
 varying vec2 vTextureCoord;
 
@@ -38,8 +40,6 @@ void main() {
 	else
 	gl_FragColor = c2;
 
-	/*	if(selected == 1.0)
-	gl_FragColor = cs;*/
 
 	float nsv = dv - sv - 1.0;
 	if(su != -1.0 && sv != -1.0){

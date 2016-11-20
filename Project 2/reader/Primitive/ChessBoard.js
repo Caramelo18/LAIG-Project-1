@@ -10,11 +10,10 @@ function  ChessBoard(scene, du, dv, texture, su, sv, c1, c2, cs){
  this.c1 = c1;
  this.c2 = c2;
  this.cs = cs;
- //console.log(this.cs);
 
  // se alguma casa tiver selecionada (0,5), se nao (-1,-1)
 
- var dimension = 3;
+ var dimension = 1;
  var offX = dimension/this.du;
  var offY = dimension/this.dv;
 

@@ -195,7 +195,7 @@
 		    <animation id="oi" span="3" type="linear">
 		        <controlpoint xx="0" yy="0" zz="0" />
 				<controlpoint xx="1" yy="-1" zz="0" />
-				<controlpoint xx="1" yy="-1" zz="10" />
+				<controlpoint xx="1" yy="-1" zz="5" />
 		    </animation>
 
 		</animations>

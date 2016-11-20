@@ -40,7 +40,7 @@ void main() {
 
 		if(x >= minX && x <= maxX && y >= minY && y <= maxY)
 		{
-			vertex = vertex + vec4(0,0,0.05,0);
+			vertex = vertex + vec4(0,0,0.01,0);
 			selected = 1.0;
 		}
 		else

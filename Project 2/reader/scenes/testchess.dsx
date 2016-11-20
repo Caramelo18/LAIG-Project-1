@@ -74,7 +74,7 @@
 		<!-- objetos respetivos podem a violar esta regra.         -->
 		<!-- Nao necessario aplicar fatores de escala em  -->
 		<!-- quadricas (esfera, ciclindro...) -->
-		<texture id="eyestext" file="../textures/target1.png" length_s="1.0" length_t="2.3" />
+		<texture id="ap" file="../textures/airPlane.jpg" length_s="1.0" length_t="2.3" />
 		<texture id="wood" file="../textures/wood.jpg" length_s="1" length_t="1" />
 	</textures>
 
@@ -100,25 +100,18 @@
 
 		<!-- Deve existir um ou mais blocos "transformation" -->
 		<!-- Os identificadores "id" nao podem ser repetidos -->
-		<transformation id="bodytransf">
+		<transformation id="up">
 			<!-- instrucoes a usar sem limite nem ordem -->
 			<!-- deve existir pelo menos uma transformacao -->
-			<translate x="0" y="1" z="0" />
-			<rotate axis="x" angle="-90" />
+			<translate x="0" y="1.3" z="0" />
 		</transformation>
 
 	</transformations>
 
 	<primitives>
 
-	<primitive id="body">
-		<rectangle x1="0" y1="0" x2="2" y2="2"/>
-	</primitive>
 
 
-	<primitive id="testVehicle">
-		<vehicle/>
-	</primitive>
 
 	<primitive id="testChessBoard">
 	 <chessboard du="10" dv="10" textureref="wood"  su="9" sv="9">
@@ -127,6 +120,15 @@
 		  <cs r="0.3" g="1.0" b="0.6" a="1.0"/>
 		  </chessboard>
 	</primitive>
+
+	<primitive id="chessBoard2">
+	 <chessboard du="7" dv="7" textureref="ap"  su="3" sv="5">
+		  <c1 r="1.0" g="0.0" b="0.0" a="1.0"/>
+		  <c2 r="0.0" g="1.0" b="0.0" a="1.0"/>
+		  <cs r="1.0" g="1.0" b="0.0" a="1.0"/>
+		  </chessboard>
+	</primitive>
+
 
 
 </primitives>
@@ -147,7 +149,6 @@
 
 		<materials>
 			<material id="body" />
-			<material id="body1" />
 		</materials>
 
 		<texture id="none" />
@@ -155,9 +156,35 @@
 		<!-- bloco "children" obrigatorio num "component" -->
 		<children>
 			<primitiveref id="testChessBoard" />
+			<componentref id="secChess"/>
 		</children>
 
 	</component>
+
+	<component id="secChess">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<transformationref id="up"/>
+		</transformation>
+
+		<animation>
+			<!--animationref id="oi"/-->
+			<!--animationref id="oiCircular"/-->
+		</animation>
+
+		<materials>
+			<material id="body" />
+		</materials>
+
+		<texture id="none" />
+
+		<!-- bloco "children" obrigatorio num "component" -->
+		<children>
+			<primitiveref id="chessBoard2" />
+		</children>
+
+	</component>
+
 
 
 
