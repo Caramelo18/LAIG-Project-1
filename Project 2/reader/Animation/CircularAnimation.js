@@ -44,7 +44,7 @@ CircularAnimation.prototype.animate = function(){
     var mat3 = this.getTranslationMatrix(this.center[0], this.center[1], this.center[2]);
     this.scene.multMatrix(mat3);
 
-    if(this.angle > this.startang + this.rotang)
+    if(this.angle > this.startang + Math.abs(this.rotang))
         return 1;
 
     this.angle += this.incangle;
