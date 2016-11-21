@@ -1,3 +1,6 @@
+/*
+    LinearAnimation constructor
+*/
 function LinearAnimation(id, controlPoints, time, scene){
   this.init(id);
   this.controlPoints = controlPoints;
@@ -13,6 +16,9 @@ function LinearAnimation(id, controlPoints, time, scene){
 LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
+/*
+    Calculates movement vectors
+*/
 LinearAnimation.prototype.calculateVectors = function() {
     this.vectors = [];
 
@@ -32,6 +38,9 @@ LinearAnimation.prototype.calculateVectors = function() {
     }
 }
 
+/*
+    Calculates the value of the increment for each interaction
+*/
 LinearAnimation.prototype.calculateIncrement = function (vector, time) {
     var inc = [];
     inc[0] = vector[0]/(this.scene.fps * time);
@@ -43,6 +52,10 @@ LinearAnimation.prototype.calculateIncrement = function (vector, time) {
     return inc;
 };
 
+
+/*
+    Animates the scene according to the LinearAnimation
+*/
 LinearAnimation.prototype.animate = function() {
     var firstPoint = this.getTranslationMatrix(this.controlPoints[0][0], this.controlPoints[0][1], this.controlPoints[0][2]);
     this.scene.multMatrix(firstPoint);
