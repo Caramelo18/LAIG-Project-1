@@ -61,20 +61,22 @@ LinearAnimation.prototype.animate = function() {
     this.scene.multMatrix(firstPoint);
 
     var xf, xi, zf, zi;
+    var angle;
     if(this.currentControlPoint < this.controlPoints.length - 1){
     xf = this.controlPoints[this.currentControlPoint + 1][0];
     xi = this.controlPoints[this.currentControlPoint][0];
     zf = this.controlPoints[this.currentControlPoint + 1][2];
     zi = this.controlPoints[this.currentControlPoint][2];
+    angle = Math.atan2( xf - xi,zf - zi);
     }
     else {
     xf = this.controlPoints[this.controlPoints.length - 1][0];
     xi = this.controlPoints[this.controlPoints.length - 2][0];
     zf = this.controlPoints[this.controlPoints.length - 1][2];
     zi = this.controlPoints[this.controlPoints.length - 2][2];
+    angle = Math.atan2(this.vectors[this.vectors.length-1][0], this.vectors[this.vectors.length-1][2]);
     }
-
-    var angle = Math.atan2( xf - xi,zf - zi);
+    
     var rot = this.getRotationMatrix("y", angle);
 
 
