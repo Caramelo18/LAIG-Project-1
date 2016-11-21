@@ -68,15 +68,14 @@ LinearAnimation.prototype.animate = function() {
     zi = this.controlPoints[this.currentControlPoint][2];
     }
     else {
-    xf = this.controlPoints[this.controlPoints.length -1][0];
+    xf = this.controlPoints[this.controlPoints.length - 1][0];
     xi = this.controlPoints[this.controlPoints.length - 2][0];
     zf = this.controlPoints[this.controlPoints.length - 1][2];
     zi = this.controlPoints[this.controlPoints.length - 2][2];
     }
 
-    var angle = Math.atan2(zf - zi, xf - xi);
-
-    var rot = this.getRotationMatrix("y", -angle);
+    var angle = Math.atan2( xf - xi,zf - zi);
+    var rot = this.getRotationMatrix("y", angle);
 
 
 
@@ -101,8 +100,6 @@ LinearAnimation.prototype.animate = function() {
         this.currentControlPoint++;
         this.intermediatePoint = 0;
     }
-
-
 
     return 0;
 }
