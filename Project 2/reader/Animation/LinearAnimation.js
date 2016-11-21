@@ -70,13 +70,9 @@ LinearAnimation.prototype.animate = function() {
     angle = Math.atan2( xf - xi,zf - zi);
     }
     else {
-    xf = this.controlPoints[this.controlPoints.length - 1][0];
-    xi = this.controlPoints[this.controlPoints.length - 2][0];
-    zf = this.controlPoints[this.controlPoints.length - 1][2];
-    zi = this.controlPoints[this.controlPoints.length - 2][2];
     angle = Math.atan2(this.vectors[this.vectors.length-1][0], this.vectors[this.vectors.length-1][2]);
     }
-    
+
     var rot = this.getRotationMatrix("y", angle);
 
 
