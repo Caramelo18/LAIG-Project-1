@@ -49,6 +49,8 @@ XMLscene.prototype.init = function (application) {
     var updatePeriod = 1000/this.fps;
     this.setUpdatePeriod(updatePeriod);
 
+    this.playerAngle = 0;
+
 };
 /*
   defines the interface of the scene
@@ -195,7 +197,7 @@ XMLscene.prototype.display = function () {
 	this.applyViewMatrix();
 
 	// Draw axis
-	this.axis.display();
+	//this.axis.display();
 
 	this.setDefaultAppearance();
 
@@ -238,7 +240,6 @@ XMLscene.prototype.changeMaterial = function(){
 /**
   displayGraph
 */
-
 XMLscene.prototype.displayGraph = function(root, material, texture)
 {
   var node;
@@ -247,6 +248,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
 
 	node = this.componentsList[root];
+
 
 	//transformations
 	this.pushMatrix();
@@ -278,6 +280,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
         if(animation.animate() == 1 && node.currentAnimation + 1 < node.animationList.length)
             node.currentAnimation++;
     }
+    this.rotate(this.playerAngle, 0, 0, 1);
     for(var i = 0; i < node.primitivesRefs.length; i++){
       if(this.primitives[node.primitivesRefs[i]] instanceof Triangle || this.primitives[node.primitivesRefs[i]] instanceof Rectangle){
       var  s = this.texturesList[node.texture + "s"];
@@ -328,4 +331,14 @@ XMLscene.prototype.applyTransformations = function(transformations)
             break;
         }
     }
+}
+
+XMLscene.prototype.changePlayerView = function(){
+    var deg2Rad = Math.PI/180;
+
+    if(this.playerAngle == 0)
+        this.playerAngle = Math.PI;
+    else
+        this.playerAngle = 0;
+
 }
