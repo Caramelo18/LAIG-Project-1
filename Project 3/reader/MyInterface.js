@@ -42,7 +42,8 @@ MyInterface.prototype.processKeyboard = function(event) {
 	switch (event.keyCode)
 	{
 		case (118):	// v
-			this.scene.changeCamera();
+		//	this.scene.changeCamera();
+			this.scene.changePlayerView();
 			break;
 		case (109):
 			this.scene.changeMaterial();

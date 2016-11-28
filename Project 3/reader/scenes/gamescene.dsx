@@ -5,23 +5,19 @@
 
 	<scene root="root" axis_length="2" />
 
-	<views default="p2" >
+	<views default="p1" >
 		<!-- declaracao obrigatoria de pelo menos uma vista; -->
 		<!-- se varias vistas declaradas, o default e' a -->
 		<!-- primeira vista; de cada vez que se pressione a tecla v/V, -->
 		<!-- a vista muda para a proxima da lista; da -->
 		<!-- ultima vista da lista volta 'a primeira -->
-		<perspective id="p1" near="0.1" far="500" angle="5">
-			<from x="15" y="15" z="15" />
+
+		<perspective id="p1" near="0.7" far="500" angle="20">
+			<from x="0" y="-15" z="15" />
 			<to x="0" y="0" z="0" />
 		</perspective>
 
-		<perspective id="p2" near="0.7" far="500" angle="20">
-			<from x="0" y="5" z="15" />
-			<to x="15" y="0" z="0" />
-		</perspective>
-
-		<perspective id="p3" near="0.1" far="500" angle="20">
+		<perspective id="p3" near="0.7" far="500" angle="20">
 			<from x="0" y="0" z="15" />
 			<to x="0" y="0" z="0" />
 		</perspective>
@@ -74,7 +70,6 @@
 		<!-- objetos respetivos podem a violar esta regra.         -->
 		<!-- Nao necessario aplicar fatores de escala em  -->
 		<!-- quadricas (esfera, ciclindro...) -->
-		<texture id="ap" file="../textures/airPlane.jpg" length_s="1.0" length_t="2.3" />
 		<texture id="wood" file="../textures/wood.jpg" length_s="1" length_t="1" />
 	</textures>
 
@@ -113,21 +108,31 @@
 
 
 
-	<primitive id="testChessBoard">
-	 <chessboard du="10" dv="10" textureref="wood"  su="9" sv="9">
+	<primitive id="gameChess">
+	 <chessboard du="6" dv="6" textureref="wood"  su="-1" sv="-1">
 		  <c1 r="0.5" g="0.5" b="0.3" a="1.0"/>
 		  <c2 r="0.7" g="0.0" b="0.1" a="1.0"/>
 		  <cs r="0.3" g="1.0" b="0.6" a="1.0"/>
 		  </chessboard>
 	</primitive>
 
-	<primitive id="chessBoard2">
-	 <chessboard du="7" dv="7" textureref="ap"  su="3" sv="5">
-		  <c1 r="1.0" g="0.0" b="0.0" a="1.0"/>
-		  <c2 r="0.0" g="1.0" b="0.0" a="1.0"/>
-		  <cs r="1.0" g="1.0" b="0.0" a="1.0"/>
+	<primitive id="p1Tiles">
+	 <chessboard du="3" dv="1" textureref="wood"  su="-1" sv="-1">
+		  <c1 r="0.886" g="0.5" b="0.0" a="1.0"/> <!--#e28000  rgb(226, 128, 0)-->
+		  <c2 r="0.7" g="0.0" b="0.1" a="1.0"/>
+		  <cs r="0.3" g="1.0" b="0.6" a="1.0"/>
 		  </chessboard>
 	</primitive>
+
+	<primitive id="p2Tiles">
+	 <chessboard du="3" dv="1" textureref="wood"  su="-1" sv="-1">
+		  <c1 r="0.0" g="0.486" b="0.886" a="1.0"/>
+		  <c2 r="0.7" g="0.0" b="0.1" a="1.0"/>
+		  <cs r="0.3" g="1.0" b="0.6" a="1.0"/>
+		  </chessboard>
+	</primitive>
+
+
 
 
 
@@ -155,16 +160,18 @@
 
 		<!-- bloco "children" obrigatorio num "component" -->
 		<children>
-			<primitiveref id="testChessBoard" />
-			<componentref id="secChess"/>
+			<primitiveref id="gameChess" />
+			<componentref id="c1Tiles"/>
+			<componentref id="c2Tiles"/>
 		</children>
 
 	</component>
 
-	<component id="secChess">
+	<component id="c1Tiles">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
-			<transformationref id="up"/>
+			<translate x="0" y="-3.5" z="0" />
+			<scale x="0.5" y="0.17" z="1"/>
 		</transformation>
 
 		<animation>
@@ -180,10 +187,37 @@
 
 		<!-- bloco "children" obrigatorio num "component" -->
 		<children>
-			<primitiveref id="chessBoard2" />
+			<primitiveref id="p1Tiles" />
 		</children>
 
 	</component>
+
+	<component id="c2Tiles">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<translate x="0" y="3.5" z="0" />
+			<scale x="0.5" y="0.17" z="1"/>
+		</transformation>
+
+		<animation>
+			<!--animationref id="oi"/-->
+			<!--animationref id="oiCircular"/-->
+		</animation>
+
+		<materials>
+			<material id="body" />
+		</materials>
+
+		<texture id="none" />
+
+		<!-- bloco "children" obrigatorio num "component" -->
+		<children>
+			<primitiveref id="p2Tiles" />
+		</children>
+
+	</component>
+
+
 
 
 
