@@ -37,9 +37,9 @@ void main() {
 		y -= (distY*dv/2.0);
 
 	if(mod(x, 2.0) < 1.0 ^^ mod(y, 2.0) < 1.0)
-	gl_FragColor = c1;
+		gl_FragColor = c1;
 	else
-	gl_FragColor = c2;
+		gl_FragColor = c2;
 
 
 	float nsv = dv - sv - 1.0;
