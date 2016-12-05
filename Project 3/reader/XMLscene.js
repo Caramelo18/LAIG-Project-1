@@ -52,7 +52,12 @@ XMLscene.prototype.init = function (application) {
     this.playerAngle = 0;
     this.cameraChange = 0;
 
+<<<<<<< HEAD
     this.testTile = new Tile1(this);
+=======
+    //this.client = new Client(8081);
+    //this.client.getPrologRequest('test(1,5)', 0 ,1);
+>>>>>>> e21f3eb964cef8a97a3e747a9b9fe725e30eec13
 };
 /*
   defines the interface of the scene
@@ -186,8 +191,9 @@ XMLscene.prototype.updateLights = function()
 
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
- // this.logPicking();
-  this.clearPickRegistration();
+
+//  this.logPicking();
+//  this.clearPickRegistration();
 
   // Clear image and depth buffer everytime we update the scene
   this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
