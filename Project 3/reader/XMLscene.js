@@ -50,7 +50,9 @@ XMLscene.prototype.init = function (application) {
     this.setUpdatePeriod(updatePeriod);
 
     this.playerAngle = 0;
+    this.cameraChange = 0;
 
+    this.testTile = new Tile1(this);
 };
 /*
   defines the interface of the scene
@@ -184,7 +186,7 @@ XMLscene.prototype.updateLights = function()
 
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
-  this.logPicking();
+ // this.logPicking();
   this.clearPickRegistration();
 
   // Clear image and depth buffer everytime we update the scene
@@ -209,13 +211,28 @@ XMLscene.prototype.display = function () {
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
 
+    if(this.playerAngle > Math.PI || this.playerAngle < 0){
+        this.cameraChange = 0;
+        if(this.playerAngle > Math.PI)
+            this.playerAngle = Math.PI;
+        else
+            this.playerAngle = 0;
 
+    }
+    else{
+        if(this.cameraChange == 1 && this.playerAngle < Math.PI)
+            this.playerAngle += Math.PI/20;
+        else if (this.cameraChange == -1 && this.playerAngle > 0)
+            this.playerAngle -= Math.PI/20;
+    }
+    this.rotate(this.playerAngle, 0, 0, 1);
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
         this.displayGraph(this.graph.root, null, null);
         //this.primitives["testVehicle"].display();
 	};
+    this.testTile.display();
 };
 
 /**
@@ -282,7 +299,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
         if(animation.animate() == 1 && node.currentAnimation + 1 < node.animationList.length)
             node.currentAnimation++;
     }
-    this.rotate(this.playerAngle, 0, 0, 1);
+
     for(var i = 0; i < node.primitivesRefs.length; i++){
       if(this.primitives[node.primitivesRefs[i]] instanceof Triangle || this.primitives[node.primitivesRefs[i]] instanceof Rectangle){
       var  s = this.texturesList[node.texture + "s"];
@@ -338,9 +355,9 @@ XMLscene.prototype.applyTransformations = function(transformations)
 XMLscene.prototype.changePlayerView = function(){
     var deg2Rad = Math.PI/180;
 
-    if(this.playerAngle == 0)
-        this.playerAngle = Math.PI;
-    else
-        this.playerAngle = 0;
+    if(this.playerAngle == Math.PI)
+        this.cameraChange = -1;
+    else if(this.playerAngle == 0)
+        this.cameraChange = 1;
 
 }
