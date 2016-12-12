@@ -52,12 +52,9 @@ XMLscene.prototype.init = function (application) {
     this.playerAngle = 0;
     this.cameraChange = 0;
 
-<<<<<<< HEAD
-    this.testTile = new Tile1(this);
-=======
+    this.testTile = new Tile2(this);
     //this.client = new Client(8081);
-    //this.client.getPrologRequest('test(1,5)', 0 ,1);
->>>>>>> e21f3eb964cef8a97a3e747a9b9fe725e30eec13
+    //this.client.getPrologRequest('test(1,5)', 0 ,1)
 };
 /*
   defines the interface of the scene
