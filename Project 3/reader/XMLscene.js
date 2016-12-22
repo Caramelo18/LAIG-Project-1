@@ -44,7 +44,7 @@ XMLscene.prototype.init = function (application) {
 
     this.animationsList = {};
     this.animationsIDs = [];
-
+    this.board = new Board(this),
     this.fps = 60;
     var updatePeriod = 1000/this.fps;
     this.setUpdatePeriod(updatePeriod);
@@ -52,7 +52,7 @@ XMLscene.prototype.init = function (application) {
     this.playerAngle = 0;
     this.cameraChange = 0;
 
-    this.testTile = new Tile2(this);
+    //this.testTile = new Tile2(this);
     //this.client = new Client(8081);
     //this.client.getPrologRequest('test(1,5)', 0 ,1)
 };
@@ -204,7 +204,7 @@ XMLscene.prototype.display = function () {
 	this.applyViewMatrix();
 
 	// Draw axis
-	//this.axis.display();
+	this.axis.display();
 
 	this.setDefaultAppearance();
 
@@ -229,13 +229,15 @@ XMLscene.prototype.display = function () {
             this.playerAngle -= Math.PI/20;
     }
     this.rotate(this.playerAngle, 0, 0, 1);
+      this.board.display();
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
         this.displayGraph(this.graph.root, null, null);
         //this.primitives["testVehicle"].display();
 	};
-    this.testTile.display();
+
+  //  this.testTile.display();
 };
 
 /**
