@@ -42,3 +42,11 @@ Board.prototype.display = function () {
 	this.scene.popMatrix();
 
 };
+
+Board.prototype.getBoard = function (){
+	return this.matrix;
+}
+
+Board.prototype.setBoard = function (matrix){
+	this.matrix = matrix;
+}
