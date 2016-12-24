@@ -13,13 +13,13 @@ function Board(scene) {
     this.matrix[i]=new Array(6);
   }
 
-	var id=0;
+/*	var id=0;
   for (var i = 0; i < this.matrix.length; i++) {
     for (var j = 0; j < this.matrix.length; j++) {
       this.matrix[j][i] = new  Piece(scene, id++);
 
     }
-  }
+}*/
 
 };
 
@@ -28,7 +28,7 @@ Board.prototype.constructor = Board;
 
 Board.prototype.display = function () {
 	this.scene.pushMatrix();
-	this.scene.translate(0,-4.2,0); // esta ok
+/*	this.scene.translate(0,-4.2,0); // esta ok
 		for (var i = 0; i < this.matrix.length; i++) {
 			for (var j= 0; j < this.matrix.length; j++) {
 
@@ -37,7 +37,7 @@ Board.prototype.display = function () {
 					this.matrix[i][j].display();
 				this.scene.popMatrix();
 		}
-	}
+	}*/
 
 	this.scene.popMatrix();
 

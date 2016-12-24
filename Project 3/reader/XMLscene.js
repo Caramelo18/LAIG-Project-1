@@ -54,8 +54,8 @@ XMLscene.prototype.init = function (application) {
 
 
     this.setPickEnabled(true);
-    
-    //this.testTile = new Tile2(this);
+
+    this.testTile = new Tile4(this, 4);
     //this.client = new Client(8081);
     //this.client.getPrologRequest('test(1,5)', 0 ,1)
 };
@@ -240,7 +240,7 @@ XMLscene.prototype.display = function () {
         //this.primitives["testVehicle"].display();
 	};
 
-  //  this.testTile.display();
+    this.testTile.display();
 };
 
 /**
