@@ -58,6 +58,8 @@ XMLscene.prototype.init = function (application) {
     this.testTile = new Tile4(this, 4);
     //this.client = new Client(8081);
     //this.client.getPrologRequest('test(1,5)', 0 ,1)
+
+    this.chair = new Chair(this);
 };
 /*
   defines the interface of the scene
@@ -207,7 +209,7 @@ XMLscene.prototype.display = function () {
 	this.applyViewMatrix();
 
 	// Draw axis
-	//this.axis.display();
+	this.axis.display();
 
 	this.setDefaultAppearance();
 
@@ -231,16 +233,17 @@ XMLscene.prototype.display = function () {
         else if (this.cameraChange == -1 && this.playerAngle > 0)
             this.playerAngle -= Math.PI/20;
     }
-    this.rotate(this.playerAngle, 0, 0, 1);
-      this.board.display();
+    //this.rotate(this.playerAngle, 0, 0, 1);
+      this.chair.display();
+      //this.board.display();
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
-        this.displayGraph(this.graph.root, null, null);
+        //this.displayGraph(this.graph.root, null, null);
         //this.primitives["testVehicle"].display();
 	};
 
-    this.testTile.display();
+  //  this.testTile.display();
 };
 
 /**
