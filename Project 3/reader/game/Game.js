@@ -1,12 +1,12 @@
 var mode={
-    HUMAN_VS_HUMAN = 0,
-    HUMAN_VS_COMPUTER = 1,
-    COMPUTER_VS_COMPUTER = 2,
+    HUMAN_VS_HUMAN : 1,
+    HUMAN_VS_COMPUTER : 2,
+    COMPUTER_VS_COMPUTER : 3,
 };
 
 var difficulty = {
-    EASY = 1,
-    HARD = 2,
+    EASY : 1,
+    HARD : 2,
 };
 
 

@@ -3,13 +3,14 @@
 * @constructor
 */
 
-function Piece(scene) {
+function Piece(scene, id) {
 	CGFobject.call(this,scene);
 
+	this.selectable = true;
   this.selected = false;
   this.visible = false;
-  this.piece = null;
-
+  this.piece = new  Tile1(scene);
+	this.id = id;
 
 };
 
@@ -17,6 +18,17 @@ Piece.prototype = Object.create(CGFobject.prototype);
 Piece.prototype.constructor = Piece;
 
 Piece.prototype.display = function () {
+		this.scene.pushMatrix();
+
+			if(this.selectable)
+				this.scene.registerForPick(this.id,this);
+
+			this.piece.display();
+
+			if(this.selectable)
+				this.scene.clearPickRegistration();
+
+		this.scene.popMatrix();
 
 };
 

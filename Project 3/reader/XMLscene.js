@@ -52,6 +52,9 @@ XMLscene.prototype.init = function (application) {
     this.playerAngle = 0;
     this.cameraChange = 0;
 
+
+    this.setPickEnabled(true);
+    
     //this.testTile = new Tile2(this);
     //this.client = new Client(8081);
     //this.client.getPrologRequest('test(1,5)', 0 ,1)
@@ -204,7 +207,7 @@ XMLscene.prototype.display = function () {
 	this.applyViewMatrix();
 
 	// Draw axis
-	this.axis.display();
+	//this.axis.display();
 
 	this.setDefaultAppearance();
 

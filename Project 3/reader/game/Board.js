@@ -16,7 +16,7 @@ function Board(scene) {
 	var id=0;
   for (var i = 0; i < this.matrix.length; i++) {
     for (var j = 0; j < this.matrix.length; j++) {
-      this.matrix[j][i] = new  Tile1(scene);
+      this.matrix[j][i] = new  Piece(scene, id++);
 
     }
   }
