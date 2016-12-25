@@ -55,9 +55,12 @@ XMLscene.prototype.init = function (application) {
 
     this.setPickEnabled(true);
 
-    this.testTile = new Tile4(this, 4);
-    //this.client = new Client(8081);
-    //this.client.getPrologRequest('test(1,5)', 0 ,1)
+    this.testTile = new Tile3(this, 12);
+
+    this.client = new Client(8081);
+    this.client.getPrologRequest('getTilePool', this.readPool ,1, this);
+
+
 };
 /*
   defines the interface of the scene
@@ -106,7 +109,7 @@ XMLscene.prototype.initCameras = function()
     }
 
 	this.camera = this.cameras[this.graph.defaultCamera];
-  this.interface.setActiveCamera(this.camera);
+  //this.interface.setActiveCamera(this.camera);
 }
 
 /**
@@ -232,7 +235,8 @@ XMLscene.prototype.display = function () {
             this.playerAngle -= Math.PI/20;
     }
     this.rotate(this.playerAngle, 0, 0, 1);
-      this.board.display();
+
+    this.board.display();
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
@@ -331,7 +335,6 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
 }
 	this.popMatrix();
-
 }
 
 /**
@@ -385,4 +388,50 @@ XMLscene.prototype.logPicking = function ()
 			this.pickResults.splice(0,this.pickResults.length);
 		}
 	}
+}
+
+XMLscene.prototype.handlePlacements = function(){
+
+}
+
+XMLscene.prototype.readPool = function(data){
+    this.scene.pool = data.target.response;
+    console.log(this.scene.pool);
+    var command = 'getPlayerAStartHand(' + this.scene.pool + ')';
+    console.log(command);
+    this.scene.client.getPrologRequest(command, this.scene.readPlayerAHand, 1, this.scene);
+}
+
+XMLscene.prototype.readPlayerAHand = function(data){
+    var response = data.target.response;
+    response = response.split("],");
+
+    var hand = response[0];
+    var pool = response[1];
+    hand = hand.substring(2);
+    hand = hand.split("),");
+    pool = pool.substring(0, pool.length - 1);
+    this.scene.playerAHand = hand;
+    this.scene.pool = pool;
+
+    var command = 'getPlayerBStartHand(' + pool + ')';
+    this.scene.client.getPrologRequest(command, this.scene.readPlayerBHand, 1, this.scene);
+    //this.scene.client.getPrologRequest('quit', 0, 1);
+}
+
+XMLscene.prototype.readPlayerBHand = function(data){
+    var response = data.target.response;
+    response = response.split("],");
+
+    var hand = response[0];
+    var pool = response[1];
+    hand = hand.substring(2);
+    hand = hand.split("),");
+    pool = pool.substring(0, pool.length - 1);
+    this.scene.playerBHand = hand;
+    this.scene.pool = pool;
+    console.log(this.scene.playerAHand);
+    console.log(this.scene.playerBHand);
+    console.log(pool);
+    this.scene.board.loadPlayerTiles(this.scene.playerAHand, this.scene.playerBHand);
 }

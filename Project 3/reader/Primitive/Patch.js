@@ -12,8 +12,6 @@ function Patch(scene, orderU, orderV, partsU, partsV, controlPoints) {
  this.partsV = partsV;
  this.controlPoints = controlPoints;
  this.controlVertexes = this.getControlVertexs();
- console.log("controlVertexes");
- console.log(this.controlVertexes);
  this.surface = this.makeSurface(orderU, orderV);
 };
 

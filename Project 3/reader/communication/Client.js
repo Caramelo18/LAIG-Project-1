@@ -11,13 +11,15 @@ Client.defaultSuccessHandler = function(data){
 
 
 function Client(port){
-  this.port = port || Clien.defaultPort;
+  this.port = port || Client.defaultPort;
 }
 
 Client.prototype.constructor=Client;
 
-Client.prototype.getPrologRequest = function(command, onSuccess, onError){
+Client.prototype.getPrologRequest = function(command, onSuccess, onError, scene){
     var request = new XMLHttpRequest();
+
+    request.scene = scene;
     request.open('GET', 'http://localhost:' + this.port + '/' + command, true);
 
     //A JavaScript function object that gets invoked when the operation is successfully completed.

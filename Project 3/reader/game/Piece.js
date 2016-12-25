@@ -7,9 +7,9 @@ function Piece(scene, id) {
 	CGFobject.call(this,scene);
 
 	this.selectable = true;
-  this.selected = false;
-  this.visible = false;
-  this.piece = new  Tile1(scene);
+  	this.selected = false;
+  	this.visible = false;
+	this.piece = new Tile0(scene, id);
 	this.id = id;
 
 };

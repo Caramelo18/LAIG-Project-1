@@ -1,5 +1,3 @@
-
-
 function Response(info){
   this.info = info;
 }

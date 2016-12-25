@@ -42,7 +42,7 @@ getRandomTile(Tile,Pool, R, Size):- getRandom(LineNum, Size), getRandomTile(Line
 
 
 assignTile(Tile, Tile).
-createTile(Tile, Player, Type):- assignTile(tile(Player, Type, _), Tile).
+createTile(Tile, Player, Type):- assignTile(tile(Player, Type, l), Tile).
 
 getPlayerStartHand(Player, [Hand], 0, Pool, NewPool, PoolSize):- NewPoolSize is PoolSize - 3, getRandomTile(Type,Pool, NewPool, NewPoolSize),
                                                                  createTile(Hand, Player, Type).
