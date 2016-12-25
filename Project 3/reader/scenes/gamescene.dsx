@@ -177,14 +177,14 @@
 		<!-- bloco "children" obrigatorio num "component" -->
 		<children>
 			<componentref id="board" />
-			<!--componentref id="table" />
+			<componentref id="table" />
 			<componentref id="chair1" />
-			<componentref id="chair2" /-->
+			<componentref id="chair2" />
 			<componentref id="c1Tiles"/>
 			<componentref id="c2Tiles"/>
-			<!--componentref id="plane1"/>
+			<componentref id="plane1"/>
 			<componentref id="plane2"/>
-			<componentref id="plane3"/-->
+			<componentref id="plane3"/>
 		</children>
 
 	</component>
@@ -192,7 +192,9 @@
 	<component id="board">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
-			<translate x="0" y="0" z="0" />
+				<scale x="0.4" y="1" z="0.4"/>
+				<rotate axis="x" angle="-90"/>
+				<translate x="7.5" y="-7.5" z="1.15" />
 		</transformation>
 
 		<animation>
@@ -214,8 +216,9 @@
 	<component id="c1Tiles">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
-			<translate x="0" y="-3.5" z="0" />
-			<scale x="0.5" y="0.17" z="1"/>
+			<rotate axis="x" angle = "-90"/>
+			<translate x="3" y="-4.3" z="1.15" />
+			<scale x="0.2" y="0.05" z="1"/>
 		</transformation>
 
 		<animation>
@@ -237,8 +240,9 @@
 	<component id="c2Tiles">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
-			<translate x="0" y="3.5" z="0" />
-			<scale x="0.5" y="0.17" z="1"/>
+		<rotate axis="x" angle = "-90"/>
+		<translate x="3" y="-1.8" z="1.15" />
+		<scale x="0.2" y="0.05" z="1"/>
 		</transformation>
 
 		<animation>
