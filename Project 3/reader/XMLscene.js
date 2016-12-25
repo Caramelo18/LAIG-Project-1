@@ -234,12 +234,12 @@ XMLscene.prototype.display = function () {
             this.playerAngle -= Math.PI/20;
     }
     //this.rotate(this.playerAngle, 0, 0, 1);
-      this.chair.display();
+
       //this.board.display();
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
-        //this.displayGraph(this.graph.root, null, null);
+        this.displayGraph(this.graph.root, null, null);
         //this.primitives["testVehicle"].display();
 	};
 

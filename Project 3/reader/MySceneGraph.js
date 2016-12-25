@@ -811,6 +811,12 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 			case "patch":
 			primitive = this.parserPatch(primitiveChild);
 			break;
+			case "table":
+			primitive = new Table(this.scene);
+			break;
+			case "chair":
+			primitive = new Chair(this.scene);
+			break;
 		}
 		this.primitivesIDs[i] = id;
 		this.primitivesList[child.id] = primitive;

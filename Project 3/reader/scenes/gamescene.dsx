@@ -132,9 +132,25 @@
 		  </chessboard>
 	</primitive>
 
+	<primitive id="chair1">
+		<chair/>
+	</primitive>
 
+	<primitive id="chair2">
+		<chair/>
+	</primitive>
 
+	<primitive id="table">
+		<table/>
+	</primitive>
 
+	<primitive id="plane">
+		<plane dimX="6" dimY="4" partsX="2" partsY="2"/>
+	</primitive>
+
+	<primitive id="plane1">
+		<plane dimX="6" dimY="6" partsX="2" partsY="2"/>
+	</primitive>
 
 </primitives>
 
@@ -144,7 +160,7 @@
 	<component id="root">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
-			<translate x="0" y="0" z="0" />
+				<translate x="0" y="0" z="0" />
 		</transformation>
 
 		<animation>
@@ -160,9 +176,39 @@
 
 		<!-- bloco "children" obrigatorio num "component" -->
 		<children>
-			<primitiveref id="gameChess" />
+			<componentref id="board" />
+			<componentref id="table" />
+			<componentref id="chair1" />
+			<componentref id="chair2" />
 			<componentref id="c1Tiles"/>
 			<componentref id="c2Tiles"/>
+			<componentref id="plane1"/>
+			<componentref id="plane2"/>
+			<componentref id="plane3"/>
+		</children>
+
+	</component>
+
+	<component id="board">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+				<scale x="0.4" y="1" z="0.4"/>
+				<rotate axis="x" angle="-90"/>
+				<translate x="7.5" y="-7.5" z="1.15" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="body" />
+		</materials>
+
+		<texture id="none" />
+
+		<!-- bloco "children" obrigatorio num "component" -->
+		<children>
+			<primitiveref id="gameChess" />
 		</children>
 
 	</component>
@@ -170,13 +216,12 @@
 	<component id="c1Tiles">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
-			<translate x="0" y="-3.5" z="0" />
-			<scale x="0.5" y="0.17" z="1"/>
+			<rotate axis="x" angle = "-90"/>
+			<translate x="3" y="-4.3" z="1.15" />
+			<scale x="0.2" y="0.05" z="1"/>
 		</transformation>
 
 		<animation>
-			<!--animationref id="oi"/-->
-			<!--animationref id="oiCircular"/-->
 		</animation>
 
 		<materials>
@@ -195,13 +240,12 @@
 	<component id="c2Tiles">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
-			<translate x="0" y="3.5" z="0" />
-			<scale x="0.5" y="0.17" z="1"/>
+		<rotate axis="x" angle = "-90"/>
+		<translate x="3" y="-1.8" z="1.15" />
+		<scale x="0.2" y="0.05" z="1"/>
 		</transformation>
 
 		<animation>
-			<!--animationref id="oi"/-->
-			<!--animationref id="oiCircular"/-->
 		</animation>
 
 		<materials>
@@ -218,12 +262,141 @@
 	</component>
 
 
+	<component id="chair1">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<translate x="3" y="" z="1.5" />
+			<scale x="0.5" y="0.3" z="0.5"/>
+		</transformation>
 
+		<animation>
+		</animation>
 
+		<materials>
+			<material id="inherit" />
+		</materials>
 
+		<texture id="none" />
 
+		<!-- bloco "children" obrigatorio num "component" -->
+		<children>
+			<primitiveref id="chair1" />
+		</children>
 
+	</component>
 
+	<component id="chair2">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<translate x="3" y="0" z="4.5" />
+			<rotate axis="y" angle = "180"/>
+			<scale x="0.5" y="0.3" z="0.5"/>
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="inherit" />
+		</materials>
+
+		<texture id="none" />
+
+		<!-- bloco "children" obrigatorio num "component" -->
+		<children>
+			<primitiveref id="chair2" />
+		</children>
+
+	</component>
+
+	<component id="table">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<translate x="3" y="0" z="3" />
+			<scale x="0.5" y="0.3" z="1"/>
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="inherit" />
+		</materials>
+
+		<texture id="none" />
+
+		<!-- bloco "children" obrigatorio num "component" -->
+		<children>
+			<primitiveref id="table" />
+		</children>
+
+	</component>
+
+	<component id="plane1">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<rotate axis="x" angle ="-90"/>
+			<translate x="3" y="-3" z="0" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="body" />
+		</materials>
+
+		<texture id="none"/>
+
+		<children>
+			<primitiveref id="plane1"/>
+		</children>
+
+	</component>
+
+	<component id="plane2">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<rotate axis="y" angle = "0"/>
+			<translate x="3" y="2" z="0" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="body" />
+		</materials>
+
+		<texture id="none"/>
+
+		<children>
+			<primitiveref id="plane"/>
+		</children>
+
+	</component>
+
+	<component id="plane3">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<rotate axis="y" angle = "90"/>
+			<translate x="-3" y="2" z="0" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="body" />
+		</materials>
+
+		<texture id="none"/>
+
+		<children>
+			<primitiveref id="plane"/>
+		</children>
+
+	</component>
 
 </components>
 
