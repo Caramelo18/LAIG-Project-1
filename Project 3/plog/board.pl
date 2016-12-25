@@ -6,18 +6,18 @@ Direction-> u,d,l,r
 tile(_,_,_).
 
 board([[tile(e,e,e),     tile(e,e,e), tile(e,e,e), tile(e,e,e), tile(e,e,e),  tile(e,e,e)],
-        [tile(e,e,e),     tile(e,e,e), tile(e,e,e), tile(e,e,e), tile(e,e,e),  tile(e,e,e)],
+        [tile(e,e,e),     tile(t,e,e), tile(e,e,e), tile(e,e,e), tile(e,e,e),  tile(e,e,e)],
         [tile(e,e,e),     tile(e,e,e), tile(e,e,e), tile(e,e,e), tile(e,e,e),  tile(e,e,e)],
         [tile(e,e,e),     tile(e,e,e), tile(e,e,e), tile(e,e,e), tile(e,e,e),  tile(e,e,e)],
         [tile(e,e,e),     tile(e,e,e), tile(e,e,e), tile(e,e,e), tile(e,e,e),  tile(e,e,e)],
         [tile(e,e,e),     tile(e,e,e), tile(e,e,e), tile(e,e,e), tile(e,e,e),  tile(e,e,e)]]).
 
-testboard([[tile('A',t1,u),     tile('A', 1,l), tile('A',1,r), tile('A',t1,d), tile('A',8,s),  tile('A',t4,e)],
-           [tile('A',t2,l),     tile('A',t2,l), tile('A',t2,r), tile('A',t2,r), tile('A',8,s),  tile('A',t4,e)],
+testboard([[tile('A',t1,u),     tile('A', t1,l), tile('A',t1,r), tile('A',t1,d), tile('A',t8,s),  tile('A',t4,e)],
+           [tile('A',t2,l),     tile('A',t2,l), tile('A',t2,r), tile('A',t2,r), tile('A',t8,s),  tile('A',t4,e)],
            [tile('A',t3,u),     tile('A',t3,l), tile('A',3,r), tile('A',t3,d), tile('A',t8,s),  tile('A',t4,e)],
-           [tile('A',t4,u),     tile('A',t4,l), tile('A',t4,r), tile('A',t4,d), tile('A',8,s),  tile('A',4,e)],
-           [tile('A',t8,u),     tile('A',t8,l), tile('A',8,r), tile('A',t8,d), tile('A',8,s),  tile(e,e,e)],
-           [tile('A',t10,u),    tile('A',t10,l),tile('A',t4,r),tile('A',t10,d),tile('A', 8, s),  tile('A', 8, s)]]).
+           [tile('A',t4,u),     tile('A',t4,l), tile('A',t4,r), tile('A',t4,d), tile('A',t8,s),  tile('A',t4,e)],
+           [tile('A',t8,u),     tile('A',t8,l), tile('A',8,r), tile('A',t8,d), tile('A',t8,s),  tile(e,e,e)],
+           [tile('A',t10,u),    tile('A',t10,l),tile('A',t4,r),tile('A',t10,d),tile('A', t8, s),  tile('A', t8, s)]]).
 
 
 finalboard([[tile('A',1,u),     tile('A',1,l), tile('A',1,r), tile('A',1,d), tile('A',1,e),  tile('A',1,e)],

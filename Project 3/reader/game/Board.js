@@ -15,15 +15,16 @@ function Board(scene) {
 
     for (var i = 0; i < this.matrix.length; i++) {
         for (var j = 0; j < this.matrix.length; j++) {
-            this.matrix[i][j] = new Piece(scene, i*this.matrix.length + j);
-
+            this.matrix[i][j] = new Piece(scene, 1 + i*this.matrix.length + j);
         }
     }
 
-	this.setPickableMatrix(false);
-
 	this.p1Tiles = new Array(3);
 	this.p2Tiles = new Array(3);
+    this.tiles = [];
+    this.board = [];
+
+    this.setPickableMatrix(true);
 
 };
 
@@ -51,6 +52,10 @@ Board.prototype.display = function() {
         this.p2Tiles[i].display();
     }
 
+    for(var i = 0; i < this.tiles.length; i++){
+        this.tiles[i].display();
+    }
+
 };
 
 Board.prototype.getBoard = function() {
@@ -65,6 +70,18 @@ Board.prototype.setPickableMatrix = function(pickable){
 	for (var i = 0; i < this.matrix.length; i++)
         for (var j = 0; j < this.matrix.length; j++)
             this.matrix[i][j].piece.selectable = pickable;
+}
+
+Board.prototype.setPickableP1Tiles = function(pickable){
+    for(var i = 0; i < this.p1Tiles.length; i++){
+        this.p1Tiles[i].selectable = pickable;
+    }
+}
+
+Board.prototype.setPickableP2Tiles = function(pickable){
+    for(var i = 0; i < this.p2Tiles.length; i++){
+        this.p2Tiles[i].selectable = pickable;
+    }
 }
 
 Board.prototype.loadPlayerTiles = function(playerATiles, playerBTiles){
@@ -102,8 +119,57 @@ Board.prototype.createTile = function(type, scene, id){
         case "t8":
             return new Tile8(scene, id);
             break;
+        case "t10":
+            return new Tile10(scene, id);
+            break;
         default:
             return new Tile0(scene, id);
 
+    }
+}
+
+Board.prototype.loadTiles = function(board){
+    this.tiles = [];
+    for (var i = 0; i < board.length; i++){
+        for (var j = 0; j < board[i].length; j++){
+            var player = board[i][j].split(",")[0];
+            var type = board[i][j].split(",")[1];
+            var direction = board[i][j].split(",")[2].substring(0,1);
+            direction = this.readDirection(direction, type);
+
+            if (type != "e") {
+                var tile = this.createTile(type, this.scene ,i*6 + j+100);
+                tile.line = i;
+                tile.col = j;
+                tile.direction = direction;
+                this.tiles.push(tile);
+            }
+        }
+    }
+    console.log(this.tiles);
+}
+
+Board.prototype.readDirection = function(direction, type){
+    if(type == "t2"){
+        if(direction == "r")
+            return 1;
+        return 0;
+    }
+    switch (direction) {
+        case "u":
+            return 2;
+            break;
+        case "d":
+            return 0;
+            break;
+        case "l":
+            return 3;
+            break;
+        case "r":
+            return 1;
+            break;
+        default:
+            return 0;
+            break;
     }
 }

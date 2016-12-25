@@ -9,30 +9,31 @@ var difficulty = {
     HARD : 2,
 };
 
+var states = {
+    P1START : 0,
+    P2START : 1,
+    P1: 2,
+    P2: 3,
+    END: 4,
+};
 
-function Game(scene, mode, difficulty){
 
-  this.scene = scene;
-  this.mode = mode;
-  this.difficulty = difficulty;
-  this.prologBoard = null;
+function Game(board, mode){
+    this.board = board;
+    this.scene = this.board.scene;
+    this.mode = mode;
 
-  this.players = [];
-  this.currentPlayer = 0;
-  this.board = null;
+    this.state = 0;
 
+    this.tilesPlaced = 0;
+
+    this.selectedTile = {};
+    this.target = {};
 
 }
 
 Game.prototype.constructor = Game;
 
-Game.prototype.setPlayers = function (number) {
-
-  for (var i = 0; i < number; i++) {
-    this.players.push(new Player());
-  }
-
-};
 
 Game.prototype.setBoard = function (board) {
     this.board = board;
@@ -51,6 +52,37 @@ Game.prototype.changePlayer = function () {
     }
 };
 
-Game.prototype.display = function(){
+Game.prototype.setTarget = function(line, col) {
+    this.target["line"] = line;
+    this.target["col"] = col;
+    this.placeTile();
+}
 
+Game.prototype.setSelectedTile = function(line, col) {
+    this.selectedTile["line"] = line;
+    this.selectedTile["col"] = col;
+}
+
+Game.prototype.placeTile = function() {
+    switch (this.state) {
+        case 0:
+            var command = 'playerAplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
+            this.scene.client.getPrologRequest(command, this.scene.readBoard, 1, this.scene);
+            this.tilesPlaced++;
+            if(this.tilesPlaced == 2)
+                this.state++;
+            break;
+        case 1:
+            var command = 'playerBplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
+            this.scene.client.getPrologRequest(command, this.scene.readBoard, 1, this.scene);
+            this.tilesPlaced++;
+            this.state++;
+            break;
+        case 2:
+
+            break;
+        case 3:
+
+            break;
+    }
 }

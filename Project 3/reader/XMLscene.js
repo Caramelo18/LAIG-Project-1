@@ -44,7 +44,10 @@ XMLscene.prototype.init = function (application) {
 
     this.animationsList = {};
     this.animationsIDs = [];
+
     this.board = new Board(this),
+    this.game = new Game(this.board, 0);
+
     this.fps = 60;
     var updatePeriod = 1000/this.fps;
     this.setUpdatePeriod(updatePeriod);
@@ -383,6 +386,10 @@ XMLscene.prototype.logPicking = function ()
 				if (obj)
 				{
 					var customId = this.pickResults[i][1];
+                    if(customId > 0 && customId <= 36)
+                        this.handlePlacements(customId);
+                    else if(customId > 50 && customId < 65)
+                        this.handleStartingPlacements(customId)
 					console.log("Picked object: " + obj + ", with pick id " + customId);
 				}
 			}
@@ -391,7 +398,19 @@ XMLscene.prototype.logPicking = function ()
 	}
 }
 
-XMLscene.prototype.handlePlacements = function(){
+XMLscene.prototype.handlePlacements = function(ID){
+    var line = 5 - Math.trunc(ID / 6);
+    var col = ID % 6 - 1;
+
+    col == -1 ? (col = 5, line++) : col = col;
+
+    this.game.setTarget(line, col);
+    console.log('line ' + line);
+    console.log('col ' + col);
+    console.log('id ' + ID);
+}
+
+XMLscene.prototype.handleStartingPlacements = function(ID) {
 
 }
 
@@ -417,7 +436,7 @@ XMLscene.prototype.readPlayerAHand = function(data){
 
     var command = 'getPlayerBStartHand(' + pool + ')';
     this.scene.client.getPrologRequest(command, this.scene.readPlayerBHand, 1, this.scene);
-    //this.scene.client.getPrologRequest('quit', 0, 1);
+    this.scene.board.setPickableP1Tiles(true);
 }
 
 XMLscene.prototype.readPlayerBHand = function(data){
@@ -431,8 +450,33 @@ XMLscene.prototype.readPlayerBHand = function(data){
     pool = pool.substring(0, pool.length - 1);
     this.scene.playerBHand = hand;
     this.scene.pool = pool;
+    this.scene.poolSize = 30;
     console.log(this.scene.playerAHand);
     console.log(this.scene.playerBHand);
     console.log(pool);
     this.scene.board.loadPlayerTiles(this.scene.playerAHand, this.scene.playerBHand);
+    this.scene.board.setPickableP2Tiles(false);
+
+    var command = 'getBoard';
+    this.scene.client.getPrologRequest(command, this.scene.readBoard, 1, this.scene);
+
+
+}
+
+XMLscene.prototype.readBoard = function(data){
+    var response = data.target.response;
+    console.log(response);
+    this.scene.board.board = response;
+    response = response.split("],");
+    response[0] = response[0].substring(1);
+    response[5] = response[5].substring(0, response[5].length - 2);
+    for(var i = 0; i < response.length; i++)
+    {
+        response[i] = response[i].substring(1);
+        response[i] = response[i].split("),");
+        for(var j = 0; j < response[i].length; j++)
+            response[i][j] = response[i][j].substring(5);
+    }
+    this.scene.board.loadTiles(response);
+    //this.scene.client.getPrologRequest('quit', 0, 1);
 }
