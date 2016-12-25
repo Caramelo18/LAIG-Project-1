@@ -51,7 +51,7 @@ MyInterface.prototype.processKeyboard = function(event) {
 	};
 
 
-    //this.setActiveCamera(this.scene.camera);
+    this.setActiveCamera(this.scene.camera);
 
 };
 

@@ -2,8 +2,8 @@
 function Chair(scene) {
 	CGFobject.call(this,scene);
 
-	this.cube=new Rectangle(this.scene);
-	/*
+	this.cube=new Cube(this.scene, -0.5, 0.5, -0.5, 0.5);
+
 	this.materialCadeira = new CGFappearance(this.scene);
 	this.materialCadeira.setAmbient(0.3,0.3,0.3,1);
 	this.materialCadeira.setDiffuse(0.290, 0.196, 0.050,1);
@@ -15,7 +15,7 @@ function Chair(scene) {
 	this.materialAssento.setDiffuse(0.956, 0.898, 0.623,1);
 	this.materialAssento.setSpecular(0.5,0.5,0.5,1);
 	this.materialAssento.setShininess(12);
-*/
+
 
 };
 
@@ -25,7 +25,7 @@ Chair.prototype.constructor=Chair;
 Chair.prototype.display = function () {
 	this.scene.pushMatrix();
 
-    //this.materialAssento.apply();
+    this.materialAssento.apply();
 
     //assento
     this.scene.pushMatrix();
@@ -34,7 +34,7 @@ Chair.prototype.display = function () {
     	this.cube.display();
     this.scene.popMatrix();
 
-    //this.materialCadeira.apply();
+    this.materialCadeira.apply();
 
     //encosto
     this.scene.pushMatrix();

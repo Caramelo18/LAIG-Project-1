@@ -61,6 +61,7 @@ XMLscene.prototype.init = function (application) {
     this.client.getPrologRequest('getTilePool', this.readPool ,1, this);
 
 
+    this.chair = new Chair(this);
 };
 /*
   defines the interface of the scene
@@ -244,7 +245,7 @@ XMLscene.prototype.display = function () {
         //this.primitives["testVehicle"].display();
 	};
 
-    this.testTile.display();
+  //  this.testTile.display();
 };
 
 /**
