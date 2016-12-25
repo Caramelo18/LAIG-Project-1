@@ -12,9 +12,9 @@
 		<!-- a vista muda para a proxima da lista; da -->
 		<!-- ultima vista da lista volta 'a primeira -->
 
-		<perspective id="p1" near="0.7" far="500" angle="20">
-			<from x="0" y="-15" z="15" />
-			<to x="0" y="0" z="0" />
+		<perspective id="p1" near="0.7" far="200" angle="-20">
+			<from x="3" y="4.5" z="9" />
+			<to x="3" y="0" z="0" />
 		</perspective>
 
 		<perspective id="p3" near="0.7" far="500" angle="20">
@@ -34,25 +34,14 @@
 		<!-- Deve existir um ou mais blocos "omni" ou "spot" -->
 		<!-- Os identificadores "id" nao podem ser repetidos -->
 		<omni id="omni1" enabled="1" >
-			<location x="0" y="0" z="5" w="1" />
+			<location x="3" y="4" z="3" w="1" />
 			<ambient r="0.3" g="0.3" b="0.3" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="1" g="1" b="1" a="1" />
 		</omni>
 
-		<omni id="omni2" enabled="1" >
-			<location x="4" y="1" z="0" w="1" />
-			<ambient r="0.3" g="0.3" b="0.3" a="1" />
-			<diffuse r="1" g="1" b="1" a="1" />
-			<specular r="1" g="1" b="1" a="1" />
-		</omni>
 
-		<omni id="omni3" enabled="1" >
-			<location x="0" y="-2" z="-4" w="1" />
-			<ambient r="0.3" g="0.3" b="0.3" a="1" />
-			<diffuse r="1" g="1" b="1" a="1" />
-			<specular r="1" g="1" b="1" a="1" />
-		</omni>
+
 
 	</lights>
 
@@ -71,6 +60,8 @@
 		<!-- Nao necessario aplicar fatores de escala em  -->
 		<!-- quadricas (esfera, ciclindro...) -->
 		<texture id="wood" file="../textures/wood.jpg" length_s="1" length_t="1" />
+		<texture id="floor" file="../textures/floor.jpg" length_s="1" length_t="1" />
+		<texture id="wall1" file="../textures/wall1.jpg" length_s="1" length_t="1" />
 	</textures>
 
 
@@ -82,12 +73,18 @@
 		<material id="body" >
 			<emission r="0.1" g="0.1" b="0.1" a="0.1" />
 			<ambient r="0" g="0" b="0" a="1" />
-			<diffuse r="0" g="1" b="0" a="1" />
+			<diffuse r="0" g="0" b="0" a="1" />
 			<specular r="0.3" g="0.3" b="0.3" a="1" />
 			<shininess value="1" />
 		</material>
 
-
+		<material id="wallcolor" >
+			<emission r="0.1" g="0.1" b="0.1" a="0.1" />
+			<ambient r="0" g="0" b="0" a="1" />
+			<diffuse r="0.6" g="0.4" b="0." a="1" />
+			<specular r="0.1" g="0.1" b="0.1" a="1" />
+			<shininess value="1" />
+		</material>
 
 	</materials>
 
@@ -346,7 +343,7 @@
 			<material id="body" />
 		</materials>
 
-		<texture id="none"/>
+		<texture id="floor"/>
 
 		<children>
 			<primitiveref id="plane1"/>
@@ -368,7 +365,7 @@
 			<material id="body" />
 		</materials>
 
-		<texture id="none"/>
+		<texture id="wall1"/>
 
 		<children>
 			<primitiveref id="plane"/>
@@ -387,7 +384,7 @@
 		</animation>
 
 		<materials>
-			<material id="body" />
+			<material id="wallcolor" />
 		</materials>
 
 		<texture id="none"/>
