@@ -55,6 +55,9 @@ XMLscene.prototype.init = function (application) {
 
     this.setPickEnabled(true);
 
+    this.cameraCanUpdate = false;
+
+
     this.testTile = new Tile3(this, 12);
 
     this.client = new Client(8081);
@@ -191,6 +194,9 @@ XMLscene.prototype.updateLights = function()
     for(var i = 0; i < this.lights.length; i++)
         this.lights[i].update();
 }
+
+
+
 
 
 XMLscene.prototype.display = function () {
