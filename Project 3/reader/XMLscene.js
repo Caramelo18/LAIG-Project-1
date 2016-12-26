@@ -417,7 +417,7 @@ XMLscene.prototype.handlePlacements = function(ID){
 }
 
 XMLscene.prototype.handlePlayerPlacements = function(ID) {
-    this.game.setSelectedTile(1,1);
+    this.game.setSelectedTile(ID);
 }
 
 XMLscene.prototype.readPool = function(data){
@@ -433,6 +433,8 @@ XMLscene.prototype.readPlayerAHand = function(data){
     response = response.split("],");
 
     var hand = response[0];
+    this.scene.board.p1Hand = hand.substring(1) + "]";
+
     var pool = response[1];
     hand = hand.substring(2);
     hand = hand.split("),");
@@ -449,6 +451,8 @@ XMLscene.prototype.readPlayerBHand = function(data){
     response = response.split("],");
 
     var hand = response[0];
+    this.scene.board.p2Hand = hand.substring(1) + "]";
+    
     var pool = response[1];
     hand = hand.substring(2);
     hand = hand.split("),");
