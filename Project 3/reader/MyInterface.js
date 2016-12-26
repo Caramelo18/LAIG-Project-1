@@ -50,7 +50,7 @@ MyInterface.prototype.processKeyboard = function(event) {
 			break;
 	};
 
-    //this.setActiveCamera(this.scene.camera);
+    this.setActiveCamera(this.scene.camera);
 
 };
 
