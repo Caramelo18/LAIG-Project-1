@@ -16,22 +16,22 @@ XMLscene.prototype.init = function (application) {
 
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
-	this.gl.enable(this.gl.CULL_FACE);
+	  this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
     // creates a default camera and axis that are going to be replaced later
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     this.axis = new CGFaxis(this);
 
-	this.currentCamera = 0;
-	this.cameras = {};
+	  this.currentCamera = 0;
+	  this.cameras = {};
     this.camerasIDs = [];
 
-	this.materialsList = {};
+	  this.materialsList = {};
     this.materialsIDs = []
 
     this.texturesList = {};
-	this.texturesID = [];
+	  this.texturesID = [];
 
     this.transformationsList = {};
     this.transformationsIDs = [];
@@ -58,8 +58,9 @@ XMLscene.prototype.init = function (application) {
 
     this.setPickEnabled(true);
 
-    this.cameraCanUpdate = false;
-
+    this.timerStarted = false;
+    this.currTime = 0;
+    this.firstTime = true;
 
     this.testTile = new Tile3(this, 12);
 
@@ -96,12 +97,12 @@ XMLscene.prototype.onGraphLoaded = function ()
 	this.initIllumination();
 	this.initPrimitives();
 	this.initMaterials();
-    this.initTextures();
-    this.initTransformations();
-    this.initComponents();
-    this.initAnimations();
+  this.initTextures();
+  this.initTransformations();
+  this.initComponents();
+  this.initAnimations();
 
-    this.interface.initLightsButtons();
+  this.interface.initLightsButtons();
 };
 
 
@@ -116,7 +117,7 @@ XMLscene.prototype.initCameras = function()
     }
 
 	this.camera = this.cameras[this.graph.defaultCamera];
-    //this.interface.setActiveCamera(this.camera);
+  this.interface.setActiveCamera(this.camera);
 }
 
 /**
@@ -222,14 +223,14 @@ XMLscene.prototype.display = function () {
 	// Draw axis
 	//this.axis.display();
 
-	this.setDefaultAppearance();
+  this.setDefaultAppearance();
 
 	// ---- END Background, camera and axis setup
 
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
-
+/*
     if(this.playerAngle > Math.PI || this.playerAngle < 0){
         this.cameraChange = 0;
         if(this.playerAngle > Math.PI)
@@ -245,22 +246,22 @@ XMLscene.prototype.display = function () {
             this.playerAngle -= Math.PI/20;
     }
     this.rotate(this.playerAngle, 0, 0, 1);
+*/
 
-    this.board.display();
+  //  this.board.display();
 	if (this.graph.loadedOk)
 	{
+        this.updateCameras(this.currTime);
         this.updateLights();
         this.displayGraph(this.graph.root, null, null);
-        //this.primitives["testVehicle"].display();
 	};
 
-  //  this.testTile.display();
 };
 
 /**
 change the current Camera when you press "v"
 */
-XMLscene.prototype.changeCamera = function()
+XMLscene.prototype.change = function()
 {
 	this.currentCamera++;
 
@@ -485,4 +486,33 @@ XMLscene.prototype.readBoard = function(data){
     }
     this.scene.board.loadTiles(response);
     //this.scene.client.getPrologRequest('quit', 0, 1);
+}
+
+XMLscene.prototype.update = function(currTime) {
+	if (!this.timerStarted && this.graph.loadedOk){
+		this.startingTime = currTime;
+		this.timerStarted = true;
+	}
+	this.currTime = (currTime - this.startingTime) / 1000.0;
+}
+
+
+
+XMLscene.prototype.updateCameras = function(time){
+
+
+  var duration = 3;
+
+  var location = vec3.clone(this.cameras[this.camerasIDs[this.currentCamera]].position);
+  var target = vec3.clone(this.cameras[this.camerasIDs[this.currentCamera]].target);
+  console.log(this.cameras[this.camerasIDs[this.currentCamera]].position);
+  if(time < duration ){
+    var perc = time/duration;
+
+    var ang = perc * Math.PI;
+
+    var size = Math.sqrt(Math.pow(location[0] - target[0],2) + Math.pow(location[2] - target[2],2));
+
+    this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(ang), location[1], target[2] + size * Math.cos(ang)));
+  }
 }
