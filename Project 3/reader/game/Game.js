@@ -23,7 +23,7 @@ function Game(board, mode){
     this.scene = this.board.scene;
     this.mode = mode;
 
-    this.state = 0;
+    this.state = 2;
 
     this.tilesPlaced = 0;
 
@@ -58,9 +58,23 @@ Game.prototype.setTarget = function(line, col) {
     this.placeTile();
 }
 
-Game.prototype.setSelectedTile = function(line, col) {
-    this.selectedTile["line"] = line;
-    this.selectedTile["col"] = col;
+Game.prototype.setSelectedTile = function(ID) {
+    var index = ID % 10;
+    var prevSel = this.selectedTile;
+    var player;
+    if(Math.trunc(ID / 10) == 5){
+        this.selectedTile = this.board.p1Tiles[index];
+        player = 1;
+    }
+    else {
+        this.selectedTile = this.board.p2Tiles[index];
+        player = 2;
+    }
+    if(this.selectedTile == prevSel){
+        this.selectedTile.rotate();
+        this.updateHand(player, index);
+    }
+
     this.board.setPickableMatrix(true);
 }
 
@@ -83,11 +97,12 @@ Game.prototype.placeTile = function() {
         case 2:
             console.log("State 2");
             this.state++;
+            this.setP2Turn();
             break;
         case 3:
-            this.setP2Turn();
             console.log("State 3");
             this.state--;
+            this.setP1Turn();
             break;
     }
 }
@@ -104,4 +119,48 @@ Game.prototype.setP2Turn = function() {
     this.board.setPickableMatrix(false);
     this.board.setPickableP1Tiles(false);
     this.board.setPickableP2Tiles(true);
+}
+
+Game.prototype.updateHand = function(player, index){
+    if(player == 1){
+        var hand = this.board.p1Hand;
+        var tile = this.board.p1Tiles[index];
+        var type = this.board.p1Tiles[index].constructor.name;
+        type = type[type.length - 1];
+
+        var direction = this.board.readDirection(tile.direction, "t" + type);
+        var newTile = "tile(A,t" + type + "," + direction + ")";
+        this.board.p1Hand = replaceSpecificIndex(hand, index, newTile);
+    }
+    else if (player == 2){
+        var hand = this.board.p2Hand;
+        var tile = this.board.p2Tiles[index];
+        var type = this.board.p2Tiles[index].constructor.name;
+        type = type[type.length - 1];
+
+        var direction = this.board.readDirection(tile.direction, "t" + type);
+        var newTile = "tile(B,t" + type + "," + direction + ")";
+        this.board.p2Hand = replaceSpecificIndex(hand, index, newTile);
+
+    }
+}
+
+function replaceSpecificIndex(hand, index, tileToReplace){
+    var newHand = "";
+    var j = 0;
+    for(var i = 0; i < hand.length; i++){
+        if(hand.substring(i, i+5) == "tile("){
+            index--;
+        }
+        if(index == -1){
+            newHand += tileToReplace[j];
+            j++;
+            if(j == tileToReplace.length)
+                index = -2;
+        }
+        else {
+            newHand += hand[i];
+        }
+    }
+    return newHand;
 }

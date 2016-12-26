@@ -110,3 +110,7 @@ Tile4.prototype.display = function () {
     if(this.selectable)
         this.scene.clearPickRegistration();
 };
+
+
+Tile4.prototype.rotate = function(){
+}

@@ -90,3 +90,9 @@ Tile2.prototype.display = function () {
         this.scene.clearPickRegistration();
 
 };
+
+Tile2.prototype.rotate = function(){
+    this.direction++;
+    if(this.direction > 1)
+        this.direction = 0;
+}

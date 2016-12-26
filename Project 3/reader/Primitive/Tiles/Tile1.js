@@ -82,3 +82,9 @@ Tile1.prototype.display = function () {
     if(this.selectable)
         this.scene.clearPickRegistration();
 };
+
+Tile1.prototype.rotate = function(){
+    this.direction++;
+    if(this.direction > 3)
+        this.direction = 0;
+}

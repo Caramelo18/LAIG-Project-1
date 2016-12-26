@@ -247,7 +247,7 @@ XMLscene.prototype.display = function () {
     this.rotate(this.playerAngle, 0, 0, 1);
 */
 
-  //  this.board.display();
+    this.board.display();
 	if (this.graph.loadedOk)
 	{
         this.updateCameras(this.currTime);
@@ -452,7 +452,7 @@ XMLscene.prototype.readPlayerBHand = function(data){
 
     var hand = response[0];
     this.scene.board.p2Hand = hand.substring(1) + "]";
-    
+
     var pool = response[1];
     hand = hand.substring(2);
     hand = hand.split("),");
@@ -516,6 +516,6 @@ XMLscene.prototype.updateCameras = function(time){
 
     var size = Math.sqrt(Math.pow(location[0] - target[0],2) + Math.pow(location[2] - target[2],2));
 
-    this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(ang), location[1], target[2] + size * Math.cos(ang)));
+    //this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(ang), location[1], target[2] + size * Math.cos(ang)));
   }
 }

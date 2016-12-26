@@ -12,8 +12,6 @@ function Tile10(scene, id, player) {
     this.player = player;
     this.line = 0;
     this.col = 0;
-    console.log(this.player);
-
 
     this.baseApp = new CGFappearance(scene);
     this.baseApp.setDiffuse(0.3,0.3,0.3,1);

@@ -23,6 +23,8 @@ function Board(scene) {
 	this.p2Tiles = new Array(3);
     this.tiles = [];
     this.board = [];
+    this.p1Hand = [];
+    this.p2Hand = [];
 
     this.setPickableMatrix(true);
 
@@ -161,6 +163,10 @@ Board.prototype.readDirection = function(direction, type){
     if(type == "t2"){
         if(direction == "r")
             return 1;
+        else if (direction == 1)
+            return "r";
+        else if (direction == 0)
+            return "l";
         return 0;
     }
     switch (direction) {
@@ -175,6 +181,18 @@ Board.prototype.readDirection = function(direction, type){
             break;
         case "r":
             return 1;
+            break;
+        case 0:
+            return "d";
+            break;
+        case 1:
+            return "r";
+            break;
+        case 2:
+            return "u";
+            break;
+        case 3:
+            return "l";
             break;
         default:
             return 0;

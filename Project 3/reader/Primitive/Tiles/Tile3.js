@@ -99,3 +99,10 @@ Tile3.prototype.display = function () {
     if(this.selectable)
         this.scene.clearPickRegistration();
 };
+
+
+Tile3.prototype.rotate = function(){
+    this.direction++;
+    if(this.direction > 3)
+        this.direction = 0;
+}

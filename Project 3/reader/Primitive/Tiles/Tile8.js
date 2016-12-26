@@ -145,3 +145,7 @@ Tile8.prototype.display = function () {
         this.scene.clearPickRegistration();
 
 };
+
+
+Tile8.prototype.rotate = function(){
+}
