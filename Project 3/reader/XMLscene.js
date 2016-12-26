@@ -202,7 +202,6 @@ XMLscene.prototype.updateLights = function()
 
 
 
-
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
 
@@ -505,7 +504,7 @@ XMLscene.prototype.updateCameras = function(time){
 
   var location = vec3.clone(this.cameras[this.camerasIDs[this.currentCamera]].position);
   var target = vec3.clone(this.cameras[this.camerasIDs[this.currentCamera]].target);
-  console.log(this.cameras[this.camerasIDs[this.currentCamera]].position);
+
   if(time < duration ){
     var perc = time/duration;
 
