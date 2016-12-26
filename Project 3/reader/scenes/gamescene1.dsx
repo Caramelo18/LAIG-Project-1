@@ -60,8 +60,9 @@
 		<!-- Nao necessario aplicar fatores de escala em  -->
 		<!-- quadricas (esfera, ciclindro...) -->
 		<texture id="wood" file="../textures/wood.jpg" length_s="1" length_t="1" />
-		<texture id="floor" file="../textures/floor.jpg" length_s="1" length_t="1" />
-		<texture id="wall1" file="../textures/wall1.jpg" length_s="1" length_t="1" />
+		<texture id="sky" file="../textures/sky.png" length_s="1" length_t="1" />
+		<texture id="earth" file="../textures/earth.jpg" length_s="1" length_t="1" />
+		<texture id="ovni" file="../textures/ovni.jpg" length_s="1" length_t="1" />
 	</textures>
 
 
@@ -83,6 +84,22 @@
 			<ambient r="0" g="0" b="0" a="1" />
 			<diffuse r="0.6" g="0.4" b="0." a="1" />
 			<specular r="0.1" g="0.1" b="0.1" a="1" />
+			<shininess value="1" />
+		</material>
+
+		<material id="ap1" >
+				<emission r="0.1" g="0.1" b="0.1" a="0.1" />
+				<ambient r="0" g="0" b="0" a="1" />
+				<diffuse r="0" g="1" b="0" a="1" />
+				<specular r="0.3" g="0.3" b="0.3" a="1" />
+				<shininess value="1" />
+		</material>
+
+		<material id="ap2" >
+			<emission r="0.1" g="0.1" b="0.1" a="0.1" />
+			<ambient r="0.2" g="0.2" b="0.2" a="1" />
+			<diffuse r="1" g="0.5" b="0" a="1" />
+			<specular r="0.3" g="0.3" b="0.3" a="1" />
 			<shininess value="1" />
 		</material>
 
@@ -129,17 +146,6 @@
 		  </chessboard>
 	</primitive>
 
-	<primitive id="chair1">
-		<chair/>
-	</primitive>
-
-	<primitive id="chair2">
-		<chair/>
-	</primitive>
-
-	<primitive id="table">
-		<table/>
-	</primitive>
 
 	<primitive id="plane">
 		<plane dimX="6" dimY="4" partsX="2" partsY="2"/>
@@ -147,6 +153,19 @@
 
 	<primitive id="plane1">
 		<plane dimX="6" dimY="6" partsX="2" partsY="2"/>
+	</primitive>
+
+	<primitive id="sphere">
+		<sphere radius="1" slices="17" stacks="17" />
+	</primitive>
+
+	<primitive id="vehicle">
+	 <vehicle/>
+	</primitive>
+
+
+	<primitive id="cylinder">
+		<cylinder base="1.5" top="1.5" height="0.2" slices="27" stacks="27" />
 	</primitive>
 
 </primitives>
@@ -174,14 +193,14 @@
 		<!-- bloco "children" obrigatorio num "component" -->
 		<children>
 			<componentref id="board" />
-			<componentref id="table" />
-			<componentref id="chair1" />
-			<componentref id="chair2" />
 			<componentref id="c1Tiles"/>
 			<componentref id="c2Tiles"/>
 			<componentref id="plane1"/>
 			<componentref id="plane2"/>
 			<componentref id="plane3"/>
+			<componentref id="sphere"/>
+			<componentref id="vehicle"/>
+			<componentref id="ovni"/>
 		</children>
 
 	</component>
@@ -258,77 +277,6 @@
 
 	</component>
 
-
-	<component id="chair1">
-		<!-- bloco "transformation" obrigatorio -->
-		<transformation>
-			<translate x="3" y="" z="1.5" />
-			<scale x="0.5" y="0.3" z="0.5"/>
-		</transformation>
-
-		<animation>
-		</animation>
-
-		<materials>
-			<material id="inherit" />
-		</materials>
-
-		<texture id="none" />
-
-		<!-- bloco "children" obrigatorio num "component" -->
-		<children>
-			<primitiveref id="chair1" />
-		</children>
-
-	</component>
-
-	<component id="chair2">
-		<!-- bloco "transformation" obrigatorio -->
-		<transformation>
-			<translate x="3" y="0" z="4.5" />
-			<rotate axis="y" angle = "180"/>
-			<scale x="0.5" y="0.3" z="0.5"/>
-		</transformation>
-
-		<animation>
-		</animation>
-
-		<materials>
-			<material id="inherit" />
-		</materials>
-
-		<texture id="none" />
-
-		<!-- bloco "children" obrigatorio num "component" -->
-		<children>
-			<primitiveref id="chair2" />
-		</children>
-
-	</component>
-
-	<component id="table">
-		<!-- bloco "transformation" obrigatorio -->
-		<transformation>
-			<translate x="3" y="0" z="3" />
-			<scale x="0.5" y="0.3" z="1"/>
-		</transformation>
-
-		<animation>
-		</animation>
-
-		<materials>
-			<material id="inherit" />
-		</materials>
-
-		<texture id="none" />
-
-		<!-- bloco "children" obrigatorio num "component" -->
-		<children>
-			<primitiveref id="table" />
-		</children>
-
-	</component>
-
 	<component id="plane1">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
@@ -343,7 +291,7 @@
 			<material id="body" />
 		</materials>
 
-		<texture id="floor"/>
+		<texture id="sky"/>
 
 		<children>
 			<primitiveref id="plane1"/>
@@ -365,7 +313,7 @@
 			<material id="body" />
 		</materials>
 
-		<texture id="wall1"/>
+		<texture id="sky"/>
 
 		<children>
 			<primitiveref id="plane"/>
@@ -384,10 +332,10 @@
 		</animation>
 
 		<materials>
-			<material id="wallcolor" />
+			<material id="inherit" />
 		</materials>
 
-		<texture id="none"/>
+		<texture id="sky"/>
 
 		<children>
 			<primitiveref id="plane"/>
@@ -395,6 +343,74 @@
 
 	</component>
 
+	<component id="sphere">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<scale x="0.4" y="0.4" z="0.4"/>
+			<rotate axis="x" angle = "90"/>
+			<translate x="4" y="4" z="-8" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="inherit" />
+		</materials>
+
+		<texture id="earth"/>
+
+		<children>
+			<primitiveref id="sphere"/>
+		</children>
+
+	</component>
+
+	<component id="vehicle">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<rotate axis="x" angle="-90"/>
+			<scale x="0.4" y="0.4" z="0.4"/>
+			<translate x="12" y="-3" z="3" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="ap2" />
+			<material id="ap1" />
+		</materials>
+
+		<texture id="none"/>
+
+		<children>
+			<primitiveref id="vehicle"/>
+		</children>
+
+	</component>
+
+	<component id="ovni">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<rotate axis="x" angle="-90"/>
+			<translate x="3.0" y="-3.0" z="0.9" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="inherit" />
+		</materials>
+
+		<texture id="ovni"/>
+
+		<children>
+			<primitiveref id="cylinder"/>
+		</children>
+
+	</component>
 </components>
 
 <animations>

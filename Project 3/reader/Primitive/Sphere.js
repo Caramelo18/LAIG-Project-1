@@ -1,10 +1,10 @@
  function Sphere(scene, radius, slices, stacks) {
  	CGFobject.call(this,scene);
-	
+
 	this.slices = slices;
 	this.stacks = stacks;
 	this.radius = radius;
-	
+
  	this.initBuffers();
  };
 
@@ -16,7 +16,7 @@
 
 	this.sigma = (Math.PI*2)/this.slices;
 	this.teta = Math.PI/this.stacks;
-	
+
  	this.vertices = [];
  	this.indices = [];
  	this.normals = [];
@@ -40,12 +40,12 @@
 
 			this.vertices.push(x,y,z);
 			this.normals.push(x,y,z);
-			this.texCoords.push(1- i/this.stacks, 1 - j/this.slices);
-			
+			this.texCoords.push(1- j/this.slices, 1 - i/this.stacks);
+
 		}
 	}
 
- 	
+
  	for(var stack = 0 ; stack < this.stacks ; ++stack){
  		for(var slice = 0; slice < this.slices ; ++slice){
  			this.indices.push(stack * (this.slices + 1) + slice, (stack + 1) * (this.slices + 1) + slice, (stack + 1) * (this.slices + 1) + slice + 1);
@@ -53,10 +53,8 @@
 		}
 	}
 
-	
+
 
  	this.primitiveType = this.scene.gl.TRIANGLES;
  	this.initGLBuffers();
  };
-
- 

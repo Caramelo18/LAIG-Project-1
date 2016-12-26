@@ -58,6 +58,9 @@ XMLscene.prototype.init = function (application) {
 
     this.setPickEnabled(true);
 
+    this.cameraCanUpdate = false;
+
+
     this.testTile = new Tile3(this, 12);
 
     this.client = new Client(8081);
@@ -113,7 +116,7 @@ XMLscene.prototype.initCameras = function()
     }
 
 	this.camera = this.cameras[this.graph.defaultCamera];
-  //this.interface.setActiveCamera(this.camera);
+  this.interface.setActiveCamera(this.camera);
 }
 
 /**
@@ -196,6 +199,9 @@ XMLscene.prototype.updateLights = function()
 }
 
 
+
+
+
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
 
@@ -240,7 +246,7 @@ XMLscene.prototype.display = function () {
     }
     this.rotate(this.playerAngle, 0, 0, 1);
 
-    this.board.display();
+  //  this.board.display();
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
