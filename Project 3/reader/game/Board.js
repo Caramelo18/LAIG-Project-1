@@ -33,7 +33,9 @@ Board.prototype.constructor = Board;
 
 Board.prototype.display = function() {
     this.scene.pushMatrix();
-    this.scene.translate(0, -4.17, 0); // esta ok
+    this.scene.scale(0.4,1,0.4);
+    this.scene.rotate(-Math.PI/2,1,0,0);
+    this.scene.translate(7.5, -11.67, 1.15); // esta ok
     for (var i = 0; i < this.matrix.length; i++) {
         for (var j = 0; j < this.matrix.length; j++) {
 
@@ -46,16 +48,24 @@ Board.prototype.display = function() {
 
     this.scene.popMatrix();
 
-    //console.log(this.p1Tiles.length);
+    this.scene.pushMatrix();
+
+    this.scene.scale(0.4,0.4,0.4);
+    this.scene.rotate(-Math.PI/2, 1, 0, 0);
+    this.scene.translate(7.5,-7.24,2.86);
+
+    this.scene.pushMatrix();
+    this.scene.translate(0,-0.26,0);
+    for(var i = 0; i < this.tiles.length; i++){
+        this.tiles[i].display();
+    }
+    this.scene.popMatrix();
     for(var i = 0; i < this.p1Tiles.length; i++){
         this.p1Tiles[i].display();
         this.p2Tiles[i].display();
     }
 
-    for(var i = 0; i < this.tiles.length; i++){
-        this.tiles[i].display();
-    }
-
+    this.scene.popMatrix();
 };
 
 Board.prototype.getBoard = function() {
@@ -170,9 +180,4 @@ Board.prototype.readDirection = function(direction, type){
             return 0;
             break;
     }
-}
-
-//TODO change
-String.prototype.replaceAt=function(index, character) {
-    return this.substr(0, index) + character + this.substr(index+character.length);
 }

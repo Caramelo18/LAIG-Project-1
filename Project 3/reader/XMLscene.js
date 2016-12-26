@@ -116,7 +116,7 @@ XMLscene.prototype.initCameras = function()
     }
 
 	this.camera = this.cameras[this.graph.defaultCamera];
-  this.interface.setActiveCamera(this.camera);
+    //this.interface.setActiveCamera(this.camera);
 }
 
 /**
@@ -246,7 +246,7 @@ XMLscene.prototype.display = function () {
     }
     this.rotate(this.playerAngle, 0, 0, 1);
 
-  //  this.board.display();
+    this.board.display();
 	if (this.graph.loadedOk)
 	{
         this.updateLights();
@@ -442,7 +442,6 @@ XMLscene.prototype.readPlayerAHand = function(data){
 
     var command = 'getPlayerBStartHand(' + pool + ')';
     this.scene.client.getPrologRequest(command, this.scene.readPlayerBHand, 1, this.scene);
-    this.scene.board.setPickableP1Tiles(false);
 }
 
 XMLscene.prototype.readPlayerBHand = function(data){
@@ -461,6 +460,7 @@ XMLscene.prototype.readPlayerBHand = function(data){
     console.log(this.scene.playerBHand);
     console.log(pool);
     this.scene.board.loadPlayerTiles(this.scene.playerAHand, this.scene.playerBHand);
+    this.scene.board.setPickableP1Tiles(false);
     this.scene.board.setPickableP2Tiles(false);
 
     var command = 'getBoard';

@@ -61,7 +61,6 @@ Game.prototype.setTarget = function(line, col) {
 Game.prototype.setSelectedTile = function(line, col) {
     this.selectedTile["line"] = line;
     this.selectedTile["col"] = col;
-    console.log("HEY");
     this.board.setPickableMatrix(true);
 }
 
@@ -79,10 +78,10 @@ Game.prototype.placeTile = function() {
             this.scene.client.getPrologRequest(command, this.scene.readBoard, 1, this.scene);
             this.tilesPlaced++;
             this.state++;
+            this.setP1Turn();
             break;
         case 2:
             console.log("State 2");
-            this.setP1Turn();
             this.state++;
             break;
         case 3:

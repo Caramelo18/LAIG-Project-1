@@ -52,7 +52,7 @@ Tile1.prototype.display = function () {
         this.scene.translate(1.26 + this.col * this.size, -5.59, 0);
     }
     else if (this.line == -2){
-        this.scene.translate(1.26 + this.col * this.size, 1.42, 0);
+        this.scene.translate(1.26 + this.col * this.size, 0.91, 0);
     }
 
     this.scene.pushMatrix();
