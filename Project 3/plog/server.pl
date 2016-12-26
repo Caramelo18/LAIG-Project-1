@@ -114,6 +114,6 @@ parse_input(getPlayerAStartHand(Pool), [Hand, NewPool]):- getPlayerStartHand('A'
 parse_input(getPlayerBStartHand(Pool), [Hand, NewPool]):- getPlayerStartHand('B', Hand, Pool, NewPool, 33).
 parse_input(getBoard, Board):- board(Board).
 parse_input(playerAplaceStart(Board, Row, Col), NewBoard):- emptyPlace(Board,Row,Col),
-                                        					placeTile(Board, tile('A',t10,u), Row, Col, NewBoard).
+                                        					placeTile(Board, tile('a',t10,u), Row, Col, NewBoard).
 parse_input(playerBplaceStart(Board, Row, Col), NewBoard):- emptyPlace(Board,Row,Col),
-															placeTile(Board, tile('B',t10,u), Row, Col, NewBoard).
+															placeTile(Board, tile('b',t10,u), Row, Col, NewBoard).

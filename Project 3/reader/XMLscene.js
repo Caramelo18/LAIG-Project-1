@@ -122,7 +122,7 @@ initialization of the illumination
 XMLscene.prototype.initIllumination = function()
 {
 	this.gl.clearColor(this.graph.backgroundR,this.graph.backgroundG,this.graph.backgroundB,this.graph.backgroundA);
-  this.setAmbient(this.graph.ambientR, this.graph.ambientG, this.graph.ambientB, this.graph.ambientA);
+    this.setAmbient(this.graph.ambientR, this.graph.ambientG, this.graph.ambientB, this.graph.ambientA);
 }
 
 /**
@@ -388,8 +388,8 @@ XMLscene.prototype.logPicking = function ()
 					var customId = this.pickResults[i][1];
                     if(customId > 0 && customId <= 36)
                         this.handlePlacements(customId);
-                    else if(customId > 50 && customId < 65)
-                        this.handleStartingPlacements(customId)
+                    else if(customId >= 50 && customId < 65)
+                        this.handlePlayerPlacements(customId);
 					console.log("Picked object: " + obj + ", with pick id " + customId);
 				}
 			}
@@ -410,8 +410,8 @@ XMLscene.prototype.handlePlacements = function(ID){
     console.log('id ' + ID);
 }
 
-XMLscene.prototype.handleStartingPlacements = function(ID) {
-
+XMLscene.prototype.handlePlayerPlacements = function(ID) {
+    this.game.setSelectedTile(1,1);
 }
 
 XMLscene.prototype.readPool = function(data){
@@ -436,7 +436,7 @@ XMLscene.prototype.readPlayerAHand = function(data){
 
     var command = 'getPlayerBStartHand(' + pool + ')';
     this.scene.client.getPrologRequest(command, this.scene.readPlayerBHand, 1, this.scene);
-    this.scene.board.setPickableP1Tiles(true);
+    this.scene.board.setPickableP1Tiles(false);
 }
 
 XMLscene.prototype.readPlayerBHand = function(data){
@@ -465,7 +465,7 @@ XMLscene.prototype.readPlayerBHand = function(data){
 
 XMLscene.prototype.readBoard = function(data){
     var response = data.target.response;
-    console.log(response);
+
     this.scene.board.board = response;
     response = response.split("],");
     response[0] = response[0].substring(1);

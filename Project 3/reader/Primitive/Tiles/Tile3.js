@@ -48,10 +48,10 @@ Tile3.prototype.display = function () {
     if(this.line >= 0)
         this.scene.translate(this.size * this.col, -this.size * this.line, 0);
     else if (this.line == -1){
-        this.scene.translate(1.26 + this.col * this.size, 1.42, 0);
+        this.scene.translate(1.26 + this.col * this.size, -5.59, 0);
     }
     else if (this.line == -2){
-        this.scene.translate(1.26 + this.col * this.size, -5.59, 0);
+        this.scene.translate(1.26 + this.col * this.size, 1.42, 0);
     }
 
     this.scene.pushMatrix();

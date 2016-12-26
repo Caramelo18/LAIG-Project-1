@@ -61,6 +61,8 @@ Game.prototype.setTarget = function(line, col) {
 Game.prototype.setSelectedTile = function(line, col) {
     this.selectedTile["line"] = line;
     this.selectedTile["col"] = col;
+    console.log("HEY");
+    this.board.setPickableMatrix(true);
 }
 
 Game.prototype.placeTile = function() {
@@ -79,10 +81,28 @@ Game.prototype.placeTile = function() {
             this.state++;
             break;
         case 2:
-
+            console.log("State 2");
+            this.setP1Turn();
+            this.state++;
             break;
         case 3:
-
+            this.setP2Turn();
+            console.log("State 3");
+            this.state--;
             break;
     }
+}
+
+Game.prototype.setP1Turn = function() {
+    //this.board.scene.changePlayerView();
+    this.board.setPickableMatrix(false);
+    this.board.setPickableP1Tiles(true);
+    this.board.setPickableP2Tiles(false);
+}
+
+Game.prototype.setP2Turn = function() {
+    //this.board.scene.changePlayerView();
+    this.board.setPickableMatrix(false);
+    this.board.setPickableP1Tiles(false);
+    this.board.setPickableP2Tiles(true);
 }

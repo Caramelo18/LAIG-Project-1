@@ -102,7 +102,7 @@ Board.prototype.loadPlayerTiles = function(playerATiles, playerBTiles){
     }
 }
 
-Board.prototype.createTile = function(type, scene, id){
+Board.prototype.createTile = function(type, scene, id, player){
     switch (type) {
         case "t1":
             return new Tile1(scene, id);
@@ -120,7 +120,7 @@ Board.prototype.createTile = function(type, scene, id){
             return new Tile8(scene, id);
             break;
         case "t10":
-            return new Tile10(scene, id);
+            return new Tile10(scene, id, player);
             break;
         default:
             return new Tile0(scene, id);
@@ -136,9 +136,8 @@ Board.prototype.loadTiles = function(board){
             var type = board[i][j].split(",")[1];
             var direction = board[i][j].split(",")[2].substring(0,1);
             direction = this.readDirection(direction, type);
-
             if (type != "e") {
-                var tile = this.createTile(type, this.scene ,i*6 + j+100);
+                var tile = this.createTile(type, this.scene ,i*6 + j+100, player);
                 tile.line = i;
                 tile.col = j;
                 tile.direction = direction;
@@ -146,7 +145,6 @@ Board.prototype.loadTiles = function(board){
             }
         }
     }
-    console.log(this.tiles);
 }
 
 Board.prototype.readDirection = function(direction, type){
@@ -172,4 +170,9 @@ Board.prototype.readDirection = function(direction, type){
             return 0;
             break;
     }
+}
+
+//TODO change
+String.prototype.replaceAt=function(index, character) {
+    return this.substr(0, index) + character + this.substr(index+character.length);
 }
