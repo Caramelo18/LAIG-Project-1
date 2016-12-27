@@ -23,7 +23,7 @@ function Game(board, mode){
     this.scene = this.board.scene;
     this.mode = mode;
 
-    this.state = 2;
+    this.state = 0;
 
     this.tilesPlaced = 0;
 
@@ -96,11 +96,15 @@ Game.prototype.placeTile = function() {
             break;
         case 2:
             console.log("State 2");
+            this.removeTilePlayer1Hand();
+            this.player1Move();
             this.state++;
             this.setP2Turn();
             break;
         case 3:
             console.log("State 3");
+            this.removeTilePlayer2Hand();
+            this.player2Move();
             this.state--;
             this.setP1Turn();
             break;
@@ -109,6 +113,7 @@ Game.prototype.placeTile = function() {
 
 Game.prototype.setP1Turn = function() {
     //this.board.scene.changePlayerView();
+    console.log("p1turn");
     this.board.setPickableMatrix(false);
     this.board.setPickableP1Tiles(true);
     this.board.setPickableP2Tiles(false);
@@ -116,6 +121,7 @@ Game.prototype.setP1Turn = function() {
 
 Game.prototype.setP2Turn = function() {
     //this.board.scene.changePlayerView();
+    console.log("p2turn");
     this.board.setPickableMatrix(false);
     this.board.setPickableP1Tiles(false);
     this.board.setPickableP2Tiles(true);
@@ -129,7 +135,7 @@ Game.prototype.updateHand = function(player, index){
         type = type[type.length - 1];
 
         var direction = this.board.readDirection(tile.direction, "t" + type);
-        var newTile = "tile(A,t" + type + "," + direction + ")";
+        var newTile = "tile(a,t" + type + "," + direction + ")";
         this.board.p1Hand = replaceSpecificIndex(hand, index, newTile);
     }
     else if (player == 2){
@@ -139,11 +145,52 @@ Game.prototype.updateHand = function(player, index){
         type = type[type.length - 1];
 
         var direction = this.board.readDirection(tile.direction, "t" + type);
-        var newTile = "tile(B,t" + type + "," + direction + ")";
+        var newTile = "tile(b,t" + type + "," + direction + ")";
         this.board.p2Hand = replaceSpecificIndex(hand, index, newTile);
 
     }
 }
+
+Game.prototype.removeTilePlayer1Hand = function(){
+    var P1Hand = this.board.p1Hand;
+    console.log(P1Hand);
+    var index = this.selectedTile.col;
+    var command = 'removePlayerTile(' + P1Hand + ','+  index + ')';
+    this.board.scene.client.getPrologRequest(command, this.board.loadP1Tiles, 1, this.board);
+}
+
+Game.prototype.removeTilePlayer2Hand = function(){
+    var P2Hand = this.board.p2Hand;
+    var index = this.selectedTile.col;
+    var command = 'removePlayerTile(' + P2Hand + ','+  index + ')';
+    this.board.scene.client.getPrologRequest(command, this.board.loadP2Tiles, 1, this.board);
+}
+
+Game.prototype.player1Move = function(){
+    var line = this.target["line"];
+    var col = this.target["col"];
+    var type = this.selectedTile.constructor.name;
+    type = type.substring(type.length - 1);
+    var direction = this.board.readDirection(this.selectedTile.direction, "t" + type);
+    var tile = 'tile(a,t' + type + ',' + direction + ')';
+
+    var command = 'playerTurn(' + this.board.board + ',' + this.board.p1Hand + ',a,' + line + ',' + col + ',' + tile + ')';
+    this.board.scene.client.getPrologRequest(command, this.board.updateBoard, 1, this.board);
+}
+
+Game.prototype.player2Move = function(){
+    var line = this.target["line"];
+    var col = this.target["col"];
+    var type = this.selectedTile.constructor.name;
+    type = type.substring(type.length - 1);
+    var direction = this.board.readDirection(this.selectedTile.direction, "t" + type);
+    var tile = 'tile(b,t' + type + ',' + direction + ')';
+
+    var command = 'playerTurn(' + this.board.board + ',' + this.board.p1Hand + ',b,' + line + ',' + col + ',' + tile + ')';
+    this.board.scene.client.getPrologRequest(command, this.board.updateBoard, 1, this.board);
+}
+
+
 
 function replaceSpecificIndex(hand, index, tileToReplace){
     var newHand = "";
