@@ -4,7 +4,7 @@ function Placard(scene) {
 	this.scene = scene;
 
 	this.cube = new Cube(scene, -0.5,0.5, -0.5,0.5);
-  this.timer = new DisplayNumber(scene,20);
+  this.timer = new DisplayNumber(scene,50);
   this.score1 = new DisplayNumber(scene, 10);
   this.score2 = new DisplayNumber(scene, 10);
 	this.timerWord = new DisplayString(scene, "TIMER");
@@ -62,4 +62,9 @@ Placard.prototype.display = function(){
 	this.scene.popMatrix();
 
 
+}
+
+
+Placard.prototype.update= function(currTime){
+		this.timer.update(currTime);
 }
