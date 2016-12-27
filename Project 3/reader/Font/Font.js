@@ -21,25 +21,25 @@ Font.prototype.constructor = Font;
 Font.prototype.getCharCoords = function(char) {
 
   switch(char) {
-    case "0":
-      return [0, 0];
     case "1":
-      return [1, 0];
+      return [0, 0];
     case "2":
-      return [2, 0];
+      return [1, 0];
     case "3":
-      return [3, 0];
+      return [2, 0];
     case "4":
-      return [4, 0];
+      return [3, 0];
     case "5":
-      return [0, 1];
+      return [4, 0];
     case "6":
-      return [1, 1];
+      return [0, 1];
     case "7":
-      return [2, 1];
+      return [1, 1];
     case "8":
-      return [3, 1];
+      return [2, 1];
     case "9":
+      return [3, 1];
+    case "0":
       return [4, 1];
     }
 

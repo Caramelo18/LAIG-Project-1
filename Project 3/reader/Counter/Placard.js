@@ -12,7 +12,7 @@ function Placard(scene, value) {
 Placard.prototype = Object.create(CGFobject.prototype);
 Placard.prototype.constructor = Placard;
 
-Placard.prototype.display(){
+Placard.prototype.display = function(){
 
   this.scene.pushMatrix();
     this.timer.display();

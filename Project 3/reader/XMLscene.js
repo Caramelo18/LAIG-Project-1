@@ -62,7 +62,7 @@ XMLscene.prototype.init = function (application) {
     this.currTime = 0;
     this.firstTime = true;
 
-    this.timer = new Timer(this,20);
+    this.timer = new DisplayNumber(this,20);
 };
 /*
   defines the interface of the scene
