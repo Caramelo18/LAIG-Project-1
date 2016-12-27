@@ -110,10 +110,20 @@ test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
 
 parse_input(getTilePool, Pool):- tilePool(Pool).
-parse_input(getPlayerAStartHand(Pool), [Hand, NewPool]):- getPlayerStartHand('A', Hand, Pool, NewPool, 36).
-parse_input(getPlayerBStartHand(Pool), [Hand, NewPool]):- getPlayerStartHand('B', Hand, Pool, NewPool, 33).
+parse_input(getPlayerAStartHand(Pool), [Hand, NewPool]):- getPlayerStartHand('a', Hand, Pool, NewPool, 36).
+parse_input(getPlayerBStartHand(Pool), [Hand, NewPool]):- getPlayerStartHand('b', Hand, Pool, NewPool, 33).
 parse_input(getBoard, Board):- board(Board).
 parse_input(playerAplaceStart(Board, Row, Col), NewBoard):- emptyPlace(Board,Row,Col),
                                         					placeTile(Board, tile('a',t10,u), Row, Col, NewBoard).
 parse_input(playerBplaceStart(Board, Row, Col), NewBoard):- emptyPlace(Board,Row,Col),
 															placeTile(Board, tile('b',t10,u), Row, Col, NewBoard).
+
+parse_input(removePlayerTile(PHand, P1TN), NP1Hand):- removeTilePlayerHand(_ , PHand, NP1Hand, P1TN).
+
+parse_input(playerTurn(Board, PHand, Player, P1R, P1C, RTile), NewBoard):-	listValidMoves(Board,Result,Player,PHand),
+																			Result == [],
+																			emptyPlace(Board,P1R,P1C),
+																			placeTile(Board, RTile, P1R, P1C, NewBoard).
+
+parse_input(playerTurn(Board, _, _, P1R, P1C, RTile), NewBoard):-	validPlacement(Board, RTile, P1R, P1C),
+																	attack(Board, RTile, P1R, P1C, NewBoard).

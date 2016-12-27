@@ -63,6 +63,8 @@ XMLscene.prototype.init = function (application) {
     this.firstTime = true;
 
     this.timer = new DisplayNumber(this,20);
+    this.client = new Client(8081);
+    this.client.getPrologRequest('getTilePool', this.readPool ,1, this);
 };
 /*
   defines the interface of the scene
@@ -224,8 +226,9 @@ XMLscene.prototype.display = function () {
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
 
-  this.timer.display();
-/*
+    //this.timer.display();
+
+
 
     this.board.display();
 	if (this.graph.loadedOk)
@@ -234,7 +237,7 @@ XMLscene.prototype.display = function () {
         this.updateLights();
         this.displayGraph(this.graph.root, null, null);
 	};
-*/
+
 };
 
 /**

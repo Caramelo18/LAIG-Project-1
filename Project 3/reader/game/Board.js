@@ -62,8 +62,11 @@ Board.prototype.display = function() {
         this.tiles[i].display();
     }
     this.scene.popMatrix();
+
     for(var i = 0; i < this.p1Tiles.length; i++){
         this.p1Tiles[i].display();
+    }
+    for(var i = 0; i < this.p2Tiles.length; i++){
         this.p2Tiles[i].display();
     }
 
@@ -97,19 +100,28 @@ Board.prototype.setPickableP2Tiles = function(pickable){
 }
 
 Board.prototype.loadPlayerTiles = function(playerATiles, playerBTiles){
+    if(playerATiles.length > 0)
+        this.p1Tiles = [];
+    if(playerBTiles.length > 0)
+        this.p2Tiles = [];
+
     for(var i = 0; i < playerATiles.length; i++){
+        var player = playerATiles[i].substring(5,6);
         var type = playerATiles[i].substring(7, 9);
-        var tile = this.createTile(type, this.scene, 50 + i);
+        var tile = this.createTile(type, this.scene, 50 + i, player);
         tile.line = -1;
         tile.col = i;
+        tile.selectable = false;
         this.p1Tiles[i] = tile;
     }
 
     for(var i = 0; i < playerBTiles.length; i++){
+        var player = playerBTiles[i].substring(5,6);
         var type = playerBTiles[i].substring(7, 9);
-        var tile = this.createTile(type, this.scene, 60 + i);
+        var tile = this.createTile(type, this.scene, 60 + i, player);
         tile.line = -2;
         tile.col = i;
+        tile.selectable = false;
         this.p2Tiles[i] = tile;
     }
 }
@@ -117,19 +129,19 @@ Board.prototype.loadPlayerTiles = function(playerATiles, playerBTiles){
 Board.prototype.createTile = function(type, scene, id, player){
     switch (type) {
         case "t1":
-            return new Tile1(scene, id);
+            return new Tile1(scene, id, player);
             break;
         case "t2":
-            return new Tile2(scene, id);
+            return new Tile2(scene, id, player);
             break;
         case "t3":
-            return new Tile3(scene, id);
+            return new Tile3(scene, id, player);
             break;
         case "t4":
-            return new Tile4(scene, id);
+            return new Tile4(scene, id, player);
             break;
         case "t8":
-            return new Tile8(scene, id);
+            return new Tile8(scene, id, player);
             break;
         case "t10":
             return new Tile10(scene, id, player);
@@ -198,4 +210,41 @@ Board.prototype.readDirection = function(direction, type){
             return 0;
             break;
     }
+}
+
+Board.prototype.loadP1Tiles = function(data){
+    var hand = data.target.response;
+    this.scene.p1Hand = hand;
+    hand = hand.substring(1);
+    hand = hand.split("),");
+    this.scene.loadPlayerTiles(hand, []);
+}
+
+Board.prototype.loadP2Tiles = function(data){
+    var hand = data.target.response;
+    this.scene.p2Hand = hand;
+    hand = hand.substring(1);
+    hand = hand.split("),");
+
+    this.scene.loadPlayerTiles([], hand);
+}
+
+Board.prototype.updateBoard = function(data){
+    var response = data.target.response;
+
+    this.scene.board = response;
+
+    response = response.split("],");
+    response[0] = response[0].substring(1);
+    response[5] = response[5].substring(0, response[5].length - 2);
+    for(var i = 0; i < response.length; i++)
+    {
+        response[i] = response[i].substring(1);
+        response[i] = response[i].split("),");
+        for(var j = 0; j < response[i].length; j++)
+            response[i][j] = response[i][j].substring(5);
+    }
+
+    this.scene.loadTiles(response);
+
 }
