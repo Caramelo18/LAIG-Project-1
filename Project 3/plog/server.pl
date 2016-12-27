@@ -129,3 +129,5 @@ parse_input(playerTurn(Board, PHand, Player, P1R, P1C, RTile), NewBoard):-	listV
 
 parse_input(playerTurn(Board, _, _, P1R, P1C, RTile), NewBoard):-	validPlacement(Board, RTile, P1R, P1C),
 																	attack(Board, RTile, P1R, P1C, NewBoard).
+
+parse_input(playerTurn(Board, _, _, _, _, _), Board).

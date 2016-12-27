@@ -220,8 +220,8 @@ XMLscene.prototype.display = function () {
 
   this.setDefaultAppearance();
 
-  this.timer.display();
-    /*
+  //this.timer.display();
+
     this.board.display();
 	if (this.graph.loadedOk)
 	{
@@ -230,7 +230,7 @@ XMLscene.prototype.display = function () {
         this.displayGraph(this.graph.root, null, null);
 	};
 
-*/
+
 };
 
 /**

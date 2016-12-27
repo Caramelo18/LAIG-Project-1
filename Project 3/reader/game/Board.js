@@ -216,7 +216,10 @@ Board.prototype.readDirection = function(direction, type){
 Board.prototype.updateBoard = function(data){
     var response = data.target.response;
 
-    this.scene.board = response;
+    if(response == this.scene.board.board)
+        return;
+
+    this.scene.board.board = response;
 
     response = response.split("],");
     response[0] = response[0].substring(1);
@@ -229,6 +232,7 @@ Board.prototype.updateBoard = function(data){
             response[i][j] = response[i][j].substring(5);
     }
 
-    this.scene.loadTiles(response);
+    this.scene.board.loadTiles(response);
 
+    this.scene.passTurn();
 }

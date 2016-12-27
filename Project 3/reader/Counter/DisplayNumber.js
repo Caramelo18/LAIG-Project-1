@@ -54,7 +54,7 @@ DisplayNumber.prototype.update = function(currTime) {
     }
 
     this.lastCurrTime = currTime;
-		console.log(delta);
+		//console.log(delta);
 
     this.number -= delta;
 

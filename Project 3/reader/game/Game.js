@@ -79,6 +79,7 @@ Game.prototype.setSelectedTile = function(ID) {
 }
 
 Game.prototype.placeTile = function() {
+    console.log(this.updatedBoard);
     switch (this.state) {
         case 0:
             var command = 'playerAplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
@@ -95,20 +96,10 @@ Game.prototype.placeTile = function() {
             this.setP1Turn();
             break;
         case 2:
-            console.log("State 2");
-            this.removeTilePlayer1Hand();
             this.player1Move();
-            this.state++;
-            this.addTilePlayer1Hand();
-            this.setP2Turn();
             break;
         case 3:
-            console.log("State 3");
-            this.removeTilePlayer2Hand();
             this.player2Move();
-            this.state--;
-            this.addTilePlayer2Hand();
-            this.setP1Turn();
             break;
     }
 }
@@ -127,6 +118,24 @@ Game.prototype.setP2Turn = function() {
     this.board.setPickableMatrix(false);
     this.board.setPickableP1Tiles(false);
     this.board.setPickableP2Tiles(true);
+}
+
+Game.prototype.passTurn = function() {
+    console.log(this.state);
+    switch (this.state) {
+        case 2:
+            this.removeTilePlayer1Hand();
+            this.addTilePlayer1Hand();
+            this.state++;
+            this.setP2Turn();
+            break;
+        case 3:
+            this.removeTilePlayer2Hand();
+            this.addTilePlayer2Hand();
+            this.state--;
+            this.setP1Turn();
+            break;
+    }
 }
 
 Game.prototype.updateHand = function(player, index){
@@ -207,7 +216,7 @@ Game.prototype.player1Move = function(){
     var tile = 'tile(a,t' + type + ',' + direction + ')';
 
     var command = 'playerTurn(' + this.board.board + ',' + this.board.p1Hand + ',a,' + line + ',' + col + ',' + tile + ')';
-    this.board.scene.client.getPrologRequest(command, this.board.updateBoard, 1, this.board);
+    this.board.scene.client.getPrologRequest(command, this.board.updateBoard, 1, this);
 }
 
 Game.prototype.player2Move = function(){
@@ -219,7 +228,7 @@ Game.prototype.player2Move = function(){
     var tile = 'tile(b,t' + type + ',' + direction + ')';
 
     var command = 'playerTurn(' + this.board.board + ',' + this.board.p1Hand + ',b,' + line + ',' + col + ',' + tile + ')';
-    this.board.scene.client.getPrologRequest(command, this.board.updateBoard, 1, this.board);
+    this.board.scene.client.getPrologRequest(command, this.board.updateBoard, 1, this);
 }
 
 
