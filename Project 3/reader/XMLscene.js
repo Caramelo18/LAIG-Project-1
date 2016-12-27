@@ -55,6 +55,8 @@ XMLscene.prototype.init = function (application) {
     this.playerAngle = 0;
     this.cameraChange = 0;
 
+    this.connected = false;
+
 
     this.setPickEnabled(true);
 
@@ -225,7 +227,7 @@ XMLscene.prototype.display = function () {
     this.timer.score2.setNumber(this.game.scoreB);
 
 
-	if (this.graph.loadedOk)
+	if (this.graph.loadedOk && this.connected)
 	{
         this.updateCameras(this.currTime);
         this.updateLights();
@@ -465,6 +467,7 @@ XMLscene.prototype.readBoard = function(data){
             response[i][j] = response[i][j].substring(5);
     }
     this.scene.board.loadTiles(response);
+    this.scene.connected = true;
     //this.scene.client.getPrologRequest('quit', 0, 1);
 }
 
