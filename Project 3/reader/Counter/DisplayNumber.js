@@ -3,6 +3,8 @@ function DisplayNumber(scene, value) {
 	CGFobject.call(this,scene);
 	this.scene = scene;
 
+	this.lastCurrTime = -1;
+
 	this.number = value;
 	this.width = 0.7;
 	this.height = 0.4;
@@ -14,6 +16,7 @@ function DisplayNumber(scene, value) {
 	this.leftNumber = null;
 	this.rightNumber = null;
 
+	this.parseNumber();
 	this.font = new Font(scene);
 
 };
@@ -22,11 +25,7 @@ DisplayNumber.prototype = Object.create(CGFobject.prototype);
 DisplayNumber.prototype.constructor = DisplayNumber;
 
 
-DisplayNumber.prototype.setMaxnumber = function(max){
-  this.maxnumber = max;
-}
-
-DisplayNumber.prototype.setNumber = function(){
+DisplayNumber.prototype.setNumber = function(number){
   this.number = number;
 }
 
@@ -38,9 +37,30 @@ DisplayNumber.prototype.parseNumber = function(){
 	this.rightNumber = right.toString();
 }
 
+DisplayNumber.prototype.update = function(currTime) {
+		var delta;
+
+
+		if (this.lastCurrTime == -1) {
+      delta = 0;
+			this.lastCurrTime = 0;
+    }
+    else {
+      delta = (currTime - this.lastCurrTime) ;
+    }
+
+    this.lastCurrTime = currTime;
+
+		console.log(this.number);
+    this.number -= delta;
+
+		this.parseNumber();
+
+};
+
 
 DisplayNumber.prototype.display = function() {
-	this.parseNumber();
+
 
 	var text = this.font.getAppearance();
 

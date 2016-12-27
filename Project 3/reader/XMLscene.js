@@ -62,7 +62,7 @@ XMLscene.prototype.init = function (application) {
     this.currTime = 0;
     this.firstTime = true;
 
-    this.timer = new DisplayNumber(this,20);
+    this.timer = new Placard(this);
     this.client = new Client(8081);
     this.client.getPrologRequest('getTilePool', this.readPool ,1, this);
 };
@@ -220,16 +220,13 @@ XMLscene.prototype.display = function () {
 
   this.setDefaultAppearance();
 
-	// ---- END Background, camera and axis setup
+  
+  this.timer.update(this.currTime);
 
-	// it is important that things depending on the proper loading of the graph
-	// only get executed after the graph has loaded correctly.
-	// This is one possible way to do it
-
-    //this.timer.display();
+    this.timer.display();
 
 
-
+/*
     this.board.display();
 	if (this.graph.loadedOk)
 	{
@@ -237,7 +234,7 @@ XMLscene.prototype.display = function () {
         this.updateLights();
         this.displayGraph(this.graph.root, null, null);
 	};
-
+*/
 };
 
 /**
@@ -480,6 +477,7 @@ XMLscene.prototype.update = function(currTime) {
 		this.timerStarted = true;
 	}
 	this.currTime = (currTime - this.startingTime) / 1000.0;
+
 }
 
 
