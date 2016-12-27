@@ -223,7 +223,7 @@ XMLscene.prototype.display = function () {
 
   //this.timer.display();
 
-  //  this.board.display();
+    this.board.display();
 	if (this.graph.loadedOk)
 	{
         this.updateCameras(this.currTime);
