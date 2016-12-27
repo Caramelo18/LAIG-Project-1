@@ -213,9 +213,12 @@ Board.prototype.readDirection = function(direction, type){
 }
 
 
-Board.prototype.updateBoard = function(data){
-    var response = data.target.response;
-
+Board.prototype.updateBoard = function(data, noContainer){
+    var response;
+    if(!noContainer)
+        response = data.target.response;
+    else
+        response = data;
     if(response == this.scene.board.board)
         return;
 
@@ -234,5 +237,6 @@ Board.prototype.updateBoard = function(data){
 
     this.scene.board.loadTiles(response);
 
-    this.scene.passTurn();
+    if(!noContainer)
+        this.scene.passTurn();
 }

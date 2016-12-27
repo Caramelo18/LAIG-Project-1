@@ -82,6 +82,11 @@ Game.prototype.setSelectedTile = function(ID) {
 }
 
 Game.prototype.placeTile = function() {
+    if(this.mode == 1){
+        this.botGame();
+        return;
+    }
+
     switch (this.state) {
         case 0:
             var command = 'playerAplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
@@ -106,8 +111,29 @@ Game.prototype.placeTile = function() {
     }
 }
 
+Game.prototype.botGame = function(){
+    switch (this.state) {
+        case 0:
+            var command = 'playerAplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
+            this.scene.client.getPrologRequest(command, this.scene.readBoard, 1, this.scene);
+            this.tilesPlaced++;
+            if(this.tilesPlaced == 2)
+                this.state++;
+            break;
+        case 1:
+            var command = 'playerBplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
+            this.scene.client.getPrologRequest(command, this.scene.readBoard, 1, this.scene);
+            this.tilesPlaced++;
+            this.state++;
+            this.setP1Turn();
+            break;
+        case 2:
+            this.player1Move();
+            break;
+    }
+}
+
 Game.prototype.setP1Turn = function() {
-    //this.board.scene.changePlayerView();
     console.log("p1turn");
     this.board.setPickableMatrix(false);
     this.board.setPickableP1Tiles(true);
@@ -115,7 +141,6 @@ Game.prototype.setP1Turn = function() {
 }
 
 Game.prototype.setP2Turn = function() {
-    //this.board.scene.changePlayerView();
     console.log("p2turn");
     this.board.setPickableMatrix(false);
     this.board.setPickableP1Tiles(false);
@@ -123,6 +148,10 @@ Game.prototype.setP2Turn = function() {
 }
 
 Game.prototype.passTurn = function() {
+    if(this.mode == 1){
+        this.botPassTurn();
+        return;
+    }
     switch (this.state) {
         case 2:
             this.removeTilePlayer1Hand();
@@ -138,6 +167,44 @@ Game.prototype.passTurn = function() {
             break;
     }
     this.updateStatus();
+}
+
+Game.prototype.botPassTurn = function(){
+    console.log("bot pass turn!");
+    this.removeTilePlayer1Hand();
+    this.addTilePlayer1Hand();
+
+    //botTurn(Board, PlayerHand, TilePool, PoolSize)
+    var command = 'botTurn(' + this.board.board + ',' + this.board.p2Hand + ',' + this.pool + ',' + this.poolSize + ')';
+    this.board.scene.client.getPrologRequest(command, this.handleBotPlay, 1, this);
+}
+
+Game.prototype.handleBotPlay = function(data) {
+    var response = data.target.response;
+    response = response.split("],");
+    response[0] = response[0].substring(1);
+    response[6] = response[6] + "]";
+    response[7] = response[7].substring(0, response[7].length - 1);
+
+    var board = "";
+    for(var i = 0; i < 5; i++)
+        board += response[i] + "],";
+    board += response[5] + "]";
+
+    var tiles = response[6];
+    var tilePool = response[7];
+
+    this.scene.poolSize--;
+    this.scene.pool = tilePool;
+    this.scene.board.updateBoard(board, true);
+    this.scene.board.p2Hand = tiles;
+
+    tiles = tiles.substring(1);
+    tiles = tiles.split("),");
+    this.scene.board.loadPlayerTiles([], tiles);
+
+    this.scene.setP1Turn();
+    this.scene.updateStatus();
 }
 
 Game.prototype.updateHand = function(player, index){
@@ -250,6 +317,7 @@ Game.prototype.updatePool1Hand = function(data) {
     newHand = newHand.substring(1);
     newHand = newHand.split("),");
     this.scene.board.loadPlayerTiles(newHand, []);
+    console.log(this.scene.board.p1Tiles);
 }
 
 Game.prototype.updatePool2Hand = function(data) {

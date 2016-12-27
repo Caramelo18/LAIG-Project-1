@@ -114,7 +114,7 @@ XMLscene.prototype.initCameras = function()
     }
 
 	this.camera = this.cameras[this.graph.defaultCamera];
-  this.interface.setActiveCamera(this.camera);
+  //this.interface.setActiveCamera(this.camera);
 }
 
 /**

@@ -138,3 +138,5 @@ parse_input(gameEnded(Board), true):- boardFull(Board).
 parse_input(gameEnded(_), false).
 
 parse_input(getScore(Board), [ScoreA, ScoreB]):- totalPoints(Board, ScoreA, ScoreB).
+
+parse_input(botTurn(Board, PlayerHand, TilePool, PoolSize), [NewBoard, NPlayerHand, NewTilePool]):- botLevel1Turn(Board,NewBoard, b,PlayerHand,NPlayerHand,TilePool,PoolSize,NewTilePool).
