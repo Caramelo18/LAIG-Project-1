@@ -404,9 +404,9 @@ XMLscene.prototype.handlePlayerPlacements = function(ID) {
 }
 
 XMLscene.prototype.readPool = function(data){
-    this.scene.pool = data.target.response;
+    this.scene.game.pool = data.target.response;
     console.log(this.scene.pool);
-    var command = 'getPlayerAStartHand(' + this.scene.pool + ')';
+    var command = 'getPlayerAStartHand(' + this.scene.game.pool + ')';
     console.log(command);
     this.scene.client.getPrologRequest(command, this.scene.readPlayerAHand, 1, this.scene);
 }
@@ -423,7 +423,7 @@ XMLscene.prototype.readPlayerAHand = function(data){
     hand = hand.split("),");
     pool = pool.substring(0, pool.length - 1);
     this.scene.playerAHand = hand;
-    this.scene.pool = pool;
+    this.scene.game.pool = pool;
 
     var command = 'getPlayerBStartHand(' + pool + ')';
     this.scene.client.getPrologRequest(command, this.scene.readPlayerBHand, 1, this.scene);
@@ -441,8 +441,8 @@ XMLscene.prototype.readPlayerBHand = function(data){
     hand = hand.split("),");
     pool = pool.substring(0, pool.length - 1);
     this.scene.playerBHand = hand;
-    this.scene.pool = pool;
-    this.scene.poolSize = 30;
+    this.scene.game.pool = pool;
+    this.scene.game.poolSize = 30;
     console.log(this.scene.playerAHand);
     console.log(this.scene.playerBHand);
     console.log(pool);
