@@ -120,6 +120,8 @@ parse_input(playerBplaceStart(Board, Row, Col), NewBoard):- emptyPlace(Board,Row
 
 parse_input(removePlayerTile(PHand, P1TN), NP1Hand):- removeTilePlayerHand(_ , PHand, NP1Hand, P1TN).
 
+parse_input(addPlayerTile(Pool, PoolSize, Player, Hand), [NewPool, NewHand]):- addTilePlayerHand(Pool, PoolSize, NewPool, Player, Hand, NewHand).
+
 parse_input(playerTurn(Board, PHand, Player, P1R, P1C, RTile), NewBoard):-	listValidMoves(Board,Result,Player,PHand),
 																			Result == [],
 																			emptyPlace(Board,P1R,P1C),

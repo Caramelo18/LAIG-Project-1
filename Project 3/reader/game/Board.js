@@ -212,22 +212,6 @@ Board.prototype.readDirection = function(direction, type){
     }
 }
 
-Board.prototype.loadP1Tiles = function(data){
-    var hand = data.target.response;
-    this.scene.p1Hand = hand;
-    hand = hand.substring(1);
-    hand = hand.split("),");
-    this.scene.loadPlayerTiles(hand, []);
-}
-
-Board.prototype.loadP2Tiles = function(data){
-    var hand = data.target.response;
-    this.scene.p2Hand = hand;
-    hand = hand.substring(1);
-    hand = hand.split("),");
-
-    this.scene.loadPlayerTiles([], hand);
-}
 
 Board.prototype.updateBoard = function(data){
     var response = data.target.response;

@@ -99,6 +99,7 @@ Game.prototype.placeTile = function() {
             this.removeTilePlayer1Hand();
             this.player1Move();
             this.state++;
+            this.addTilePlayer1Hand();
             this.setP2Turn();
             break;
         case 3:
@@ -106,6 +107,7 @@ Game.prototype.placeTile = function() {
             this.removeTilePlayer2Hand();
             this.player2Move();
             this.state--;
+            this.addTilePlayer2Hand();
             this.setP1Turn();
             break;
     }
@@ -153,17 +155,47 @@ Game.prototype.updateHand = function(player, index){
 
 Game.prototype.removeTilePlayer1Hand = function(){
     var P1Hand = this.board.p1Hand;
-    console.log(P1Hand);
     var index = this.selectedTile.col;
-    var command = 'removePlayerTile(' + P1Hand + ','+  index + ')';
-    this.board.scene.client.getPrologRequest(command, this.board.loadP1Tiles, 1, this.board);
+
+    var newHand = replaceSpecificIndex(P1Hand, index, "tile(x,xx,x)");
+    newHand = newHand.replace("tile(x,xx,x),", "");
+    this.board.p1Hand = newHand;
+
+    newHand = newHand.substring(1);
+    newHand = newHand.split("),");
+    this.board.loadPlayerTiles(newHand, []);
 }
 
 Game.prototype.removeTilePlayer2Hand = function(){
     var P2Hand = this.board.p2Hand;
     var index = this.selectedTile.col;
-    var command = 'removePlayerTile(' + P2Hand + ','+  index + ')';
-    this.board.scene.client.getPrologRequest(command, this.board.loadP2Tiles, 1, this.board);
+
+    var newHand = replaceSpecificIndex(P2Hand, index, "tile(x,xx,x)");
+    newHand = newHand.replace("tile(x,xx,x),", "");
+    this.board.p2Hand = newHand;
+
+    newHand = newHand.substring(1);
+    newHand = newHand.split("),");
+    this.board.loadPlayerTiles([], newHand);
+
+}
+
+Game.prototype.addTilePlayer1Hand = function() {
+    var P1Hand = this.board.p1Hand;
+    var pool = this.pool;
+    var poolSize = this.poolSize;
+    var command = 'addPlayerTile(' + pool + ',' + poolSize + ',a,' + P1Hand +')';
+
+    this.board.scene.client.getPrologRequest(command, this.updatePool1Hand, 1, this);
+}
+
+Game.prototype.addTilePlayer2Hand = function() {
+    var P2Hand = this.board.p2Hand;
+    var pool = this.pool;
+    var poolSize = this.poolSize;
+    var command = 'addPlayerTile(' + pool + ',' + poolSize + ',b,' + P2Hand +')';
+
+    this.board.scene.client.getPrologRequest(command, this.updatePool2Hand, 1, this);
 }
 
 Game.prototype.player1Move = function(){
@@ -190,6 +222,42 @@ Game.prototype.player2Move = function(){
     this.board.scene.client.getPrologRequest(command, this.board.updateBoard, 1, this.board);
 }
 
+
+Game.prototype.updatePool1Hand = function(data) {
+    var response = data.target.response;
+    response = response.split("],");
+    var pool = response[0];
+    pool = pool.substring(1);
+    pool += "]";
+    var newHand = response[1];
+    newHand = newHand.substring(0, newHand.length - 1);
+
+    this.scene.pool = pool;
+    this.scene.poolSize--;
+    this.scene.board.p1Hand = newHand;
+
+    newHand = newHand.substring(1);
+    newHand = newHand.split("),");
+    this.scene.board.loadPlayerTiles(newHand, []);
+}
+
+Game.prototype.updatePool2Hand = function(data) {
+    var response = data.target.response;
+    response = response.split("],");
+    var pool = response[0];
+    pool = pool.substring(1);
+    pool += "]";
+    var newHand = response[1];
+    newHand = newHand.substring(0, newHand.length - 1);
+
+    this.scene.pool = pool;
+    this.scene.poolSize--;
+    this.scene.board.p2Hand = newHand;
+
+    newHand = newHand.substring(1);
+    newHand = newHand.split("),");
+    this.scene.board.loadPlayerTiles([], newHand);
+}
 
 
 function replaceSpecificIndex(hand, index, tileToReplace){

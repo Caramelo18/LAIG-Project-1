@@ -220,13 +220,13 @@ XMLscene.prototype.display = function () {
 
   this.setDefaultAppearance();
 
-  
+
   this.timer.update(this.currTime);
 
-    this.timer.display();
+    //this.timer.display();
 
 
-/*
+
     this.board.display();
 	if (this.graph.loadedOk)
 	{
@@ -234,7 +234,7 @@ XMLscene.prototype.display = function () {
         this.updateLights();
         this.displayGraph(this.graph.root, null, null);
 	};
-*/
+
 };
 
 /**
