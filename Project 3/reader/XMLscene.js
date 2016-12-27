@@ -60,9 +60,9 @@ XMLscene.prototype.init = function (application) {
 
     this.setPickEnabled(true);
 
-    this.timerStarted = false;
-    this.currTime = 0;
-    this.firstTime = true;
+    this.currentCamera = 0;
+    this.turnView = true;
+    this.animIsFirst = true;
 
     this.timer = new Placard(this);
     this.client = new Client(8081);
@@ -223,13 +223,13 @@ XMLscene.prototype.display = function () {
 
   this.setDefaultAppearance();
 
-    this.timer.score1.setNumber(this.game.scoreA);
-    this.timer.score2.setNumber(this.game.scoreB);
+  this.timer.score1.setNumber(this.game.scoreA);
+  this.timer.score2.setNumber(this.game.scoreB);
 
 
 	if (this.graph.loadedOk && this.connected)
 	{
-        this.updateCameras(this.currTime);
+
         this.updateLights();
         this.board.display();
         this.timer.display();
@@ -472,26 +472,49 @@ XMLscene.prototype.readBoard = function(data){
 }
 
 XMLscene.prototype.update = function(currTime) {
-  this.timer.update(currTime);
+  if(this.graph.loadedOk && this.connected){
+    this.timer.update(currTime);
+
+    if(this.turnView){
+      this.updateCameras(currTime);
+    }
+  }
+
 }
 
 
 
 XMLscene.prototype.updateCameras = function(time){
 
+  var delta;
 
+  if(this.animIsFirst){
+    this.initialTimeAnim = time;
+    delta = 0;
+    this.animIsFirst = false;
+  }else{
+    delta = (time - this.initialTimeAnim)/1000;
+  }
+
+  console.log(delta);
   var duration = 3;
 
   var location = vec3.clone(this.cameras[this.camerasIDs[this.currentCamera]].position);
   var target = vec3.clone(this.cameras[this.camerasIDs[this.currentCamera]].target);
 
-  if(time < duration ){
-    var perc = time/duration;
+  if(delta < duration ){
+
+
+    var perc = delta/duration;
 
     var ang = perc * Math.PI;
 
     var size = Math.sqrt(Math.pow(location[0] - target[0],2) + Math.pow(location[2] - target[2],2));
 
-    //this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(ang), location[1], target[2] + size * Math.cos(ang)));
+    this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(ang), location[1], target[2] + size * Math.cos(ang)));
+  }
+  else{
+      this.turnView = false;
+      this.animIsFirst = true;
   }
 }
