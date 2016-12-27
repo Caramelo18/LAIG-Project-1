@@ -114,7 +114,7 @@ XMLscene.prototype.initCameras = function()
     }
 
 	this.camera = this.cameras[this.graph.defaultCamera];
- // this.interface.setActiveCamera(this.camera);
+  this.interface.setActiveCamera(this.camera);
 }
 
 /**
@@ -221,13 +221,13 @@ XMLscene.prototype.display = function () {
 
   this.setDefaultAppearance();
 
-  //this.timer.display();
 
-    this.board.display();
 	if (this.graph.loadedOk)
 	{
         this.updateCameras(this.currTime);
         this.updateLights();
+        this.board.display();
+        this.timer.display();
         this.displayGraph(this.graph.root, null, null);
 	};
 

@@ -296,6 +296,9 @@ Game.prototype.updateScore = function(data) {
     response[1] = response[1].substring(0, response[1].length - 1);
     this.scene.scoreA = parseInt(response[0]);
     this.scene.scoreB = parseInt(response[1]);
+
+    this.scene.placard.score1.setNumber(parseInt(response[0]));
+    this.scene.placard.score2.setNumber(parseInt(response[1]));
 }
 
 function replaceSpecificIndex(hand, index, tileToReplace){
