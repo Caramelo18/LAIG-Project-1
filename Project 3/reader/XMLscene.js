@@ -231,7 +231,6 @@ XMLscene.prototype.display = function () {
         this.displayGraph(this.graph.root, null, null);
 	};
 
-
 };
 
 /**
@@ -399,9 +398,7 @@ XMLscene.prototype.handlePlayerPlacements = function(ID) {
 
 XMLscene.prototype.readPool = function(data){
     this.scene.game.pool = data.target.response;
-    console.log(this.scene.pool);
     var command = 'getPlayerAStartHand(' + this.scene.game.pool + ')';
-    console.log(command);
     this.scene.client.getPrologRequest(command, this.scene.readPlayerAHand, 1, this.scene);
 }
 

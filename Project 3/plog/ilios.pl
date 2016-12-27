@@ -73,8 +73,8 @@ getTilePoint(_, Value):- Value is 0.
 
 updatePoints(Base, Sum, Total):- Total is Base + Sum.
 
-sumPoints('A', PointsA, PointsB, NewPointsA, PointsB, Value):- updatePoints(PointsA, Value, NewPointsA). % TODO - fix NewPointsA assignement
-sumPoints('B', PointsA, PointsB, PointsA, NewPointsB, Value):- updatePoints(PointsB, Value, NewPointsB).
+sumPoints(a, PointsA, PointsB, NewPointsA, PointsB, Value):- updatePoints(PointsA, Value, NewPointsA). % TODO - fix NewPointsA assignement
+sumPoints(b, PointsA, PointsB, PointsA, NewPointsB, Value):- updatePoints(PointsB, Value, NewPointsB).
 sumPoints(_, PointsA, PointsB, PointsA, PointsB, _).
 
 totalPointsLine([], PlA, PlB, PlA, PlB).

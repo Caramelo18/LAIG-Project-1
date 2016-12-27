@@ -27,6 +27,9 @@ function Game(board, mode){
 
     this.tilesPlaced = 0;
 
+    this.scoreA = 0;
+    this.scoreB = 0;
+
     this.selectedTile = {};
     this.target = {};
 
@@ -120,7 +123,6 @@ Game.prototype.setP2Turn = function() {
 }
 
 Game.prototype.passTurn = function() {
-    console.log(this.state);
     switch (this.state) {
         case 2:
             this.removeTilePlayer1Hand();
@@ -135,6 +137,7 @@ Game.prototype.passTurn = function() {
             this.setP1Turn();
             break;
     }
+    this.updateStatus();
 }
 
 Game.prototype.updateHand = function(player, index){
@@ -192,9 +195,8 @@ Game.prototype.addTilePlayer1Hand = function() {
     var P1Hand = this.board.p1Hand;
     var pool = this.pool;
     var poolSize = this.poolSize;
-    console.log(poolSize);
-    var command = 'addPlayerTile(' + pool + ',' + poolSize + ',a,' + P1Hand +')';
 
+    var command = 'addPlayerTile(' + pool + ',' + poolSize + ',a,' + P1Hand +')';
     this.board.scene.client.getPrologRequest(command, this.updatePool1Hand, 1, this);
 }
 
@@ -202,9 +204,8 @@ Game.prototype.addTilePlayer2Hand = function() {
     var P2Hand = this.board.p2Hand;
     var pool = this.pool;
     var poolSize = this.poolSize;
-    console.log(poolSize);
-    var command = 'addPlayerTile(' + pool + ',' + poolSize + ',b,' + P2Hand +')';
 
+    var command = 'addPlayerTile(' + pool + ',' + poolSize + ',b,' + P2Hand +')';
     this.board.scene.client.getPrologRequest(command, this.updatePool2Hand, 1, this);
 }
 
@@ -267,8 +268,35 @@ Game.prototype.updatePool2Hand = function(data) {
     newHand = newHand.substring(1);
     newHand = newHand.split("),");
     this.scene.board.loadPlayerTiles([], newHand);
+    this.scene.updateStatus();
 }
 
+Game.prototype.updateStatus = function(data){
+    if(data == null){
+        var command = 'gameEnded(' + this.board.board + ')';
+        this.board.scene.client.getPrologRequest(command, this.updateStatus, 1, this);
+    }
+    else {
+        var response = data.target.response;
+        if(this.response == "true")
+            this.scene.state = 4;
+
+        var command = 'getScore(' + this.scene.board.board + ')';
+        console.log(command);
+        this.scene.board.scene.client.getPrologRequest(command, this.scene.updateScore, 1, this.scene);
+    }
+
+}
+
+Game.prototype.updateScore = function(data) {
+    var response = data.target.response;
+
+    response = response.split(",");
+    response[0] = response[0].substring(1);
+    response[1] = response[1].substring(0, response[1].length - 1);
+    this.scene.scoreA = parseInt(response[0]);
+    this.scene.scoreB = parseInt(response[1]);
+}
 
 function replaceSpecificIndex(hand, index, tileToReplace){
     var newHand = "";

@@ -133,3 +133,8 @@ parse_input(playerTurn(Board, _, _, P1R, P1C, RTile), NewBoard):-	validPlacement
 																	surroundedTiles(IBoard,NewBoard,0,IBoard).
 
 parse_input(playerTurn(Board, _, _, _, _, _), Board).
+
+parse_input(gameEnded(Board), true):- boardFull(Board).
+parse_input(gameEnded(_), false).
+
+parse_input(getScore(Board), [ScoreA, ScoreB]):- totalPoints(Board, ScoreA, ScoreB).
