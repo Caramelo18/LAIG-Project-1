@@ -65,6 +65,9 @@ MyInterface.prototype.processKeyboard = function(event) {
 		case (109):
 			this.scene.changeMaterial();
 			break;
+		case (122):
+			this.scene.game.undoMove();
+			break;
 	};
 
     //this.setActiveCamera(this.scene.camera);

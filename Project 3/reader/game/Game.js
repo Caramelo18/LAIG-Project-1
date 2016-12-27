@@ -33,27 +33,11 @@ function Game(board, mode){
     this.selectedTile = {};
     this.target = {};
 
+
+    this.boardStack = [];
 }
 
 Game.prototype.constructor = Game;
-
-
-Game.prototype.setBoard = function (board) {
-    this.board = board;
-};
-
-Game.prototype.setCurrentPlayer = function (player) {
-  this.currentPlayer = player;
-};
-
-Game.prototype.changePlayer = function () {
-    if(this.currentPlayer == (this.players.length - 1)){
-      this.setCurrentPlayer(0);
-    }
-    else{
-      this.setCurrentPlayer(this.currentPlayer++);
-    }
-};
 
 Game.prototype.setTarget = function(line, col) {
     this.target["line"] = line;
@@ -82,6 +66,11 @@ Game.prototype.setSelectedTile = function(ID) {
 }
 
 Game.prototype.placeTile = function() {
+    var actualBoard = Object.assign(new Board(this.board.scene), this.board);
+    this.boardStack.push(actualBoard);
+
+    console.log(this.tilesPlaced);
+    console.log(this.state);
     if(this.mode == 1){
         this.botGame();
         return;
@@ -166,6 +155,7 @@ Game.prototype.passTurn = function() {
             this.setP1Turn();
             break;
     }
+    this.tilesPlaced++;
     this.updateStatus();
 }
 
@@ -363,6 +353,43 @@ Game.prototype.updateScore = function(data) {
     response[1] = response[1].substring(0, response[1].length - 1);
     this.scene.scoreA = parseInt(response[0]);
     this.scene.scoreB = parseInt(response[1]);
+}
+
+Game.prototype.undoMove = function(){
+    if(this.boardStack.length > 0){
+        this.board = this.boardStack.pop();
+        this.scene.board = this.board;
+        this.tilesPlaced--;
+        this.updateState();
+    }
+}
+
+Game.prototype.updateState = function(){
+    if (this.tilesPlaced == 0 || this.tilesPlaced == 1) {
+        this.state = 0;
+        this.board.setPickableMatrix(true);
+        this.board.setPickableP1Tiles(false);
+        this.board.setPickableP2Tiles(false);
+    }
+    else if (this.tilesPlaced == 2) {
+        this.state = 1;
+        this.board.setPickableMatrix(true);
+        this.board.setPickableP1Tiles(false);
+        this.board.setPickableP2Tiles(false);
+    }
+    else if (this.tilesPlaced % 2 == 0) {
+        this.state = 3;
+        this.board.setPickableMatrix(false);
+        this.board.setPickableP1Tiles(false);
+        this.board.setPickableP2Tiles(true);
+    }
+    else {
+        this.state = 2;
+        this.board.setPickableMatrix(false);
+        this.board.setPickableP1Tiles(true);
+        this.board.setPickableP2Tiles(false);
+    }
+
 }
 
 function replaceSpecificIndex(hand, index, tileToReplace){
