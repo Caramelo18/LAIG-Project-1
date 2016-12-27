@@ -27,6 +27,23 @@ MyInterface.prototype.init = function(application) {
 	return true;
 };
 
+
+MyInterface.prototype.addMenu = function(){
+	this.gui.add(this.scene.game,'play').name("Play Game");
+	this.gui.add(this.scene.game,'undo').name("Undo");
+	this.gui.add(this.scene.game,'redo').name("Redo");
+	this.gui.add(this.scene.game,'quit').name("Quit");
+
+	this.gui.add(this.scene.game, 'mode', [ 'HumanVsHuman', 'HumanVsComputer' ]).listen();
+
+
+	this.gui.add(this.scene,'changeScene').name("Change scene");
+
+
+};
+
+
+
 /**
  * processKeyboard
  * @param event {Event}

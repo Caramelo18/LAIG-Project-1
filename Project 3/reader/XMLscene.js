@@ -99,6 +99,7 @@ XMLscene.prototype.onGraphLoaded = function ()
   this.initAnimations();
 
   this.interface.initLightsButtons();
+  //this.interface.addMenu();
 };
 
 
@@ -222,7 +223,7 @@ XMLscene.prototype.display = function () {
 
   //this.timer.display();
 
-    this.board.display();
+  //  this.board.display();
 	if (this.graph.loadedOk)
 	{
         this.updateCameras(this.currTime);
