@@ -147,7 +147,7 @@ Board.prototype.createTile = function(type, scene, id, player){
             return new Tile10(scene, id, player);
             break;
         default:
-            return new Tile0(scene, id);
+            return new TileF(scene, id, player);
 
     }
 }

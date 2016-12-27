@@ -125,9 +125,11 @@ parse_input(addPlayerTile(Pool, PoolSize, Player, Hand), [NewPool, NewHand]):- a
 parse_input(playerTurn(Board, PHand, Player, P1R, P1C, RTile), NewBoard):-	listValidMoves(Board,Result,Player,PHand),
 																			Result == [],
 																			emptyPlace(Board,P1R,P1C),
-																			placeTile(Board, RTile, P1R, P1C, NewBoard).
+																			placeTile(Board, RTile, P1R, P1C, IBoard),
+																			surroundedTiles(IBoard,NewBoard,0,IBoard).
 
 parse_input(playerTurn(Board, _, _, P1R, P1C, RTile), NewBoard):-	validPlacement(Board, RTile, P1R, P1C),
-																	attack(Board, RTile, P1R, P1C, NewBoard).
+																	attack(Board, RTile, P1R, P1C, IBoard),
+																	surroundedTiles(IBoard,NewBoard,0,IBoard).
 
 parse_input(playerTurn(Board, _, _, _, _, _), Board).

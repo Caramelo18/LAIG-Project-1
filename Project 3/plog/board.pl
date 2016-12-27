@@ -199,12 +199,12 @@ boardFullLine([E1|Es]):- getTile(E1,T), integer(T),!, boardFullLine(Es).
 /* detectar e processar Tiles rodeados*/
 
 
-surroundedTiles([],_,_,_).
+surroundedTiles([],[],_,_).
 surroundedTiles([L1|Ls], [L1N|LsN],Row,Board):-surroundedTilesLine(L1,L1N,0,Row,Board),
                                                Row1 is Row + 1,
                                                surroundedTiles(Ls,LsN,Row1,Board).
 
-surroundedTilesLine([],_,_,_,_).
+surroundedTilesLine([],[],_,_,_).
 surroundedTilesLine([E1|Es],[E1N|EsN],Col,Row,Board):-      ( checkEmpty(E1) ; checkConquered(E1) ),!,
                                                             assignTile(E1,E1N),
                                                             Col1 is Col +1,

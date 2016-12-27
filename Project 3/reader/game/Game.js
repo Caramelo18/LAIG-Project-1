@@ -79,7 +79,6 @@ Game.prototype.setSelectedTile = function(ID) {
 }
 
 Game.prototype.placeTile = function() {
-    console.log(this.updatedBoard);
     switch (this.state) {
         case 0:
             var command = 'playerAplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
@@ -193,6 +192,7 @@ Game.prototype.addTilePlayer1Hand = function() {
     var P1Hand = this.board.p1Hand;
     var pool = this.pool;
     var poolSize = this.poolSize;
+    console.log(poolSize);
     var command = 'addPlayerTile(' + pool + ',' + poolSize + ',a,' + P1Hand +')';
 
     this.board.scene.client.getPrologRequest(command, this.updatePool1Hand, 1, this);
@@ -202,6 +202,7 @@ Game.prototype.addTilePlayer2Hand = function() {
     var P2Hand = this.board.p2Hand;
     var pool = this.pool;
     var poolSize = this.poolSize;
+    console.log(poolSize);
     var command = 'addPlayerTile(' + pool + ',' + poolSize + ',b,' + P2Hand +')';
 
     this.board.scene.client.getPrologRequest(command, this.updatePool2Hand, 1, this);

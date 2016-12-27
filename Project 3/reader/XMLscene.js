@@ -435,7 +435,7 @@ XMLscene.prototype.readPlayerBHand = function(data){
     pool = pool.substring(0, pool.length - 1);
     this.scene.playerBHand = hand;
     this.scene.game.pool = pool;
-    this.scene.game.poolSize = 30;
+    this.scene.game.poolSize = 29;
     console.log(this.scene.playerAHand);
     console.log(this.scene.playerBHand);
     console.log(pool);

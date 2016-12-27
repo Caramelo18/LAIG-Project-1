@@ -21,6 +21,7 @@ function Tile10(scene, id, player) {
         this.cylApp.loadTexture('../textures/pA.jpg');
     else
         this.cylApp.loadTexture('../textures/pB.jpeg');
+    this.cylApp.setDiffuse(1,1,1,1);
 
     this.selectable = true;
     this.selected = false;
