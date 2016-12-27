@@ -62,13 +62,7 @@ XMLscene.prototype.init = function (application) {
     this.currTime = 0;
     this.firstTime = true;
 
-    this.testTile = new Tile3(this, 12);
-
-    this.client = new Client(8081);
-    this.client.getPrologRequest('getTilePool', this.readPool ,1, this);
-
-
-    this.chair = new Chair(this);
+    this.timer = new DisplayNumber(this,20);
 };
 /*
   defines the interface of the scene
@@ -229,23 +223,9 @@ XMLscene.prototype.display = function () {
 	// it is important that things depending on the proper loading of the graph
 	// only get executed after the graph has loaded correctly.
 	// This is one possible way to do it
-/*
-    if(this.playerAngle > Math.PI || this.playerAngle < 0){
-        this.cameraChange = 0;
-        if(this.playerAngle > Math.PI)
-            this.playerAngle = Math.PI;
-        else
-            this.playerAngle = 0;
 
-    }
-    else{
-        if(this.cameraChange == 1 && this.playerAngle < Math.PI)
-            this.playerAngle += Math.PI/20;
-        else if (this.cameraChange == -1 && this.playerAngle > 0)
-            this.playerAngle -= Math.PI/20;
-    }
-    this.rotate(this.playerAngle, 0, 0, 1);
-*/
+  this.timer.display();
+/*
 
     this.board.display();
 	if (this.graph.loadedOk)
@@ -254,7 +234,7 @@ XMLscene.prototype.display = function () {
         this.updateLights();
         this.displayGraph(this.graph.root, null, null);
 	};
-
+*/
 };
 
 /**
