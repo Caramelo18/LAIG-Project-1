@@ -221,6 +221,9 @@ XMLscene.prototype.display = function () {
 
   this.setDefaultAppearance();
 
+    this.timer.score1.setNumber(this.game.scoreA);
+    this.timer.score2.setNumber(this.game.scoreB);
+
 
 	if (this.graph.loadedOk)
 	{

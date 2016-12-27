@@ -282,7 +282,6 @@ Game.prototype.updateStatus = function(data){
             this.scene.state = 4;
 
         var command = 'getScore(' + this.scene.board.board + ')';
-        console.log(command);
         this.scene.board.scene.client.getPrologRequest(command, this.scene.updateScore, 1, this.scene);
     }
 
@@ -296,9 +295,6 @@ Game.prototype.updateScore = function(data) {
     response[1] = response[1].substring(0, response[1].length - 1);
     this.scene.scoreA = parseInt(response[0]);
     this.scene.scoreB = parseInt(response[1]);
-
-    this.scene.placard.score1.setNumber(parseInt(response[0]));
-    this.scene.placard.score2.setNumber(parseInt(response[1]));
 }
 
 function replaceSpecificIndex(hand, index, tileToReplace){
