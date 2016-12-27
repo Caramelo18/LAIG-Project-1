@@ -220,13 +220,8 @@ XMLscene.prototype.display = function () {
 
   this.setDefaultAppearance();
 
-
-  this.timer.update(this.currTime);
-
-    //this.timer.display();
-
-
-
+  this.timer.display();
+    /*
     this.board.display();
 	if (this.graph.loadedOk)
 	{
@@ -235,6 +230,7 @@ XMLscene.prototype.display = function () {
         this.displayGraph(this.graph.root, null, null);
 	};
 
+*/
 };
 
 /**
@@ -472,12 +468,7 @@ XMLscene.prototype.readBoard = function(data){
 }
 
 XMLscene.prototype.update = function(currTime) {
-	if (!this.timerStarted && this.graph.loadedOk){
-		this.startingTime = currTime;
-		this.timerStarted = true;
-	}
-	this.currTime = (currTime - this.startingTime) / 1000.0;
-
+  this.timer.update(currTime);
 }
 
 

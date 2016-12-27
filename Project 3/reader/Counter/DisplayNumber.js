@@ -26,13 +26,18 @@ DisplayNumber.prototype.constructor = DisplayNumber;
 
 
 DisplayNumber.prototype.setNumber = function(number){
+	if (number < 0 || number > 99) {
+		return;
+}
+
   this.number = number;
+	this.parseNumber();
 }
 
 DisplayNumber.prototype.parseNumber = function(){
 
-	var left = this.number / 10;
-	var right = this.number % 10;
+	var left = Math.floor(this.number / 10);
+	var right = Math.floor(this.number % 10);
 	this.leftNumber = left.toString();
 	this.rightNumber = right.toString();
 }
@@ -43,16 +48,16 @@ DisplayNumber.prototype.update = function(currTime) {
 
 		if (this.lastCurrTime == -1) {
       delta = 0;
-			this.lastCurrTime = 0;
     }
     else {
-      delta = (currTime - this.lastCurrTime) ;
+      delta = (currTime - this.lastCurrTime)/1000 ;
     }
 
     this.lastCurrTime = currTime;
+		console.log(delta);
 
-		console.log(this.number);
     this.number -= delta;
+
 
 		this.parseNumber();
 

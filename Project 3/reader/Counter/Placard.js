@@ -64,7 +64,6 @@ Placard.prototype.display = function(){
 
 }
 
-
 Placard.prototype.update= function(currTime){
 		this.timer.update(currTime);
 }
