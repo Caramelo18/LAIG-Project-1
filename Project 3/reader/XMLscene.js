@@ -537,7 +537,7 @@ XMLscene.prototype.updateCameras = function(time){
   else{
       this.turnView = false;
       this.animIsFirst = true;
-      
+
       if(this.angPlayer == 0){
         this.angPlayer = Math.PI;
       }

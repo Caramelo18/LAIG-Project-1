@@ -30,11 +30,12 @@ Placard.prototype.display = function(){
 			this.scene.scale(0.5,0.5,0.5);
 			this.scene.translate(1.6,1.8,6);
 			if(i == 0){
-				this.scene.rotate(Math.PI/4,0,1,0);
+				this.scene.translate(1.2,1.15,0);
+				this.scene.rotate(Math.PI/6,0,1,0);
 			}
 			else{
-				this.scene.rotate(-3 *Math.PI/4,0,1,0);
-				this.scene.translate(-5,0.4,-8);
+				this.scene.translate(7.7,1.15,0);
+				this.scene.rotate(Math.PI/6 + Math.PI,0,1,0);
 			}
 			this.backgroundAppearance.apply();
 
