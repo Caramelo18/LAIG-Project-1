@@ -169,6 +169,14 @@ Board.prototype.loadTiles = function(board){
             }
         }
     }
+    
+    for(var i = 0; i < this.tiles.length; i++){
+        if(this.tiles[i].id == this.newTileID){
+            var animation = new ArchAnimation(this.tiles[i], this.selectedID, this.scene);
+            this.tiles[i].animation = animation;
+            break;
+        }
+    }
 }
 
 Board.prototype.readDirection = function(direction, type){

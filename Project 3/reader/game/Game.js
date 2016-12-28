@@ -47,6 +47,7 @@ Game.prototype.setTarget = function(line, col) {
 }
 
 Game.prototype.setSelectedTile = function(ID) {
+    this.selectedID = ID;
     var index = ID % 10;
     var prevSel = this.selectedTile;
     var player;
@@ -80,6 +81,7 @@ Game.prototype.placeTile = function() {
             var command = 'playerAplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
             this.scene.client.getPrologRequest(command, this.scene.readBoard, 1, this.scene);
             this.tilesPlaced++;
+            this.addAnimation();
             if(this.tilesPlaced == 2){
                 this.state++;
                 this.scene.turnView = true;
@@ -90,6 +92,7 @@ Game.prototype.placeTile = function() {
             var command = 'playerBplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
             this.scene.client.getPrologRequest(command, this.scene.readBoard, 1, this.scene);
             this.tilesPlaced++;
+            this.addAnimation();
             this.state++;
             this.scene.turnView = true;
             this.scene.placard.resetTimer();
@@ -286,6 +289,8 @@ Game.prototype.player1Move = function(){
     var direction = this.board.readDirection(this.selectedTile.direction, "t" + type);
     var tile = 'tile(a,t' + type + ',' + direction + ')';
 
+    this.addAnimation();
+
     var command = 'playerTurn(' + this.board.board + ',' + this.board.p1Hand + ',a,' + line + ',' + col + ',' + tile + ')';
     this.board.scene.client.getPrologRequest(command, this.board.updateBoard, 1, this);
 }
@@ -297,6 +302,8 @@ Game.prototype.player2Move = function(){
     type = type.substring(type.length - 1);
     var direction = this.board.readDirection(this.selectedTile.direction, "t" + type);
     var tile = 'tile(b,t' + type + ',' + direction + ')';
+
+    this.addAnimation();
 
     var command = 'playerTurn(' + this.board.board + ',' + this.board.p1Hand + ',b,' + line + ',' + col + ',' + tile + ')';
     this.board.scene.client.getPrologRequest(command, this.board.updateBoard, 1, this);
@@ -449,6 +456,13 @@ Game.prototype.penalizePlayer = function() {
         this.scoreA += 5;
     else if (this.scene.angPlayer == 0)
         this.scoreB += 5;
+}
+
+Game.prototype.addAnimation = function() {
+    var targetID = this.target["line"] * 6 + this.target["col"] + 100;
+
+    this.board.newTileID = targetID;
+    this.board.selectedID = this.selectedID;
 }
 
 function replaceSpecificIndex(hand, index, tileToReplace){

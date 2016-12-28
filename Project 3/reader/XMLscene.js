@@ -70,7 +70,6 @@ XMLscene.prototype.init = function (application) {
     this.client = new Client(8081);
     this.client.getPrologRequest('getTilePool', this.readPool ,1, this);
 
-    this.tile = new Tile10(this,50,1);
 };
 /*
   defines the interface of the scene
@@ -99,13 +98,13 @@ XMLscene.prototype.onGraphLoaded = function ()
 	this.initIllumination();
 	this.initPrimitives();
 	this.initMaterials();
-  this.initTextures();
-  this.initTransformations();
-  this.initComponents();
-  this.initAnimations();
+    this.initTextures();
+    this.initTransformations();
+    this.initComponents();
+    this.initAnimations();
 
-  this.interface.initLightsButtons();
-  this.interface.addMenu();
+    this.interface.initLightsButtons();
+    this.interface.addMenu();
 };
 
 
@@ -120,7 +119,6 @@ XMLscene.prototype.initCameras = function()
     }
 
 	this.camera = this.cameras[this.graph.defaultCamera];
-//  this.interface.setActiveCamera(this.camera);
 }
 
 /**
@@ -208,16 +206,16 @@ XMLscene.prototype.updateLights = function()
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
 
-  this.logPicking();
-  this.clearPickRegistration();
+    this.logPicking();
+    this.clearPickRegistration();
 
-  // Clear image and depth buffer everytime we update the scene
-  this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-  this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+    // Clear image and depth buffer everytime we update the scene
+    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
 	// Initialize Model-View matrix as identity (no transformation
 	this.updateProjectionMatrix();
-  this.loadIdentity();
+    this.loadIdentity();
 
 	// Apply transformations corresponding to the camera position relative to the origin
 	this.applyViewMatrix();
@@ -225,26 +223,21 @@ XMLscene.prototype.display = function () {
 	// Draw axis
 	//this.axis.display();
 
-  this.setDefaultAppearance();
+    this.setDefaultAppearance();
 
-  this.placard.score1.setNumber(this.game.scoreA);
-  this.placard.score2.setNumber(this.game.scoreB);
-  this.timeover();
+    this.placard.score1.setNumber(this.game.scoreA);
+    this.placard.score2.setNumber(this.game.scoreB);
+    this.timeover();
 
 	if (this.graph.loadedOk && this.connected)
 	{
-
         this.updateLights();
         this.board.display();
         this.placard.display();
         this.displayGraph(this.graph.root, null, null);
+    };
 
-
-  };
-
-
-
-};
+}
 
 /**
 change the current Camera when you press "v"
