@@ -473,14 +473,15 @@ XMLscene.prototype.readBoard = function(data){
 }
 
 XMLscene.prototype.update = function(currTime) {
-  if(this.graph.loadedOk && this.connected){
-    this.timer.update(currTime);
+    if(this.graph.loadedOk && this.connected) {
+        this.timer.update(currTime);
 
-    if(this.turnView){
-      this.updateCameras(currTime);
+        if(this.turnView)
+            this.updateCameras(currTime);
+
+        if(this.game.playMovieV)
+            this.game.playMovie(currTime);
     }
-  }
-
 }
 
 
@@ -497,8 +498,7 @@ XMLscene.prototype.updateCameras = function(time){
     delta = (time - this.initialTimeAnim)/1000;
   }
 
-  console.log(delta);
-  var duration = 3;
+  var duration = 1.5;
   var targetMoveOnZ = 0.05;
 
   var location = vec3.clone(this.camera.position);
@@ -517,12 +517,6 @@ XMLscene.prototype.updateCameras = function(time){
     this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(realAng), location[1], target[2] + size * Math.cos(realAng)));
 
     var inc = perc * targetMoveOnZ;
-
-    console.log(target[0]);
-    console.log(target[1]);
-    console.log(target[2]);
-    console.log('HGGHIJH');
-
 
     if(this.angPlayer == Math.PI){
       this.camera.setTarget(vec3.fromValues(target[0],target[1], target[2] - inc));

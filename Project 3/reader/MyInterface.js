@@ -59,15 +59,13 @@ MyInterface.prototype.processKeyboard = function(event) {
 	switch (event.keyCode)
 	{
 		case (118):	// v
-		//	this.scene.changeCamera();
-			//this.scene.changePlayerView();
 			this.scene.turnView = true;
-			break;
-		case (109):
-			this.scene.changeMaterial();
 			break;
 		case (122):
 			this.scene.game.undoMove();
+			break;
+		case (112):
+			this.scene.game.playMovieV = true;
 			break;
 	};
 

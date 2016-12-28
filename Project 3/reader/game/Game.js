@@ -33,8 +33,9 @@ function Game(board, mode){
     this.selectedTile = {};
     this.target = {};
 
-
     this.boardStack = [];
+    this.playMovieV = false;
+    this.currentFrame = 0;
 }
 
 Game.prototype.constructor = Game;
@@ -398,6 +399,31 @@ Game.prototype.updateState = function(){
         this.board.setPickableP2Tiles(false);
     }
 
+}
+
+Game.prototype.playMovie = function(time) {
+    var frameTime = 1.5;
+    if(this.prevTime == null){
+        this.prevTime = time;
+        this.elapsedTime = 0;
+        return;
+    }
+
+    var delta = time - this.prevTime;
+    this.elapsedTime += delta;
+    this.prevTime = time;
+
+    this.scene.board = this.boardStack[this.currentFrame];
+    
+    if(this.elapsedTime > frameTime * 1000) {
+        this.prevTime = null;
+        this.currentFrame++;
+        if(this.currentFrame > this.boardStack.length - 1){
+            this.playMovieV = false;
+            this.currentFrame = 0;
+            this.scene.board = this.board;
+        }
+    }
 }
 
 function replaceSpecificIndex(hand, index, tileToReplace){
