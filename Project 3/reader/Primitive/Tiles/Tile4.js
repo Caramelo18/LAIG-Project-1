@@ -76,8 +76,8 @@ Tile4.prototype.display = function () {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-        this.scene.translate(0.4,0.4,0.05);
-        this.scene.rotate(Math.PI/2*this.direction - Math.PI/4, 0, 0, 1);
+        this.scene.translate(0.415,0.415,0.05);
+        this.scene.rotate(Math.PI/2*this.direction - Math.PI/4, 0, 0, 1); //down left
         this.scene.translate(0,-0.2,0);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
         this.arrowApp.apply();
@@ -85,8 +85,8 @@ Tile4.prototype.display = function () {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-        this.scene.translate(0.4,0.4,0.05);
-        this.scene.rotate(Math.PI/2*(this.direction+1) - Math.PI/4, 0, 0, 1);
+        this.scene.translate(0.41,0.41,0.05);
+        this.scene.rotate(Math.PI/2*(this.direction+1) - Math.PI/4, 0, 0, 1); //down right
         this.scene.translate(0,-0.2,0);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
         this.arrowApp.apply();
@@ -94,8 +94,8 @@ Tile4.prototype.display = function () {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-        this.scene.translate(0.4,0.4,0.05);
-        this.scene.rotate(Math.PI/2*(this.direction+2) - Math.PI/4, 0, 0, 1);
+        this.scene.translate(0.415,0.415,0.05);
+        this.scene.rotate(Math.PI/2*(this.direction+2) - Math.PI/4, 0, 0, 1); //up right
         this.scene.translate(0,-0.2,0);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
         this.arrowApp.apply();
@@ -103,8 +103,8 @@ Tile4.prototype.display = function () {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-        this.scene.translate(0.4,0.4,0.05);
-        this.scene.rotate(Math.PI/2*(this.direction+3) - Math.PI/4, 0, 0, 1);
+        this.scene.translate(0.41,0.41,0.05);
+        this.scene.rotate(Math.PI/2*(this.direction+3) - Math.PI/4, 0, 0, 1); //up left
         this.scene.translate(0,-0.2,0);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
         this.arrowApp.apply();

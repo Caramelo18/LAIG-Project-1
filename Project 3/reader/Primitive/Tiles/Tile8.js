@@ -61,7 +61,7 @@ Tile8.prototype.display = function () {
     }
     else
         this.animation.animate();
-        
+
     this.scene.pushMatrix();
 
         this.scene.translate(0,0,0.02); //translation to avoid overlapping
@@ -76,7 +76,7 @@ Tile8.prototype.display = function () {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-        this.scene.translate(0.4,0.4,0.05);
+        this.scene.translate(0.415,0.415,0.05);
         this.scene.rotate(Math.PI/2*this.direction - Math.PI/4, 0, 0, 1);
         this.scene.translate(0,-0.2,0);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
@@ -112,7 +112,7 @@ Tile8.prototype.display = function () {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-        this.scene.translate(0.4,0.4,0.05);
+        this.scene.translate(0.4,0.42,0.05);
         this.scene.translate(0,-0.2,0);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
         this.arrowApp.apply();
@@ -138,7 +138,7 @@ Tile8.prototype.display = function () {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-        this.scene.translate(0.4,0.4,0.05);
+        this.scene.translate(0.42,0.4,0.05);
         this.scene.rotate(Math.PI/2*3, 0, 0, 1);
         this.scene.translate(0,-0.2,0);
         this.scene.rotate(Math.PI/2, 1, 0, 0);

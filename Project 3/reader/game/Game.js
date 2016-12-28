@@ -419,6 +419,9 @@ Game.prototype.updateState = function(){
 
 Game.prototype.playMovie = function(time) {
     var frameTime = 1.5;
+
+    if(this.currentFrame >= this.boardStack.length)
+        return;
     if(this.prevTime == null){
         this.prevTime = time;
         this.elapsedTime = 0;
@@ -428,6 +431,7 @@ Game.prototype.playMovie = function(time) {
     var delta = time - this.prevTime;
     this.elapsedTime += delta;
     this.prevTime = time;
+
 
     this.scene.board = this.boardStack[this.currentFrame];
 

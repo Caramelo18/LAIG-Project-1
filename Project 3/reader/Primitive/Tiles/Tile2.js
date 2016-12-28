@@ -76,7 +76,7 @@ Tile2.prototype.display = function () {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-        this.scene.translate(0.4,0.4,0.05);
+        this.scene.translate(0.42,0.42,0.05); //down left
         this.scene.rotate(Math.PI/2*this.direction - Math.PI/4, 0, 0, 1);
         this.scene.translate(0,-0.2,0);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
@@ -85,7 +85,7 @@ Tile2.prototype.display = function () {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-        this.scene.translate(0.4,0.4,0.05);
+        this.scene.translate(0.4,0.4,0.05); //up right
         this.scene.rotate(Math.PI/2*(this.direction+2) - Math.PI/4, 0, 0, 1);
         this.scene.translate(0,-0.2,0);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
