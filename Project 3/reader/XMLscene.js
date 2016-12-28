@@ -557,3 +557,7 @@ XMLscene.prototype.timeover = function() {
         this.placard.timer.timeout = false;
     }
 }
+
+XMLscene.prototype.changeScene = function() {
+  changeScene();
+}
