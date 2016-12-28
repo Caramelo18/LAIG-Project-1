@@ -11,7 +11,7 @@ function getUrlVars() {
 }
 
 serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'Primitive/Rectangle.js',  'Primitive/Triangle.js', 'Primitive/CylinderSide.js','Primitive/Circle.js','Primitive/Cylinder.js', 'Primitive/Sphere.js', 'Component.js', 'Primitive/Torus.js', 'Animation/Animation.js','Animation/LinearAnimation.js',
-'Animation/CircularAnimation.js', 'Primitive/Patch.js', 'Primitive/Plane.js', 'Primitive/ChessBoard.js', 'Primitive/Vehicle.js', 'Primitive/VTriangle.js',
+'Animation/CircularAnimation.js', 'Animation/ArchAnimation.js', 'Primitive/Patch.js', 'Primitive/Plane.js', 'Primitive/ChessBoard.js', 'Primitive/Vehicle.js', 'Primitive/VTriangle.js',
 'Primitive/Tiles/TileF.js', 'Primitive/Tiles/Tile0.js', 'Primitive/Tiles/Tile1.js', 'Primitive/Tiles/Tile2.js', 'Primitive/Tiles/Tile3.js', 'Primitive/Tiles/Tile4.js', 'Primitive/Tiles/Tile8.js', 'Primitive/Tiles/Tile10.js',
 'Primitive/Table.js', 'Primitive/Chair.js', 'Primitive/Cube.js',
 'communication/Client.js', 'game/Board.js', 'game/Game.js', 'game/Piece.js', 'game/Player.js',

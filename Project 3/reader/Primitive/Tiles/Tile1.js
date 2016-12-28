@@ -42,22 +42,26 @@ Tile1.prototype = Object.create(CGFobject.prototype);
 Tile1.prototype.constructor = Tile1;
 
 Tile1.prototype.display = function () {
-
     if(this.selectable)
-        this.scene.registerForPick(this.id, this);
+        this.scene.registerForPick(this.id,this);
 
     this.scene.pushMatrix();
 
-    this.scene.translate(-2.5,1.666, 0); // place tile on 0,0
+    if(this.animation == null)
+    {
+        this.scene.translate(-2.5,1.666, 0); // place tile on 0,0
 
-    if(this.line >= 0)
-        this.scene.translate(this.size * this.col, -this.size * this.line, 0);
-    else if (this.line == -1){
-        this.scene.translate(1.26 + this.col * this.size, -5.59, 0);
+        if(this.line >= 0)
+            this.scene.translate(this.size * this.col, -this.size * this.line, 0);
+        else if (this.line == -1){
+            this.scene.translate(1.26 + this.col * this.size, -5.59, 0);
+        }
+        else if (this.line == -2){
+            this.scene.translate(1.26 + this.col * this.size, 0.91, 0);
+        }
     }
-    else if (this.line == -2){
-        this.scene.translate(1.26 + this.col * this.size, 0.91, 0);
-    }
+    else
+        this.animation.animate();
 
     this.scene.pushMatrix();
 

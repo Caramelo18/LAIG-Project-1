@@ -485,9 +485,8 @@ XMLscene.prototype.update = function(currTime) {
 
         if(this.game.playMovieV)
             this.game.playMovie(currTime);
-
-          //  this.tile.update(currTime);
     }
+    this.currTime = currTime;
 }
 
 
