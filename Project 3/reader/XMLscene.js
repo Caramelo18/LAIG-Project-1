@@ -61,7 +61,7 @@ XMLscene.prototype.init = function (application) {
     this.setPickEnabled(true);
 
     this.currentCamera = 0;
-    this.turnView = true;
+    this.turnView = false ;
     this.animIsFirst = true;
 
     this.timer = new Placard(this);
@@ -116,7 +116,7 @@ XMLscene.prototype.initCameras = function()
     }
 
 	this.camera = this.cameras[this.graph.defaultCamera];
-  //this.interface.setActiveCamera(this.camera);
+  this.interface.setActiveCamera(this.camera);
 }
 
 /**
