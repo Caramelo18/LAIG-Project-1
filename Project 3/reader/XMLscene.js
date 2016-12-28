@@ -70,7 +70,7 @@ XMLscene.prototype.init = function (application) {
     this.client = new Client(8081);
     this.client.getPrologRequest('getTilePool', this.readPool ,1, this);
 
-    this.mode = "";
+    this.mode = 0;
 };
 /*
   defines the interface of the scene
@@ -563,8 +563,10 @@ XMLscene.prototype.changeScene = function() {
   changeScene();
 }
 
+XMLscene.prototype.newGame = function() {
+  this.board = new Board(this);
+  this.game = new Game(this.board, this.mode);
+  this.connected = false;
+  this.client.getPrologRequest('getTilePool', this.readPool ,1, this);
 
-XMLscene.prototype.play = function() {
-  this.board = new Board(this):
-  this.game = new Game(this.board,this.mode);
 }
