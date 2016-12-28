@@ -40,6 +40,10 @@ function Game(board, mode){
 
 Game.prototype.constructor = Game;
 
+Game.prototype.setPlayMovieV = function(){
+  this.playMovieV = true;
+}
+
 Game.prototype.setTarget = function(line, col) {
     this.target["line"] = line;
     this.target["col"] = col;
