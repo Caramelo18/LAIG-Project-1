@@ -233,13 +233,14 @@ XMLscene.prototype.display = function () {
     this.placard.score2.setNumber(this.game.scoreB);
     this.timeover();
 
-	if (this.graph.loadedOk && this.connected)
-	{
-        this.updateLights();
+    if (this.graph.loadedOk){
+
+            this.updateLights();
+            this.placard.display();
+            this.displayGraph(this.graph.root, null, null);
+        };
+    if(this.connected)
         this.board.display();
-        this.placard.display();
-        this.displayGraph(this.graph.root, null, null);
-    };
 
 }
 
