@@ -62,13 +62,13 @@ ArchAnimation.prototype.animate = function() {
 
     var x = (this.elapsedTime/(1000 * this.time)) ;
     x = (x*2) - 1;
-    
+
     // (-x^2+1)*altura
     var currentZ = (-(x*x) + 1) * this.height;
 
-
-    this.scene.translate(currentX, currentY, currentZ);
-
+    var mat = this.getTranslationMatrix(currentX, currentY, currentZ);
+    this.scene.multMatrix(mat);
+    
     if(this.elapsedTime > this.time * 1000)
         this.tile.animation = null;
 
