@@ -117,7 +117,7 @@ XMLscene.prototype.initCameras = function()
     }
 
 	this.camera = this.cameras[this.graph.defaultCamera];
-  this.interface.setActiveCamera(this.camera);
+//  this.interface.setActiveCamera(this.camera);
 }
 
 /**
@@ -499,9 +499,7 @@ XMLscene.prototype.updateCameras = function(time){
 
   console.log(delta);
   var duration = 3;
-
-  //var location = vec3.clone(this.cameras[this.camerasIDs[this.currentCamera]].position);
-  //var target = vec3.clone(this.cameras[this.camerasIDs[this.currentCamera]].target);
+  var targetMoveOnZ = 0.05;
 
   var location = vec3.clone(this.camera.position);
   var target = vec3.clone(this.camera.target);
@@ -517,10 +515,25 @@ XMLscene.prototype.updateCameras = function(time){
     var realAng = this.angPlayer + ang;
 
     this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(realAng), location[1], target[2] + size * Math.cos(realAng)));
+
+    var inc = perc * targetMoveOnZ;
+
+    console.log(target[0]);
+    console.log(target[1]);
+    console.log(target[2]);
+    console.log('HGGHIJH');
+
+
+    if(this.angPlayer == Math.PI){
+      this.camera.setTarget(vec3.fromValues(target[0],target[1], target[2] - inc));
+    }else{
+      this.camera.setTarget(vec3.fromValues(target[0],target[1], target[2] + inc));
+    }
   }
   else{
       this.turnView = false;
       this.animIsFirst = true;
+
       if(this.angPlayer == 0){
         this.angPlayer = Math.PI;
       }
