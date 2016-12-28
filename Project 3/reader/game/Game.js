@@ -395,24 +395,29 @@ Game.prototype.updateState = function(){
         this.board.setPickableMatrix(true);
         this.board.setPickableP1Tiles(false);
         this.board.setPickableP2Tiles(false);
+        if(this.tilesPlaced == 1)
+            this.scene.turnView = true;
     }
     else if (this.tilesPlaced == 2) {
         this.state = 1;
         this.board.setPickableMatrix(true);
         this.board.setPickableP1Tiles(false);
         this.board.setPickableP2Tiles(false);
+        this.scene.turnView = true;
     }
     else if (this.tilesPlaced % 2 == 0) {
         this.state = 3;
         this.board.setPickableMatrix(false);
         this.board.setPickableP1Tiles(false);
         this.board.setPickableP2Tiles(true);
+        this.scene.turnView = true;
     }
     else {
         this.state = 2;
         this.board.setPickableMatrix(false);
         this.board.setPickableP1Tiles(true);
         this.board.setPickableP2Tiles(false);
+        this.scene.turnView = true;
     }
 
 }
