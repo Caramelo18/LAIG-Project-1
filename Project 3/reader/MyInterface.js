@@ -29,14 +29,14 @@ MyInterface.prototype.init = function(application) {
 
 
 MyInterface.prototype.addMenu = function(){
-	//this.gui.add(this.scene.game,'play').name("Play Game");
+	this.gui.add(this.scene, 'play').name("Play Game");
 
 	this.gui.add(this.scene.game,'undoMove').name("Undo");
 	this.gui.add(this.scene.game,'setPlayMovieV').name("Replay");
 
 	//this.gui.add(this.scene.game,'quit').name("Quit");
 
-	this.gui.add(this.scene.game, 'mode', [ 'HumanVsHuman', 'HumanVsComputer' ]).listen();
+	this.gui.add(this.scene, 'mode', [ 'HumanVsHuman', 'HumanVsComputer' ]).listen();
 
 	this.gui.add(this.scene,'changeScene').name("Change scene");
 
