@@ -105,7 +105,7 @@ XMLscene.prototype.onGraphLoaded = function ()
   this.initAnimations();
 
   this.interface.initLightsButtons();
-//this.interface.addMenu();
+  this.interface.addMenu();
 };
 
 
@@ -233,14 +233,13 @@ XMLscene.prototype.display = function () {
 
 	if (this.graph.loadedOk && this.connected)
 	{
-/*
+
         this.updateLights();
         this.board.display();
         this.placard.display();
         this.displayGraph(this.graph.root, null, null);
-*/
-  this.tile.display();
-  console.log(this.tile);
+
+
   };
 
 
@@ -487,7 +486,7 @@ XMLscene.prototype.update = function(currTime) {
         if(this.game.playMovieV)
             this.game.playMovie(currTime);
 
-            this.tile.update(currTime);
+          //  this.tile.update(currTime);
     }
 }
 
@@ -562,4 +561,9 @@ XMLscene.prototype.timeover = function() {
         this.game.penalizePlayer();
         this.placard.timer.timeout = false;
     }
+}
+
+
+XMLscene.prototype.changeScene = function() {
+
 }
