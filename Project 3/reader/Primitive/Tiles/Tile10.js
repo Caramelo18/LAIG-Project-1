@@ -13,21 +13,27 @@ function Tile10(scene, id, player) {
     this.line = 0;
     this.col = 0;
 
+    this.opacity = 1;
+
     this.baseApp = new CGFappearance(scene);
-    this.baseApp.setDiffuse(0.3,0.3,0.3,1);
+    this.baseApp.setDiffuse(0.3,0.3,0.3,this.opacity);
 
     this.cylApp = new CGFappearance(scene);
     if(this.player == "a")
         this.cylApp.loadTexture('../textures/pA.jpg');
     else
         this.cylApp.loadTexture('../textures/pB.jpeg');
-    this.cylApp.setDiffuse(1,1,1,1);
+    this.cylApp.setDiffuse(1,1,1,this.opacity);
 
     this.selectable = true;
     this.selected = false;
     this.visible = false;
     this.id = id;
     this.size = 5/6;
+
+
+    this.firstTime = 0;
+    this.stop = false;
 };
 
 Tile10.prototype = Object.create(CGFobject.prototype);
@@ -61,3 +67,26 @@ Tile10.prototype.display = function () {
     if(this.selectable)
         this.scene.clearPickRegistration();
 };
+
+Tile10.prototype.update = function (time) {
+  if(!this.stop){
+    var delta;
+
+    if(this.firstTime == 0){
+      this.firstTime = time;
+      delta = 0;
+    }else{
+      delta = (time - this.firstTime)/1000;
+    }
+
+    var duration = 1.5;
+
+    if(delta < duration ){
+
+      var perc = delta/duration;
+
+    this.baseApp.setDiffuse(0.3,0.3,0.3,this.opacity * perc);
+    this.cylApp.setDiffuse(1,1,1,this.opacity * perc);
+  }
+}
+}

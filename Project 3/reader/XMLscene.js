@@ -19,6 +19,7 @@ XMLscene.prototype.init = function (application) {
 	  this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
+
     // creates a default camera and axis that are going to be replaced later
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     this.axis = new CGFaxis(this);
@@ -68,6 +69,8 @@ XMLscene.prototype.init = function (application) {
     this.placard = new Placard(this);
     this.client = new Client(8081);
     this.client.getPrologRequest('getTilePool', this.readPool ,1, this);
+
+    this.tile = new Tile10(this,50,1);
 };
 /*
   defines the interface of the scene
@@ -102,7 +105,7 @@ XMLscene.prototype.onGraphLoaded = function ()
   this.initAnimations();
 
   this.interface.initLightsButtons();
-  //this.interface.addMenu();
+//this.interface.addMenu();
 };
 
 
@@ -230,12 +233,15 @@ XMLscene.prototype.display = function () {
 
 	if (this.graph.loadedOk && this.connected)
 	{
-
+/*
         this.updateLights();
         this.board.display();
         this.placard.display();
         this.displayGraph(this.graph.root, null, null);
-	};
+*/
+  this.tile.display();
+  console.log(this.tile);
+  };
 
 
 
@@ -480,6 +486,8 @@ XMLscene.prototype.update = function(currTime) {
 
         if(this.game.playMovieV)
             this.game.playMovie(currTime);
+
+            this.tile.update(currTime);
     }
 }
 

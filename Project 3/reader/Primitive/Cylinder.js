@@ -4,11 +4,12 @@
  */
  function Cylinder(scene, base, top, height, slices, stacks) {
  	CGFobject.call(this,scene);
-	
+
 	this.coverBase = new Circle(this.scene, base, slices);
 	this.coverTop = new Circle(this.scene, top , slices);
 	this.side = new CylinderSide(this.scene, base, top , height ,slices , stacks);
-	
+
+
 	this.slices = slices;
 	this.height = height;
  };
@@ -20,7 +21,7 @@
 
 
 	this.side.display();
-	
+
 
 	this.scene.pushMatrix();
 		this.scene.translate(0,0,this.height);
@@ -32,7 +33,7 @@
 		this.scene.rotate(Math.PI, 0 ,1, 0);
 		this.coverBase.display();
 	this.scene.popMatrix();
-	
+
 
 
  };
