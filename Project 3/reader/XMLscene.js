@@ -393,9 +393,6 @@ XMLscene.prototype.handlePlacements = function(ID){
     col == -1 ? (col = 5, line++) : col = col;
 
     this.game.setTarget(line, col);
-    console.log('line ' + line);
-    console.log('col ' + col);
-    console.log('id ' + ID);
 }
 
 XMLscene.prototype.handlePlayerPlacements = function(ID) {
@@ -490,10 +487,15 @@ XMLscene.prototype.updateCameras = function(time){
 
   var delta;
 
+  var location = vec3.clone(this.camera.position);
+  var target = vec3.clone(this.camera.target);
+
   if(this.animIsFirst){
     this.initialTimeAnim = time;
     delta = 0;
     this.animIsFirst = false;
+    if(this.animSize == null)
+        this.animSize = Math.sqrt(Math.pow(location[0] - target[0],2) + Math.pow(location[2] - target[2],2));
   }else{
     delta = (time - this.initialTimeAnim)/1000;
   }
@@ -501,22 +503,30 @@ XMLscene.prototype.updateCameras = function(time){
   var duration = 1.5;
   var targetMoveOnZ = 0.05;
 
-  var location = vec3.clone(this.camera.position);
-  var target = vec3.clone(this.camera.target);
+
 
   if(delta < duration ){
 
     var perc = delta/duration;
+    if(duration - delta < 0.07)
+        perc = 1;
 
     var ang = perc * Math.PI;
 
-    var size = Math.sqrt(Math.pow(location[0] - target[0],2) + Math.pow(location[2] - target[2],2));
+    var size = this.animSize;
 
     var realAng = this.angPlayer + ang;
 
-    this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(realAng), location[1], target[2] + size * Math.cos(realAng)));
-
     var inc = perc * targetMoveOnZ;
+
+    if(this.angPlayer == Math.PI){
+      target[2] = target[2] - inc;
+    }else{
+      target[2] = target[2] + inc;
+    }
+
+
+    this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(realAng), location[1], target[2] + size * Math.cos(realAng)));
 
     if(this.angPlayer == Math.PI){
       this.camera.setTarget(vec3.fromValues(target[0],target[1], target[2] - inc));
@@ -527,7 +537,7 @@ XMLscene.prototype.updateCameras = function(time){
   else{
       this.turnView = false;
       this.animIsFirst = true;
-
+      
       if(this.angPlayer == 0){
         this.angPlayer = Math.PI;
       }

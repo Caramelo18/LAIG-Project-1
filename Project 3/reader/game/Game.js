@@ -70,8 +70,6 @@ Game.prototype.placeTile = function() {
     var actualBoard = Object.assign(new Board(this.board.scene), this.board);
     this.boardStack.push(actualBoard);
 
-    console.log(this.tilesPlaced);
-    console.log(this.state);
     if(this.mode == 1){
         this.botGame();
         return;
@@ -127,14 +125,12 @@ Game.prototype.botGame = function(){
 }
 
 Game.prototype.setP1Turn = function() {
-    console.log("p1turn");
     this.board.setPickableMatrix(false);
     this.board.setPickableP1Tiles(true);
     this.board.setPickableP2Tiles(false);
 }
 
 Game.prototype.setP2Turn = function() {
-    console.log("p2turn");
     this.board.setPickableMatrix(false);
     this.board.setPickableP1Tiles(false);
     this.board.setPickableP2Tiles(true);
@@ -166,7 +162,6 @@ Game.prototype.passTurn = function() {
 }
 
 Game.prototype.botPassTurn = function(){
-    console.log("bot pass turn!");
     this.removeTilePlayer1Hand();
     this.addTilePlayer1Hand();
 
@@ -233,7 +228,10 @@ Game.prototype.removeTilePlayer1Hand = function(){
     var index = this.selectedTile.col;
 
     var newHand = replaceSpecificIndex(P1Hand, index, "tile(x,xx,x)");
-    newHand = newHand.replace("tile(x,xx,x),", "");
+    if(index != 2)
+        newHand = newHand.replace("tile(x,xx,x),", "");
+    else
+        newHand = newHand.replace(",tile(x,xx,x)", "");
     this.board.p1Hand = newHand;
 
     newHand = newHand.substring(1);
@@ -246,7 +244,10 @@ Game.prototype.removeTilePlayer2Hand = function(){
     var index = this.selectedTile.col;
 
     var newHand = replaceSpecificIndex(P2Hand, index, "tile(x,xx,x)");
-    newHand = newHand.replace("tile(x,xx,x),", "");
+    if(index != 2)
+        newHand = newHand.replace("tile(x,xx,x),", "");
+    else
+        newHand = newHand.replace(",tile(x,xx,x)", "");
     this.board.p2Hand = newHand;
 
     newHand = newHand.substring(1);
@@ -314,7 +315,6 @@ Game.prototype.updatePool1Hand = function(data) {
     newHand = newHand.substring(1);
     newHand = newHand.split("),");
     this.scene.board.loadPlayerTiles(newHand, []);
-    console.log(this.scene.board.p1Tiles);
 }
 
 Game.prototype.updatePool2Hand = function(data) {
@@ -333,6 +333,7 @@ Game.prototype.updatePool2Hand = function(data) {
     newHand = newHand.substring(1);
     newHand = newHand.split("),");
     this.scene.board.loadPlayerTiles([], newHand);
+
     this.scene.updateStatus();
 }
 
@@ -414,7 +415,7 @@ Game.prototype.playMovie = function(time) {
     this.prevTime = time;
 
     this.scene.board = this.boardStack[this.currentFrame];
-    
+
     if(this.elapsedTime > frameTime * 1000) {
         this.prevTime = null;
         this.currentFrame++;
