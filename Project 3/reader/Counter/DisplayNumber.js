@@ -43,6 +43,9 @@ DisplayNumber.prototype.parseNumber = function(){
 }
 
 DisplayNumber.prototype.update = function(currTime) {
+	if(this.timeout || this.number < 0)
+		return;
+
 		var delta;
 
 
@@ -58,6 +61,8 @@ DisplayNumber.prototype.update = function(currTime) {
 
     this.number -= delta;
 
+	if(this.number <= 0)
+		this.timeout = true;
 
 		this.parseNumber();
 

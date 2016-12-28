@@ -4,7 +4,7 @@ function Placard(scene) {
 	this.scene = scene;
 
 	this.cube = new Cube(scene, -0.5,0.5, -0.5,0.5);
-  	this.timer = new DisplayNumber(scene,45);
+  	this.timer = new DisplayNumber(scene,10);
   	this.score1 = new DisplayNumber(scene, 0);
   	this.score2 = new DisplayNumber(scene, 0);
 	this.timerWord = new DisplayString(scene, "TIMER");

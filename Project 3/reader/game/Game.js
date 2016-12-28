@@ -348,8 +348,9 @@ Game.prototype.updateStatus = function(data){
     }
     else {
         var response = data.target.response;
-        if(this.response == "true")
+        if(this.response == "true"){
             this.scene.state = 4;
+        }
 
         var command = 'getScore(' + this.scene.board.board + ')';
         this.scene.board.scene.client.getPrologRequest(command, this.scene.updateScore, 1, this.scene);
@@ -365,6 +366,9 @@ Game.prototype.updateScore = function(data) {
     response[1] = response[1].substring(0, response[1].length - 1);
     this.scene.scoreA = parseInt(response[0]);
     this.scene.scoreB = parseInt(response[1]);
+
+    if(this.scene.state == 4)
+        this.scene.showWinner();
 }
 
 Game.prototype.undoMove = function(){
@@ -429,6 +433,22 @@ Game.prototype.playMovie = function(time) {
             this.scene.board = this.board;
         }
     }
+}
+
+Game.prototype.showWinner = function() {
+    if (this.scoreA > this.scoreB)
+        alert('Player A Wins! Congratulations!');
+    else if (this.scoreB > this.scoreA)
+        alert('Player B Wins! Congratulations!');
+    else
+        alert('It\'s a tie! Good game!');
+}
+
+Game.prototype.penalizePlayer = function() {
+    if (this.scene.angPlayer == Math.PI)
+        this.scoreA += 5;
+    else if (this.scene.angPlayer == 0)
+        this.scoreB += 5;
 }
 
 function replaceSpecificIndex(hand, index, tileToReplace){

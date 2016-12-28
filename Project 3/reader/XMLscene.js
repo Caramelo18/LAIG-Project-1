@@ -226,7 +226,7 @@ XMLscene.prototype.display = function () {
 
   this.timer.score1.setNumber(this.game.scoreA);
   this.timer.score2.setNumber(this.game.scoreB);
-
+  this.timeover();
 
 	if (this.graph.loadedOk && this.connected)
 	{
@@ -236,6 +236,8 @@ XMLscene.prototype.display = function () {
         this.timer.display();
         this.displayGraph(this.graph.root, null, null);
 	};
+
+
 
 };
 
@@ -545,4 +547,11 @@ XMLscene.prototype.updateCameras = function(time){
         this.angPlayer = 0;
       }
   }
+}
+
+XMLscene.prototype.timeover = function() {
+    if (this.timer.timer.timeout){
+        this.game.penalizePlayer();
+        this.timer.timer.timeout = false;
+    }
 }
