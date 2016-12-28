@@ -2,7 +2,7 @@
     ArchAnimation constructor
 */
 function ArchAnimation(tile, startingPoint, scene){
-  this.time = 1.5;
+  this.time = 1;
   this.elapsedTime = 0;
   this.scene = scene;
 
@@ -68,7 +68,7 @@ ArchAnimation.prototype.animate = function() {
 
     var mat = this.getTranslationMatrix(currentX, currentY, currentZ);
     this.scene.multMatrix(mat);
-    
+
     if(this.elapsedTime > this.time * 1000)
         this.tile.animation = null;
 

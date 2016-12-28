@@ -209,7 +209,7 @@
 	<component id="c1Tiles">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
-			<rotate axis="x" angle = "-90"/>
+			<rotate axis="x" angle="-90"/>
 			<translate x="3" y="-4.3" z="1.15" />
 			<scale x="0.2" y="0.065" z="1"/>
 		</transformation>
@@ -233,7 +233,7 @@
 	<component id="c2Tiles">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
-		<rotate axis="x" angle = "-90"/>
+		<rotate axis="x" angle="-90"/>
 		<translate x="3" y="-1.7" z="1.15" />
 		<scale x="0.2" y="0.065" z="1"/>
 		</transformation>
