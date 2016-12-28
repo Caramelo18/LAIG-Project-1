@@ -13,14 +13,10 @@
 		<!-- ultima vista da lista volta 'a primeira -->
 
 		<perspective id="p1" near="0.7" far="200" angle="-20">
-			<from x="3" y="6" z="10" />
-			<to x="3" y="0" z="3" />
+			<from x="3" y="6" z="9" />
+			<to x="3" y="0" z="2" />
 		</perspective>
 
-		<perspective id="p3" near="0.7" far="500" angle="20">
-			<from x="0" y="0" z="15" />
-			<to x="0" y="0" z="0" />
-		</perspective>
 
 	</views>
 

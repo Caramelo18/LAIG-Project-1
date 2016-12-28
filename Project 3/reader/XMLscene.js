@@ -103,8 +103,11 @@ XMLscene.prototype.onGraphLoaded = function ()
     this.initComponents();
     this.initAnimations();
 
-    this.interface.initLightsButtons();
-    this.interface.addMenu();
+
+    if(!this.connected){
+        this.interface.initLightsButtons();
+        this.interface.addMenu();
+    }
 };
 
 
@@ -553,9 +556,4 @@ XMLscene.prototype.timeover = function() {
         this.game.penalizePlayer();
         this.placard.timer.timeout = false;
     }
-}
-
-
-XMLscene.prototype.changeScene = function() {
-
 }

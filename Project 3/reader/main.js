@@ -20,11 +20,11 @@ main=function()
 {
 	// Standard application, scene and interface setup
     var app = new CGFapplication(document.body);
-    var myScene = new XMLscene();
+    this.myScene = new XMLscene();
     var myInterface = new MyInterface();
 
     app.init();
-    app.setScene(myScene);
+    app.setScene(this.myScene);
     app.setInterface(myInterface);
     myScene.setInterface(myInterface);
 
@@ -34,10 +34,22 @@ main=function()
 
 	// create and load graph, and associate it to scene.
 	// Check console for loading errors
-	var myGraph = new MySceneGraph(filename, myScene);
+	var myGraph = new MySceneGraph(filename, this.myScene);
+
+    this.currentScene = 0;
 
 	// start
     app.run();
 }
 
+
+
 ]);
+
+changeScene = function(){
+    var scenes = ["gamescene.dsx", "gamescene1.dsx"];
+    this.currentScene++;
+    if(this.currentScene > 1)
+        this.currentScene = 0;
+    var graph = new MySceneGraph(scenes[this.currentScene], this.myScene);
+}

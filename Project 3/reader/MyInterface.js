@@ -38,7 +38,6 @@ MyInterface.prototype.addMenu = function(){
 
 	this.gui.add(this.scene,'changeScene').name("Change scene");
 
-
 };
 
 
@@ -65,6 +64,9 @@ MyInterface.prototype.processKeyboard = function(event) {
 			break;
 		case (112):
 			this.scene.game.playMovieV = true;
+			break;
+		case (99):
+			changeScene();
 			break;
 	};
 
