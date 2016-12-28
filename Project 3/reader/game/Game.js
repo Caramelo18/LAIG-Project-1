@@ -81,14 +81,17 @@ Game.prototype.placeTile = function() {
             var command = 'playerAplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
             this.scene.client.getPrologRequest(command, this.scene.readBoard, 1, this.scene);
             this.tilesPlaced++;
-            if(this.tilesPlaced == 2)
+            if(this.tilesPlaced == 2){
                 this.state++;
+                this.scene.turnView = true;
+            }
             break;
         case 1:
             var command = 'playerBplaceStart(' + this.board.board + ',' + this.target["line"] + ',' + this.target["col"] + ')';
             this.scene.client.getPrologRequest(command, this.scene.readBoard, 1, this.scene);
             this.tilesPlaced++;
             this.state++;
+            this.scene.turnView = true;
             this.setP1Turn();
             break;
         case 2:
@@ -147,12 +150,14 @@ Game.prototype.passTurn = function() {
             this.addTilePlayer1Hand();
             this.state++;
             this.setP2Turn();
+            this.scene.turnView = true;
             break;
         case 3:
             this.removeTilePlayer2Hand();
             this.addTilePlayer2Hand();
             this.state--;
             this.setP1Turn();
+            this.scene.turnView = true;
             break;
     }
     this.tilesPlaced++;
@@ -167,6 +172,7 @@ Game.prototype.botPassTurn = function(){
     //botTurn(Board, PlayerHand, TilePool, PoolSize)
     var command = 'botTurn(' + this.board.board + ',' + this.board.p2Hand + ',' + this.pool + ',' + this.poolSize + ')';
     this.board.scene.client.getPrologRequest(command, this.handleBotPlay, 1, this);
+    this.tilesPlaced += 2;
 }
 
 Game.prototype.handleBotPlay = function(data) {
@@ -360,6 +366,8 @@ Game.prototype.undoMove = function(){
         this.board = this.boardStack.pop();
         this.scene.board = this.board;
         this.tilesPlaced--;
+        if(this.mode == 1 && this.tilesPlaced > 3)
+            this.tilesPlaced--;
         this.updateState();
     }
 }
