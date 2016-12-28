@@ -17,6 +17,10 @@
 			<to x="3" y="0" z="2" />
 		</perspective>
 
+		<perspective id="p2" near="0.7" far="200" angle="40">
+			<from x="12" y="12" z="12" />
+			<to x="3" y="5" z="2" />
+		</perspective>
 
 	</views>
 
@@ -178,6 +182,8 @@
 			<componentref id="plane1"/>
 			<componentref id="plane2"/>
 			<componentref id="plane3"/>
+			<componentref id="plane4"/>
+			<componentref id="plane5"/>
 		</children>
 
 	</component>
@@ -391,6 +397,48 @@
 
 	</component>
 
+	<component id="plane4">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<rotate axis="y" angle = "180"/>
+			<translate x="-3" y="2" z="-6" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="wallcolor" />
+		</materials>
+
+		<texture id="none"/>
+
+		<children>
+			<primitiveref id="plane"/>
+		</children>
+
+	</component>
+	<component id="plane5">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<rotate axis="y" angle = "-90"/>
+			<translate x="3" y="2" z="-6" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="wallcolor" />
+		</materials>
+
+		<texture id="none"/>
+
+		<children>
+			<primitiveref id="plane"/>
+		</children>
+
+	</component>
 </components>
 
 <animations>

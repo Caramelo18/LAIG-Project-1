@@ -34,11 +34,11 @@ MyInterface.prototype.addMenu = function(){
 	this.gui.add(this.scene.game,'undoMove').name("Undo");
 	this.gui.add(this.scene.game,'setPlayMovieV').name("Replay");
 
-	//this.gui.add(this.scene.game,'quit').name("Quit");
-
 	this.gui.add(this.scene, 'mode', {'HumanVsHuman' : 0, 'HumanVsComputer' : 1 });
 
-	this.gui.add(this.scene,'changeScene').name("Change scene");
+	this.gui.add(this.scene,'changeScene').name("change scene");
+
+	this.gui.add(this.scene,'changeCamera').name("change camera");
 
 };
 
@@ -72,7 +72,6 @@ MyInterface.prototype.processKeyboard = function(event) {
 			break;
 	};
 
-    //this.setActiveCamera(this.scene.camera);
 
 };
 

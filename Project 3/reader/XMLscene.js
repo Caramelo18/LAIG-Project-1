@@ -243,11 +243,10 @@ XMLscene.prototype.display = function () {
 
 }
 
-/**
-change the current Camera when you press "v"
-*/
-XMLscene.prototype.change = function()
+
+XMLscene.prototype.changeCamera = function()
 {
+
 	this.currentCamera++;
 
 	if(this.currentCamera >= this.camerasIDs.length)
@@ -490,65 +489,69 @@ XMLscene.prototype.update = function(currTime) {
 
 XMLscene.prototype.updateCameras = function(time){
 
-  var delta;
+  if(this.currentCamera == 0){
+    var delta;
 
-  var location = vec3.clone(this.camera.position);
-  var target = vec3.clone(this.camera.target);
+    var location = vec3.clone(this.camera.position);
+    var target = vec3.clone(this.camera.target);
 
-  if(this.animIsFirst){
-    this.initialTimeAnim = time;
-    delta = 0;
-    this.animIsFirst = false;
-    if(this.animSize == null)
-        this.animSize = Math.sqrt(Math.pow(location[0] - target[0],2) + Math.pow(location[2] - target[2],2));
+    if(this.animIsFirst){
+      this.initialTimeAnim = time;
+      delta = 0;
+      this.animIsFirst = false;
+      if(this.animSize == null)
+          this.animSize = Math.sqrt(Math.pow(location[0] - target[0],2) + Math.pow(location[2] - target[2],2));
+    }else{
+      delta = (time - this.initialTimeAnim)/1000;
+    }
+
+    var duration = 1.5;
+    var targetMoveOnZ = 0.05;
+
+
+
+    if(delta < duration ){
+
+      var perc = delta/duration;
+      if(duration - delta < 0.07)
+          perc = 1;
+
+      var ang = perc * Math.PI;
+
+      var size = this.animSize;
+
+      var realAng = this.angPlayer + ang;
+
+      var inc = perc * targetMoveOnZ;
+
+      if(this.angPlayer == Math.PI){
+        target[2] = target[2] - inc;
+      }else{
+        target[2] = target[2] + inc;
+      }
+
+
+      this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(realAng), location[1], target[2] + size * Math.cos(realAng)));
+
+      if(this.angPlayer == Math.PI){
+        this.camera.setTarget(vec3.fromValues(target[0],target[1], target[2] - inc));
+      }else{
+        this.camera.setTarget(vec3.fromValues(target[0],target[1], target[2] + inc));
+      }
+    }
+    else{
+        this.turnView = false;
+        this.animIsFirst = true;
+
+        if(this.angPlayer == 0){
+          this.angPlayer = Math.PI;
+        }
+        else{
+          this.angPlayer = 0;
+        }
+    }
   }else{
-    delta = (time - this.initialTimeAnim)/1000;
-  }
-
-  var duration = 1.5;
-  var targetMoveOnZ = 0.05;
-
-
-
-  if(delta < duration ){
-
-    var perc = delta/duration;
-    if(duration - delta < 0.07)
-        perc = 1;
-
-    var ang = perc * Math.PI;
-
-    var size = this.animSize;
-
-    var realAng = this.angPlayer + ang;
-
-    var inc = perc * targetMoveOnZ;
-
-    if(this.angPlayer == Math.PI){
-      target[2] = target[2] - inc;
-    }else{
-      target[2] = target[2] + inc;
-    }
-
-
-    this.camera.setPosition(vec3.fromValues( target[0] + size * Math.sin(realAng), location[1], target[2] + size * Math.cos(realAng)));
-
-    if(this.angPlayer == Math.PI){
-      this.camera.setTarget(vec3.fromValues(target[0],target[1], target[2] - inc));
-    }else{
-      this.camera.setTarget(vec3.fromValues(target[0],target[1], target[2] + inc));
-    }
-  }
-  else{
-      this.turnView = false;
-      this.animIsFirst = true;
-
-      if(this.angPlayer == 0){
-        this.angPlayer = Math.PI;
-      }
-      else{
-        this.angPlayer = 0;
-      }
+    this.turnView = false;
   }
 }
 

@@ -17,6 +17,10 @@
 			<to x="3" y="0" z="2" />
 		</perspective>
 
+		<perspective id="p2" near="0.7" far="200" angle="40">
+			<from x="12" y="11" z="12" />
+			<to x="3" y="10" z="2" />
+		</perspective>
 
 	</views>
 
@@ -194,6 +198,8 @@
 			<componentref id="plane1"/>
 			<componentref id="plane2"/>
 			<componentref id="plane3"/>
+			<componentref id="plane4"/>
+			<componentref id="plane5"/>
 			<componentref id="sphere"/>
 			<componentref id="vehicle"/>
 			<componentref id="ovni"/>
@@ -339,12 +345,55 @@
 
 	</component>
 
+	<component id="plane4">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<rotate axis="y" angle = "180"/>
+			<translate x="-3" y="2" z="-6" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="inherit" />
+		</materials>
+
+		<texture id="sky"/>
+
+		<children>
+			<primitiveref id="plane"/>
+		</children>
+
+	</component>
+	<component id="plane5">
+		<!-- bloco "transformation" obrigatorio -->
+		<transformation>
+			<rotate axis="y" angle = "-90"/>
+			<translate x="3" y="2" z="-6" />
+		</transformation>
+
+		<animation>
+		</animation>
+
+		<materials>
+			<material id="inherit" />
+		</materials>
+
+		<texture id="sky"/>
+
+		<children>
+			<primitiveref id="plane"/>
+		</children>
+
+	</component>
+
 	<component id="sphere">
 		<!-- bloco "transformation" obrigatorio -->
 		<transformation>
 			<scale x="0.4" y="0.4" z="0.4"/>
 			<rotate axis="x" angle = "90"/>
-			<translate x="4" y="4" z="-8" />
+			<translate x="4" y="4" z="-6" />
 		</transformation>
 
 		<animation>
