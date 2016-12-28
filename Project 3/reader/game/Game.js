@@ -83,6 +83,7 @@ Game.prototype.placeTile = function() {
             if(this.tilesPlaced == 2){
                 this.state++;
                 this.scene.turnView = true;
+                this.scene.timer.resetTimer();
             }
             break;
         case 1:
@@ -91,6 +92,7 @@ Game.prototype.placeTile = function() {
             this.tilesPlaced++;
             this.state++;
             this.scene.turnView = true;
+            this.scene.timer.resetTimer();
             this.setP1Turn();
             break;
         case 2:
@@ -158,6 +160,7 @@ Game.prototype.passTurn = function() {
             break;
     }
     this.tilesPlaced++;
+    this.scene.timer.resetTimer();
     this.updateStatus();
 }
 
@@ -169,6 +172,7 @@ Game.prototype.botPassTurn = function(){
     var command = 'botTurn(' + this.board.board + ',' + this.board.p2Hand + ',' + this.pool + ',' + this.poolSize + ')';
     this.board.scene.client.getPrologRequest(command, this.handleBotPlay, 1, this);
     this.tilesPlaced += 2;
+    this.scene.timer.resetTimer();
 }
 
 Game.prototype.handleBotPlay = function(data) {
