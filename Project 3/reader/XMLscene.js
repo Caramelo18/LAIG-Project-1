@@ -65,7 +65,7 @@ XMLscene.prototype.init = function (application) {
     this.angPlayer = 0;
     this.animIsFirst = true;
 
-    this.timer = new Placard(this);
+    this.placard = new Placard(this);
     this.client = new Client(8081);
     this.client.getPrologRequest('getTilePool', this.readPool ,1, this);
 };
@@ -224,8 +224,8 @@ XMLscene.prototype.display = function () {
 
   this.setDefaultAppearance();
 
-  this.timer.score1.setNumber(this.game.scoreA);
-  this.timer.score2.setNumber(this.game.scoreB);
+  this.placard.score1.setNumber(this.game.scoreA);
+  this.placard.score2.setNumber(this.game.scoreB);
   this.timeover();
 
 	if (this.graph.loadedOk && this.connected)
@@ -233,7 +233,7 @@ XMLscene.prototype.display = function () {
 
         this.updateLights();
         this.board.display();
-        this.timer.display();
+        this.placard.display();
         this.displayGraph(this.graph.root, null, null);
 	};
 
@@ -473,7 +473,7 @@ XMLscene.prototype.readBoard = function(data){
 
 XMLscene.prototype.update = function(currTime) {
     if(this.graph.loadedOk && this.connected) {
-        this.timer.update(currTime);
+        this.placard.update(currTime);
 
         if(this.turnView)
             this.updateCameras(currTime);
@@ -550,8 +550,8 @@ XMLscene.prototype.updateCameras = function(time){
 }
 
 XMLscene.prototype.timeover = function() {
-    if (this.timer.timer.timeout){
+    if (this.placard.timer.timeout){
         this.game.penalizePlayer();
-        this.timer.timer.timeout = false;
+        this.placard.timer.timeout = false;
     }
 }
